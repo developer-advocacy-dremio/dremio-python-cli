@@ -250,3 +250,61 @@ class SoftwareClient(BaseClient):
             tag: Version tag for optimistic concurrency
         """
         return self.delete(f"catalog/{folder_id}?tag={tag}")
+
+    # Tag operations
+    def set_tags(self, catalog_id: str, tags: list) -> None:
+        """Set tags on a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+            tags: List of tag strings
+        """
+        return self.post(f"catalog/{catalog_id}/collaboration/tag", data={"tags": tags})
+
+    def get_tags(self, catalog_id: str) -> dict:
+        """Get tags from a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+            
+        Returns:
+            Tags data
+        """
+        return self.get(f"catalog/{catalog_id}/collaboration/tag")
+
+    def delete_tags(self, catalog_id: str) -> None:
+        """Delete tags from a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+        """
+        return self.delete(f"catalog/{catalog_id}/collaboration/tag")
+
+    # Wiki operations
+    def set_wiki(self, catalog_id: str, text: str) -> None:
+        """Set wiki on a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+            text: Wiki markdown text
+        """
+        return self.post(f"catalog/{catalog_id}/collaboration/wiki", data={"text": text})
+
+    def get_wiki(self, catalog_id: str) -> dict:
+        """Get wiki from a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+            
+        Returns:
+            Wiki data
+        """
+        return self.get(f"catalog/{catalog_id}/collaboration/wiki")
+
+    def delete_wiki(self, catalog_id: str) -> None:
+        """Delete wiki from a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+        """
+        return self.delete(f"catalog/{catalog_id}/collaboration/wiki")
