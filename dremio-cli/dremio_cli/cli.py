@@ -22,7 +22,10 @@ from dremio_cli.commands import (
     tag,
     wiki,
     grant,
+    history,
+    favorite,
 )
+
 
 console = Console()
 
@@ -85,17 +88,55 @@ cli.add_command(role.role)
 cli.add_command(tag.tag)
 cli.add_command(wiki.wiki)
 cli.add_command(grant.grant)
+cli.add_command(history.history)
+cli.add_command(favorite.favorite)
+
 
 
 @cli.command()
 @click.pass_context
 def repl(ctx: click.Context) -> None:
     """Start interactive REPL mode."""
+    from rich.table import Table
+    
     console.print("[bold green]Dremio CLI - Interactive Mode[/bold green]")
     console.print("Type 'help' for available commands, 'exit' or 'quit' to exit.\n")
     
     profile_name = ctx.obj.profile_name
     console.print(f"[dim]Using profile: {profile_name}[/dim]\n")
+    
+    # Help content
+    def show_help(command=None):
+        if command:
+            # Show help for specific command
+            try:
+                cli.main([command, '--help'], standalone_mode=False, obj=ctx.obj)
+            except SystemExit:
+                pass
+        else:
+            # Show general help
+            table = Table(title="Available Commands")
+            table.add_column("Command", style="cyan")
+            table.add_column("Description", style="green")
+            
+            table.add_row("catalog", "Browse and navigate catalog")
+            table.add_row("sql", "Execute SQL queries")
+            table.add_row("job", "Manage jobs")
+            table.add_row("view", "Manage views")
+            table.add_row("source", "Manage sources")
+            table.add_row("space", "Manage spaces")
+            table.add_row("folder", "Manage folders")
+            table.add_row("grant", "Manage permissions")
+            table.add_row("history", "View command history")
+            table.add_row("favorite", "Manage favorite queries")
+            table.add_row("help [command]", "Show help for command")
+            table.add_row("exit/quit", "Exit REPL")
+            
+            console.print(table)
+            console.print("\n[dim]Examples:[/dim]")
+            console.print("  catalog list")
+            console.print("  sql execute \"SELECT * FROM table LIMIT 10\"")
+            console.print("  help sql")
     
     while True:
         try:
@@ -103,6 +144,15 @@ def repl(ctx: click.Context) -> None:
             command = command.strip()
             
             if not command:
+                continue
+            
+            # Handle help command
+            if command.lower() == "help":
+                show_help()
+                continue
+            elif command.lower().startswith("help "):
+                help_cmd = command[5:].strip()
+                show_help(help_cmd)
                 continue
                 
             if command.lower() in ("exit", "quit"):

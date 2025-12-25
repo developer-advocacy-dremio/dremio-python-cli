@@ -2,63 +2,211 @@
 
 A comprehensive command-line interface for Dremio Cloud and Dremio Software.
 
-## Features
+## 🚀 Features
 
-- 🚀 **Dual Mode Operation**: Command-based and interactive REPL modes
-- 🔐 **Multi-Profile Support**: Manage multiple Dremio environments seamlessly
-- 🌐 **Universal Coverage**: Works with both Dremio Cloud and Dremio Software
-- 📊 **Rich Output**: Beautiful terminal output with multiple format options (table, JSON, YAML)
-- 🔄 **Complete API Coverage**: All REST API operations supported
+- **100% API Coverage** - Complete support for all Dremio APIs
+- **Dual Platform Support** - Works with both Dremio Cloud and Software
+- **Profile Management** - Easily switch between environments
+- **Rich Output** - Table, JSON, and YAML formatting
+- **Comprehensive Documentation** - Detailed guides for every feature
 
-## Quick Start
-
-### Installation
+## 📦 Installation
 
 ```bash
 pip install dremio-cli
 ```
 
-### Create Your First Profile
+## ⚡ Quick Start
 
 ```bash
-dremio profile create production \
-  --type cloud \
-  --base-url https://api.dremio.cloud/v0 \
-  --project-id your-project-id \
-  --auth-type pat \
-  --token your-personal-access-token
-```
+# Configure a profile
+dremio profile create --name myprofile --type software \
+  --base-url https://dremio.company.com \
+  --username admin --password secret
 
-### Run Your First Command
-
-```bash
 # List catalog
 dremio catalog list
 
 # Execute SQL
-dremio sql execute "SELECT * FROM MySource.MyTable LIMIT 10"
+dremio sql execute "SELECT * FROM customers LIMIT 10"
 
-# Start interactive mode
-dremio repl
+# Create a view
+dremio view create --path "Analytics.summary" \
+  --sql "SELECT * FROM customers WHERE region = 'US'"
 ```
 
-## Documentation
+## 📚 Documentation
 
-- [Installation Guide](docs/installation.md)
-- [Quick Start Guide](docs/quickstart.md)
-- [Command Reference](docs/commands/)
-- [Examples](docs/examples/)
+**[Complete Documentation →](docs/README.md)**
 
-## Development
+### Core Guides
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
+- **[Installation](docs/installation.md)** - Setup and configuration
+- **[Profiles](docs/profiles.md)** - Manage connection profiles
+- **[Catalog](docs/catalog.md)** - Browse and navigate data
+- **[SQL](docs/sql.md)** - Execute queries and analyze plans
+- **[Jobs](docs/jobs.md)** - Monitor query execution
 
-## License
+### Data Management
 
-MIT License - see [LICENSE](LICENSE) for details.
+- **[Sources](docs/sources.md)** - Connect to data systems
+- **[Views](docs/views.md)** - Create virtual datasets
+- **[Tables](docs/tables.md)** - Manage physical datasets
+- **[Spaces & Folders](docs/spaces-folders.md)** - Organize your catalog
 
-## Support
+### Governance & Security
 
-- 📖 [Documentation](docs/)
-- 🐛 [Issue Tracker](https://github.com/your-org/dremio-cli/issues)
-- 💬 [Discussions](https://github.com/your-org/dremio-cli/discussions)
+- **[Tags & Wiki](docs/tags-wiki.md)** - Document and categorize
+- **[Grants](docs/grants.md)** - Access control and permissions
+- **[Users](docs/users.md)** - User management
+- **[Roles](docs/roles.md)** - Role-based access control
+
+## 🎯 Key Features
+
+### Catalog Operations
+Browse and navigate your Dremio catalog with ease.
+
+```bash
+dremio catalog list
+dremio catalog get <id>
+dremio catalog get-by-path "MySpace.MyFolder.MyView"
+```
+
+### SQL Execution
+Execute queries, explain plans, and validate syntax.
+
+```bash
+dremio sql execute "SELECT * FROM table"
+dremio sql execute --file query.sql --async
+dremio sql explain "SELECT * FROM table"
+dremio sql validate "SELECT * FROM table"
+```
+
+### Source Management
+Connect to and manage data sources.
+
+```bash
+dremio source list
+dremio source create --name MyDB --type POSTGRES --config-file db.json
+dremio source refresh <id>
+```
+
+### View Management
+Create and manage virtual datasets.
+
+```bash
+dremio view create --path "Analytics.summary" --sql "SELECT * FROM data"
+dremio view update <id> --sql "SELECT * FROM updated_data"
+dremio view list --space Analytics
+```
+
+### Job Management
+Monitor and manage query jobs.
+
+```bash
+dremio job list
+dremio job get <id>
+dremio job results <id> --output-file results.json
+dremio job profile <id> --download profile.zip
+```
+
+### Access Control
+Manage permissions and grants.
+
+```bash
+dremio grant list <catalog-id>
+dremio grant add <id> --grantee-type ROLE --grantee-id analyst --privileges SELECT
+dremio user list
+dremio role list
+```
+
+## 🔧 Configuration
+
+### Profile-Based Configuration
+
+```bash
+# Create profile
+dremio profile create --name prod --type cloud \
+  --base-url https://api.dremio.cloud \
+  --project-id <project-id> \
+  --token <pat-token>
+
+# Use profile
+dremio --profile prod catalog list
+
+# Set default profile
+dremio profile set-default prod
+```
+
+### Environment Variables
+
+```bash
+# Set in .env file
+DREMIO_BASE_URL=https://dremio.company.com
+DREMIO_USERNAME=admin
+DREMIO_PASSWORD=secret
+```
+
+## 📊 Output Formats
+
+```bash
+# Table format (default)
+dremio catalog list
+
+# JSON format
+dremio --output json catalog list
+
+# YAML format
+dremio --output yaml catalog list
+```
+
+## 🌐 Platform Support
+
+| Feature | Software | Cloud |
+|---------|----------|-------|
+| Catalog Operations | ✅ | ✅ |
+| SQL Execution | ✅ | ⚠️ Limited |
+| Job Management | ✅ | ✅ |
+| View Management | ✅ | ✅ |
+| Source Management | ✅ | ✅ |
+| Grant Management | ✅ | ✅ |
+| User/Role Management | ✅ | ⚠️ Via Console |
+
+## 💻 Development
+
+```bash
+# Clone repository
+git clone https://github.com/developer-advocacy-dremio/dremio-python-cli.git
+cd dremio-python-cli/dremio-cli
+
+# Install in development mode
+pip install -e .
+
+# Run tests
+pytest
+
+# Run live tests
+python scripts/test_sql_operations.py
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 🔗 Links
+
+- [Documentation](docs/README.md)
+- [Dremio Documentation](https://docs.dremio.com)
+- [Dremio Cloud](https://www.dremio.com/cloud/)
+- [Dremio Software](https://www.dremio.com/platform/)
+
+## 🆘 Support
+
+For issues and questions:
+- GitHub Issues: [Report an issue](https://github.com/developer-advocacy-dremio/dremio-python-cli/issues)
+- Documentation: [Read the docs](docs/README.md)
+- Community: [Dremio Community](https://community.dremio.com)
