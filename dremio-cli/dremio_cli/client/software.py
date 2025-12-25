@@ -454,3 +454,72 @@ class SoftwareClient(BaseClient):
             user_id: User ID
         """
         return self.delete(f"user/{user_id}")
+
+    # Role operations
+    def list_roles(self) -> Dict[str, Any]:
+        """List all roles.
+        
+        Returns:
+            Roles data
+        """
+        return self.get("role")
+
+    def get_role(self, role_id: str) -> Dict[str, Any]:
+        """Get role by ID.
+        
+        Args:
+            role_id: Role ID
+            
+        Returns:
+            Role data
+        """
+        return self.get(f"role/{role_id}")
+
+    def create_role(self, role_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a role.
+        
+        Args:
+            role_data: Role definition with name
+            
+        Returns:
+            Created role
+        """
+        return self.post("role", data=role_data)
+
+    def update_role(self, role_id: str, role_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a role.
+        
+        Args:
+            role_id: Role ID
+            role_data: Updated role definition
+            
+        Returns:
+            Updated role
+        """
+        return self.put(f"role/{role_id}", data=role_data)
+
+    def delete_role(self, role_id: str) -> None:
+        """Delete a role.
+        
+        Args:
+            role_id: Role ID
+        """
+        return self.delete(f"role/{role_id}")
+
+    def add_role_member(self, role_id: str, user_id: str) -> None:
+        """Add a user to a role.
+        
+        Args:
+            role_id: Role ID
+            user_id: User ID
+        """
+        return self.post(f"role/{role_id}/members", data={"userId": user_id})
+
+    def remove_role_member(self, role_id: str, user_id: str) -> None:
+        """Remove a user from a role.
+        
+        Args:
+            role_id: Role ID
+            user_id: User ID
+        """
+        return self.delete(f"role/{role_id}/members/{user_id}")

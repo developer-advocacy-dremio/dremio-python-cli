@@ -261,3 +261,32 @@ class CloudClient(BaseClient):
     def delete_user(self, user_id: str) -> None:
         """Delete a user."""
         return self.delete(self._project_endpoint(f"user/{user_id}"))
+
+    # Role operations
+    def list_roles(self) -> Dict[str, Any]:
+        """List all roles."""
+        return self.get(self._project_endpoint("role"))
+
+    def get_role(self, role_id: str) -> Dict[str, Any]:
+        """Get role by ID."""
+        return self.get(self._project_endpoint(f"role/{role_id}"))
+
+    def create_role(self, role_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a role."""
+        return self.post(self._project_endpoint("role"), data=role_data)
+
+    def update_role(self, role_id: str, role_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a role."""
+        return self.put(self._project_endpoint(f"role/{role_id}"), data=role_data)
+
+    def delete_role(self, role_id: str) -> None:
+        """Delete a role."""
+        return self.delete(self._project_endpoint(f"role/{role_id}"))
+
+    def add_role_member(self, role_id: str, user_id: str) -> None:
+        """Add a user to a role."""
+        return self.post(self._project_endpoint(f"role/{role_id}/members"), data={"userId": user_id})
+
+    def remove_role_member(self, role_id: str, user_id: str) -> None:
+        """Remove a user from a role."""
+        return self.delete(self._project_endpoint(f"role/{role_id}/members/{user_id}"))
