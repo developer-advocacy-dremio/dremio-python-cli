@@ -240,3 +240,24 @@ class CloudClient(BaseClient):
     def set_grants(self, catalog_id: str, grants_data: Dict[str, Any]) -> None:
         """Set all grants for a catalog object."""
         return self.put(self._project_endpoint(f"catalog/{catalog_id}/grants"), data=grants_data)
+
+    # User operations
+    def list_users(self) -> Dict[str, Any]:
+        """List all users."""
+        return self.get(self._project_endpoint("user"))
+
+    def get_user(self, user_id: str) -> Dict[str, Any]:
+        """Get user by ID."""
+        return self.get(self._project_endpoint(f"user/{user_id}"))
+
+    def create_user(self, user_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a user."""
+        return self.post(self._project_endpoint("user"), data=user_data)
+
+    def update_user(self, user_id: str, user_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a user."""
+        return self.put(self._project_endpoint(f"user/{user_id}"), data=user_data)
+
+    def delete_user(self, user_id: str) -> None:
+        """Delete a user."""
+        return self.delete(self._project_endpoint(f"user/{user_id}"))

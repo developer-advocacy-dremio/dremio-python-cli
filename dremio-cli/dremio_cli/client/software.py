@@ -403,3 +403,54 @@ class SoftwareClient(BaseClient):
             grants_data: Complete grants definition
         """
         return self.put(f"catalog/{catalog_id}/grants", data=grants_data)
+
+    # User operations
+    def list_users(self) -> Dict[str, Any]:
+        """List all users.
+        
+        Returns:
+            Users data
+        """
+        return self.get("user")
+
+    def get_user(self, user_id: str) -> Dict[str, Any]:
+        """Get user by ID.
+        
+        Args:
+            user_id: User ID
+            
+        Returns:
+            User data
+        """
+        return self.get(f"user/{user_id}")
+
+    def create_user(self, user_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a user.
+        
+        Args:
+            user_data: User definition with name, email, userName
+            
+        Returns:
+            Created user
+        """
+        return self.post("user", data=user_data)
+
+    def update_user(self, user_id: str, user_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a user.
+        
+        Args:
+            user_id: User ID
+            user_data: Updated user definition
+            
+        Returns:
+            Updated user
+        """
+        return self.put(f"user/{user_id}", data=user_data)
+
+    def delete_user(self, user_id: str) -> None:
+        """Delete a user.
+        
+        Args:
+            user_id: User ID
+        """
+        return self.delete(f"user/{user_id}")
