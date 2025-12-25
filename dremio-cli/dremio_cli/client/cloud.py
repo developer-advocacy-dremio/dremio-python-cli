@@ -65,3 +65,42 @@ class CloudClient(BaseClient):
     def delete_source(self, source_id: str) -> None:
         """Delete a source."""
         return self.delete(self._project_endpoint(f"catalog/{source_id}"))
+
+    # Job operations
+    def list_jobs(
+        self,
+        max_results: Optional[int] = None,
+        filter_expr: Optional[str] = None,
+        sort: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """List jobs."""
+        params = {}
+        if max_results:
+            params["maxResults"] = max_results
+        if filter_expr:
+            params["filter"] = filter_expr
+        if sort:
+            params["sort"] = sort
+        return self.get(self._project_endpoint("job"), params=params if params else None)
+
+    def get_job(self, job_id: str) -> Dict[str, Any]:
+        """Get job by ID."""
+        return self.get(self._project_endpoint(f"job/{job_id}"))
+
+    def get_job_results(
+        self,
+        job_id: str,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Get job results."""
+        params = {}
+        if limit:
+            params["limit"] = limit
+        if offset:
+            params["offset"] = offset
+        return self.get(self._project_endpoint(f"job/{job_id}/results"), params=params if params else None)
+
+    def cancel_job(self, job_id: str) -> None:
+        """Cancel a job."""
+        return self.post(self._project_endpoint(f"job/{job_id}/cancel"))

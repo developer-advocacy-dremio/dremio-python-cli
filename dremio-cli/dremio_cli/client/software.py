@@ -111,3 +111,51 @@ class SoftwareClient(BaseClient):
     def cancel_job(self, job_id: str) -> None:
         """Cancel a job."""
         return self.post(f"job/{job_id}/cancel")
+
+    # Job management operations
+    def list_jobs(
+        self,
+        max_results: Optional[int] = None,
+        filter_expr: Optional[str] = None,
+        sort: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """List jobs.
+        
+        Args:
+            max_results: Maximum number of results
+            filter_expr: Filter expression (e.g., 'state=COMPLETED')
+            sort: Sort field (prefix with - for descending)
+            
+        Returns:
+            Jobs list response
+        """
+        params = {}
+        if max_results:
+            params["maxResults"] = max_results
+        if filter_expr:
+            params["filter"] = filter_expr
+        if sort:
+            params["sort"] = sort
+        return self.get("job", params=params if params else None)
+
+    def get_job_profile(self, job_id: str) -> Any:
+        """Get job profile for performance analysis.
+        
+        Args:
+            job_id: Job ID
+            
+        Returns:
+            Job profile data
+        """
+        return self.get(f"job/{job_id}/download")
+
+    def get_job_reflections(self, job_id: str) -> Dict[str, Any]:
+        """Get reflection information for a job.
+        
+        Args:
+            job_id: Job ID
+            
+        Returns:
+            Job reflection information
+        """
+        return self.get(f"job/{job_id}/reflection")
