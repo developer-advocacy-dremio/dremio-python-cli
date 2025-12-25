@@ -290,3 +290,16 @@ class CloudClient(BaseClient):
     def remove_role_member(self, role_id: str, user_id: str) -> None:
         """Remove a user from a role."""
         return self.delete(self._project_endpoint(f"role/{role_id}/members/{user_id}"))
+
+    # Table operations
+    def promote_dataset(self, dataset_id: str) -> Dict[str, Any]:
+        """Promote a dataset to a physical dataset."""
+        return self.post(self._project_endpoint(f"catalog/{dataset_id}/promote"))
+
+    def set_dataset_format(self, dataset_id: str, format_config: Dict[str, Any]) -> Dict[str, Any]:
+        """Set format configuration for a dataset."""
+        return self.post(self._project_endpoint(f"catalog/{dataset_id}/format"), data=format_config)
+
+    def update_dataset(self, dataset_id: str, dataset_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update dataset metadata."""
+        return self.put(self._project_endpoint(f"catalog/{dataset_id}"), data=dataset_data)

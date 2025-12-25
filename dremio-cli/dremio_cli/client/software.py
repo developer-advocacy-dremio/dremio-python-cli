@@ -523,3 +523,39 @@ class SoftwareClient(BaseClient):
             user_id: User ID
         """
         return self.delete(f"role/{role_id}/members/{user_id}")
+
+    # Table operations
+    def promote_dataset(self, dataset_id: str) -> Dict[str, Any]:
+        """Promote a dataset to a physical dataset.
+        
+        Args:
+            dataset_id: Dataset ID
+            
+        Returns:
+            Promoted dataset
+        """
+        return self.post(f"catalog/{dataset_id}/promote")
+
+    def set_dataset_format(self, dataset_id: str, format_config: Dict[str, Any]) -> Dict[str, Any]:
+        """Set format configuration for a dataset.
+        
+        Args:
+            dataset_id: Dataset ID
+            format_config: Format configuration
+            
+        Returns:
+            Updated dataset
+        """
+        return self.post(f"catalog/{dataset_id}/format", data=format_config)
+
+    def update_dataset(self, dataset_id: str, dataset_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update dataset metadata.
+        
+        Args:
+            dataset_id: Dataset ID
+            dataset_data: Updated dataset definition
+            
+        Returns:
+            Updated dataset
+        """
+        return self.put(f"catalog/{dataset_id}", data=dataset_data)
