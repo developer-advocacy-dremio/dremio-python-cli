@@ -104,3 +104,16 @@ class CloudClient(BaseClient):
     def cancel_job(self, job_id: str) -> None:
         """Cancel a job."""
         return self.post(self._project_endpoint(f"job/{job_id}/cancel"))
+
+    # View operations
+    def create_view(self, view_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a view."""
+        return self.post(self._project_endpoint("catalog"), data=view_data)
+
+    def update_view(self, view_id: str, view_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a view."""
+        return self.put(self._project_endpoint(f"catalog/{view_id}"), data=view_data)
+
+    def delete_view(self, view_id: str, tag: str) -> None:
+        """Delete a view."""
+        return self.delete(self._project_endpoint(f"catalog/{view_id}?tag={tag}"))

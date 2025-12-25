@@ -159,3 +159,36 @@ class SoftwareClient(BaseClient):
             Job reflection information
         """
         return self.get(f"job/{job_id}/reflection")
+
+    # View operations
+    def create_view(self, view_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a view.
+        
+        Args:
+            view_data: View definition
+            
+        Returns:
+            Created view
+        """
+        return self.post("catalog", data=view_data)
+
+    def update_view(self, view_id: str, view_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a view.
+        
+        Args:
+            view_id: View ID
+            view_data: Updated view definition
+            
+        Returns:
+            Updated view
+        """
+        return self.put(f"catalog/{view_id}", data=view_data)
+
+    def delete_view(self, view_id: str, tag: str) -> None:
+        """Delete a view.
+        
+        Args:
+            view_id: View ID
+            tag: Version tag for optimistic concurrency
+        """
+        return self.delete(f"catalog/{view_id}?tag={tag}")
