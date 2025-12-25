@@ -308,3 +308,58 @@ class SoftwareClient(BaseClient):
             catalog_id: Catalog object ID
         """
         return self.delete(f"catalog/{catalog_id}/collaboration/wiki")
+
+    # Source operations
+    def create_source(self, source_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a source.
+        
+        Args:
+            source_data: Source definition with name, type, and config
+            
+        Returns:
+            Created source
+        """
+        return self.post("catalog", data=source_data)
+
+    def update_source(self, source_id: str, source_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a source.
+        
+        Args:
+            source_id: Source ID
+            source_data: Updated source definition
+            
+        Returns:
+            Updated source
+        """
+        return self.put(f"catalog/{source_id}", data=source_data)
+
+    def delete_source(self, source_id: str, tag: str) -> None:
+        """Delete a source.
+        
+        Args:
+            source_id: Source ID
+            tag: Version tag for optimistic concurrency
+        """
+        return self.delete(f"catalog/{source_id}?tag={tag}")
+
+    def refresh_source(self, source_id: str) -> Dict[str, Any]:
+        """Refresh source metadata.
+        
+        Args:
+            source_id: Source ID
+            
+        Returns:
+            Refresh job information
+        """
+        return self.post(f"source/{source_id}/refresh")
+
+    def test_source_connection(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Test source connection.
+        
+        Args:
+            config: Source configuration
+            
+        Returns:
+            Test result
+        """
+        return self.post("source/test", data=config)

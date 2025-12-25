@@ -202,3 +202,24 @@ class CloudClient(BaseClient):
     def delete_wiki(self, catalog_id: str) -> None:
         """Delete wiki from a catalog object."""
         return self.delete(self._project_endpoint(f"catalog/{catalog_id}/collaboration/wiki"))
+
+    # Source operations
+    def create_source(self, source_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a source."""
+        return self.post(self._project_endpoint("catalog"), data=source_data)
+
+    def update_source(self, source_id: str, source_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a source."""
+        return self.put(self._project_endpoint(f"catalog/{source_id}"), data=source_data)
+
+    def delete_source(self, source_id: str, tag: str) -> None:
+        """Delete a source."""
+        return self.delete(self._project_endpoint(f"catalog/{source_id}?tag={tag}"))
+
+    def refresh_source(self, source_id: str) -> Dict[str, Any]:
+        """Refresh source metadata."""
+        return self.post(self._project_endpoint(f"source/{source_id}/refresh"))
+
+    def test_source_connection(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Test source connection."""
+        return self.post(self._project_endpoint("source/test"), data=config)
