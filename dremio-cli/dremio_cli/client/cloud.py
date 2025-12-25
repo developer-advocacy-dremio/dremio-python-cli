@@ -117,3 +117,62 @@ class CloudClient(BaseClient):
     def delete_view(self, view_id: str, tag: str) -> None:
         """Delete a view."""
         return self.delete(self._project_endpoint(f"catalog/{view_id}?tag={tag}"))
+
+    # Space operations (Cloud: creates top-level folders)
+    def create_space(self, space_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a space (top-level folder in Cloud).
+        
+        In Cloud, spaces are represented as top-level folders in the project catalog.
+        
+        Args:
+            space_data: Space definition with 'name' and optional 'description'
+            
+        Returns:
+            Created folder
+        """
+        # In Cloud, create a top-level folder
+        data = {
+            "entityType": "folder",
+            "path": [space_data["name"]],
+        }
+        if "description" in space_data:
+            data["description"] = space_data["description"]
+        
+        return self.post(self._project_endpoint("catalog"), data=data)
+
+    def delete_space(self, space_id: str, tag: str) -> None:
+        """Delete a space (folder in Cloud).
+        
+        Args:
+            space_id: Space/folder ID
+            tag: Version tag for optimistic concurrency
+        """
+        return self.delete(self._project_endpoint(f"catalog/{space_id}?tag={tag}"))
+
+    # Folder operations
+    def create_folder(self, folder_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a folder.
+        
+        Args:
+            folder_data: Folder definition with 'path' and optional 'description'
+            
+        Returns:
+            Created folder
+        """
+        data = {
+            "entityType": "folder",
+            "path": folder_data["path"],
+        }
+        if "description" in folder_data:
+            data["description"] = folder_data["description"]
+        
+        return self.post(self._project_endpoint("catalog"), data=data)
+
+    def delete_folder(self, folder_id: str, tag: str) -> None:
+        """Delete a folder.
+        
+        Args:
+            folder_id: Folder ID
+            tag: Version tag for optimistic concurrency
+        """
+        return self.delete(self._project_endpoint(f"catalog/{folder_id}?tag={tag}"))

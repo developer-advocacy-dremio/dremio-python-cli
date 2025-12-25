@@ -192,3 +192,61 @@ class SoftwareClient(BaseClient):
             tag: Version tag for optimistic concurrency
         """
         return self.delete(f"catalog/{view_id}?tag={tag}")
+
+    # Space operations
+    def create_space(self, space_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a space.
+        
+        Args:
+            space_data: Space definition with 'name' and optional 'description'
+            
+        Returns:
+            Created space
+        """
+        # Create SPACE container
+        data = {
+            "entityType": "space",
+            "name": space_data["name"],
+        }
+        if "description" in space_data:
+            data["description"] = space_data["description"]
+        
+        return self.post("catalog", data=data)
+
+    def delete_space(self, space_id: str, tag: str) -> None:
+        """Delete a space.
+        
+        Args:
+            space_id: Space ID
+            tag: Version tag for optimistic concurrency
+        """
+        return self.delete(f"catalog/{space_id}?tag={tag}")
+
+    # Folder operations
+    def create_folder(self, folder_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a folder.
+        
+        Args:
+            folder_data: Folder definition with 'path' and optional 'description'
+            
+        Returns:
+            Created folder
+        """
+        # Create FOLDER container
+        data = {
+            "entityType": "folder",
+            "path": folder_data["path"],
+        }
+        if "description" in folder_data:
+            data["description"] = folder_data["description"]
+        
+        return self.post("catalog", data=data)
+
+    def delete_folder(self, folder_id: str, tag: str) -> None:
+        """Delete a folder.
+        
+        Args:
+            folder_id: Folder ID
+            tag: Version tag for optimistic concurrency
+        """
+        return self.delete(f"catalog/{folder_id}?tag={tag}")
