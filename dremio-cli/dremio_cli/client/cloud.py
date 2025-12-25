@@ -223,3 +223,20 @@ class CloudClient(BaseClient):
     def test_source_connection(self, config: Dict[str, Any]) -> Dict[str, Any]:
         """Test source connection."""
         return self.post(self._project_endpoint("source/test"), data=config)
+
+    # Grant operations
+    def list_grants(self, catalog_id: str) -> Dict[str, Any]:
+        """List grants for a catalog object."""
+        return self.get(self._project_endpoint(f"catalog/{catalog_id}/grants"))
+
+    def add_grant(self, catalog_id: str, grant_data: Dict[str, Any]) -> None:
+        """Add a grant to a catalog object."""
+        return self.post(self._project_endpoint(f"catalog/{catalog_id}/grants"), data=grant_data)
+
+    def remove_grant(self, catalog_id: str, grantee_type: str, grantee_id: str) -> None:
+        """Remove a grant from a catalog object."""
+        return self.delete(self._project_endpoint(f"catalog/{catalog_id}/grants/{grantee_type}/{grantee_id}"))
+
+    def set_grants(self, catalog_id: str, grants_data: Dict[str, Any]) -> None:
+        """Set all grants for a catalog object."""
+        return self.put(self._project_endpoint(f"catalog/{catalog_id}/grants"), data=grants_data)

@@ -363,3 +363,43 @@ class SoftwareClient(BaseClient):
             Test result
         """
         return self.post("source/test", data=config)
+
+    # Grant operations
+    def list_grants(self, catalog_id: str) -> Dict[str, Any]:
+        """List grants for a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+            
+        Returns:
+            Grants data
+        """
+        return self.get(f"catalog/{catalog_id}/grants")
+
+    def add_grant(self, catalog_id: str, grant_data: Dict[str, Any]) -> None:
+        """Add a grant to a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+            grant_data: Grant definition with granteeType, granteeId, and privileges
+        """
+        return self.post(f"catalog/{catalog_id}/grants", data=grant_data)
+
+    def remove_grant(self, catalog_id: str, grantee_type: str, grantee_id: str) -> None:
+        """Remove a grant from a catalog object.
+        
+        Args:
+            catalog_id: Catalog object ID
+            grantee_type: USER or ROLE
+            grantee_id: User or role ID
+        """
+        return self.delete(f"catalog/{catalog_id}/grants/{grantee_type}/{grantee_id}")
+
+    def set_grants(self, catalog_id: str, grants_data: Dict[str, Any]) -> None:
+        """Set all grants for a catalog object (replaces existing).
+        
+        Args:
+            catalog_id: Catalog object ID
+            grants_data: Complete grants definition
+        """
+        return self.put(f"catalog/{catalog_id}/grants", data=grants_data)
