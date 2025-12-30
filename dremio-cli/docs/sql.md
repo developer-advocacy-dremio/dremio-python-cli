@@ -421,9 +421,9 @@ dremio job get <job-id>
 - All features available
 
 ### Cloud
-- Limited SQL execution via API
-- May require different endpoints
-- Some features may not be available
+- SELECT queries are fully supported via API
+- DDL/DML operations are supported but may have limitations compared to Software
+- Uses specialized generic SQL endpoint
 
 ## Best Practices
 

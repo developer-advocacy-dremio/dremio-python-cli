@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Python 3.9 or higher
+- Python 3.8 or higher
 - pip or pipx
 
 ## Installation Methods
@@ -22,7 +22,7 @@ pipx install dremio-cli
 ### From Source (For developers)
 
 ```bash
-git clone https://github.com/your-org/dremio-cli
+git clone https://github.com/developer-advocacy-dremio/dremio-python-cli
 cd dremio-cli
 pip install -e .
 ```
@@ -30,7 +30,7 @@ pip install -e .
 ### Development Installation
 
 ```bash
-git clone https://github.com/your-org/dremio-cli
+git clone https://github.com/developer-advocacy-dremio/dremio-python-cli
 cd dremio-cli
 pip install -e ".[dev]"
 ```

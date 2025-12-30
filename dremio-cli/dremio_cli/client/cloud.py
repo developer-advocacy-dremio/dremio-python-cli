@@ -35,7 +35,9 @@ class CloudClient(BaseClient):
         Returns:
             Project-scoped endpoint
         """
-        return f"/projects/{self.project_id}/{endpoint.lstrip('/')}"
+        # Ensure v0 prefix for Cloud API (it's required for projects endpoints)
+        prefix = "" if "/v0" in self.base_url else "/v0"
+        return f"{prefix}/projects/{self.project_id}/{endpoint.lstrip('/')}"
 
     # Catalog operations
     def get_catalog(self, include: Optional[str] = None) -> Dict[str, Any]:
@@ -65,6 +67,14 @@ class CloudClient(BaseClient):
     def delete_source(self, source_id: str) -> None:
         """Delete a source."""
         return self.delete(self._project_endpoint(f"catalog/{source_id}"))
+
+    # SQL operations
+    def execute_sql(self, sql: str, context: Optional[list] = None) -> Dict[str, Any]:
+        """Execute SQL query."""
+        data = {"sql": sql}
+        if context:
+            data["context"] = context
+        return self.post(self._project_endpoint("sql"), data=data)
 
     # Job operations
     def list_jobs(

@@ -67,6 +67,12 @@ def execute_sql(ctx, query: str, sql_file: str, context: str, async_mode: bool, 
         with console.status(f"[bold green]Executing SQL query..."):
             result = client.execute_sql(query, context=sql_context)
         
+        # Check if result is a dictionary (it might be a string error message)
+        if not isinstance(result, dict):
+            console.print(f"[red]Error: Unexpected response from Dremio API:[/red]")
+            console.print(f"{result}")
+            raise click.Abort()
+            
         job_id = result.get("id")
         
         if async_mode:

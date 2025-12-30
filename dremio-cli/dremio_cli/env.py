@@ -21,12 +21,24 @@ def load_dotenv(dotenv_path: Optional[Path] = None) -> None:
     """Load environment variables from .env file.
     
     Args:
-        dotenv_path: Path to .env file. If None, looks in current directory.
+        dotenv_path: Path to .env file. If None, looks in current directory and repo root.
     """
     if dotenv_path is None:
-        dotenv_path = Path.cwd() / ".env"
+        # Check locations in order:
+        # 1. Current working directory
+        # 2. Project root (relative to this file: dremio_cli/env.py -> ../../.env)
+        
+        candidates = [
+            Path.cwd() / ".env",
+            Path(__file__).resolve().parent.parent.parent / ".env"
+        ]
+        
+        for path in candidates:
+            if path.exists():
+                dotenv_path = path
+                break
     
-    if not dotenv_path.exists():
+    if dotenv_path is None or not dotenv_path.exists():
         return
     
     with open(dotenv_path, "r") as f:
