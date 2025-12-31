@@ -77,14 +77,35 @@ def execute_sql(ctx, query: str, sql_file: str, context: str, async_mode: bool, 
         
         if async_mode:
             # Return job ID immediately
-            console.print(f"[green]✓[/green] Query submitted")
+            console.print(f"[green]✓[/green] Query submitted (Async)")
             console.print(f"  Job ID: {job_id}")
-            console.print(f"\n[dim]Use 'dremio job get {job_id}' to check status[/dim]")
-            console.print(f"[dim]Use 'dremio job results {job_id}' to get results[/dim]")
+            # Display full command for user convenience
+            console.print(f"\n[bold]Check status and results:[/bold]")
+            console.print(f"  dremio job results {job_id}")
         else:
             # Wait for results
-            console.print(f"[green]✓[/green] Query executed")
+            import time
+            from dremio_cli.client.cloud import CloudClient
+            
+            console.print(f"[green]✓[/green] Query submitted. Waiting for completion...")
             console.print(f"  Job ID: {job_id}")
+            
+            # Polling loop
+            with console.status(f"[bold green]Job {job_id} is running...[/bold green]", spinner="dots") as status:
+                while True:
+                    job_info = client.get_job(job_id)
+                    job_state = job_info.get("jobState")
+                    
+                    if job_state == "COMPLETED":
+                        break
+                    elif job_state in ["FAILED", "CANCELED"]:
+                        console.print(f"[red]Job {job_state}[/red]")
+                        err_msg = job_info.get("errorMessage", "Unknown error")
+                        console.print(f"Error: {err_msg}")
+                        raise click.Abort()
+                    
+                    # Wait before next poll
+                    time.sleep(1.0)
             
             # Get job results
             if job_id:

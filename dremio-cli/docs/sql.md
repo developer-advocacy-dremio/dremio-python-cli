@@ -19,22 +19,19 @@ dremio sql execute --file <FILE> [OPTIONS]
 **Options:**
 - `--file PATH` - Execute SQL from file
 - `--context TEXT` - Query context (comma-separated path)
-- `--async` - Execute asynchronously (return job ID immediately)
+- `--async` - Execute asynchronously (return job ID immediately). Default behavior waits for results.
 - `--output-file PATH` - Save results to file
 
 **Examples:**
 
 ```bash
-# Execute simple query
+# Execute simple query (Waits for results)
 dremio sql execute "SELECT * FROM customers LIMIT 10"
 
-# Execute from file
+# Execute from file (Waits for results)
 dremio sql execute --file query.sql
 
-# Execute with context
-dremio sql execute "SELECT * FROM table" --context "MySpace"
-
-# Async execution (for long-running queries)
+# Execute asynchronously (Returns Job ID immediately)
 dremio sql execute "SELECT * FROM large_table" --async
 
 # Save results to file
