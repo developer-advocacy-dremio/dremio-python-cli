@@ -34,8 +34,7 @@ The Dremio CLI provides **100% API coverage** with support for:
 ## 📦 Installation
 
 ```bash
-cd dremio-cli
-pip install -e .
+pip install dremio-cli
 ```
 
 ## ⚡ Quick Start
