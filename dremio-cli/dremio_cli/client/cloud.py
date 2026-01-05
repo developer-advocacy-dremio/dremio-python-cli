@@ -313,3 +313,53 @@ class CloudClient(BaseClient):
     def update_dataset(self, dataset_id: str, dataset_data: Dict[str, Any]) -> Dict[str, Any]:
         """Update dataset metadata."""
         return self.put(self._project_endpoint(f"catalog/{dataset_id}"), data=dataset_data)
+
+    # Reflection operations
+    def list_reflections(self, summary: bool = False) -> Dict[str, Any]:
+        """List all reflections."""
+        return self.get(self._project_endpoint("reflection"))
+
+    def get_reflection(self, reflection_id: str) -> Dict[str, Any]:
+        """Get reflection by ID."""
+        return self.get(self._project_endpoint(f"reflection/{reflection_id}"))
+
+    def create_reflection(self, reflection_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a reflection."""
+        return self.post(self._project_endpoint("reflection"), data=reflection_data)
+
+    def update_reflection(self, reflection_id: str, reflection_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a reflection."""
+        return self.put(self._project_endpoint(f"reflection/{reflection_id}"), data=reflection_data)
+
+    def delete_reflection(self, reflection_id: str) -> None:
+        """Delete a reflection."""
+        return self.delete(self._project_endpoint(f"reflection/{reflection_id}"))
+
+    # Script operations
+    def list_scripts(self, limit: int = 25, offset: int = 0) -> Dict[str, Any]:
+        """List scripts."""
+        params = {"limit": limit, "offset": offset}
+        return self.get(self._project_endpoint("scripts"), params=params)
+
+    def get_script(self, script_id: str) -> Dict[str, Any]:
+        """Get script by ID."""
+        return self.get(self._project_endpoint(f"scripts/{script_id}"))
+
+    def create_script(self, name: str, content: str, context: Optional[list] = None) -> Dict[str, Any]:
+        """Create a script."""
+        data = {"name": name, "content": content}
+        if context:
+            data["context"] = context
+        return self.post(self._project_endpoint("scripts"), data=data)
+
+    def update_script(self, script_id: str, name: str, content: str, context: Optional[list] = None) -> Dict[str, Any]:
+        """Update a script."""
+        data = {"name": name, "content": content}
+        if context:
+            data["context"] = context
+        return self.patch(self._project_endpoint(f"scripts/{script_id}"), data=data)
+
+    def delete_script(self, script_id: str) -> None:
+        """Delete a script."""
+        return self.delete(self._project_endpoint(f"scripts/{script_id}"))
+

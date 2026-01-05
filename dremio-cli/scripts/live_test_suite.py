@@ -146,6 +146,66 @@ class LiveTestSuite:
         except Exception as e:
             self.logger.log_issue("source read", str(e), f"Profile: {profile_name}")
 
+    def test_reflection_ops(self, client: Any, profile_name: str):
+        console.print(f"\n[bold]Testing Reflection Ops ({profile_name})[/bold]")
+        try:
+            # List Reflections
+            reflections = client.list_reflections(summary=True)
+            # Handle different return formats (list or dict with data)
+            items = reflections.get('data', []) if isinstance(reflections, dict) else reflections
+            console.print(f"[green]✓[/green] List Reflections: Found {len(items)} items")
+            
+            if items:
+                 r_id = items[0]['id']
+                 # Get details
+                 details = client.get_reflection(r_id)
+                 console.print(f"[green]✓[/green] Get Reflection: {r_id}")
+
+        except Exception as e:
+            self.logger.log_issue("reflection read", str(e), f"Profile: {profile_name}")
+
+    def test_script_ops(self, client: Any, profile_name: str):
+        console.print(f"\n[bold]Testing Script Ops ({profile_name})[/bold]")
+        
+        # Check support
+        if not hasattr(client, "list_scripts"):
+             console.print("[yellow]Scripts not supported on this client[/yellow]")
+             return
+             
+        try:
+            # List Scripts
+            scripts = client.list_scripts()
+            items = scripts.get('data', [])
+            console.print(f"[green]✓[/green] List Scripts: Found {len(items)} items")
+            
+            # Create a test script
+            script_name = f"Test Script {int(time.time())}"
+            content = "SELECT 1"
+            
+            try:
+                created = client.create_script(name=script_name, content=content)
+                console.print(f"[green]✓[/green] Created Script: {script_name}")
+                s_id = created.get("id")
+                
+                # Get
+                if s_id:
+                     got = client.get_script(s_id)
+                     console.print(f"[green]✓[/green] Get Script: {got.get('name')}")
+                     
+                     # Update
+                     client.update_script(s_id, name=f"{script_name} Updated", content="SELECT 2")
+                     console.print(f"[green]✓[/green] Updated Script")
+                     
+                     # Delete
+                     client.delete_script(s_id)
+                     console.print(f"[green]✓[/green] Deleted Script")
+
+            except Exception as e:
+                 self.logger.log_issue("script crud", str(e), f"Profile: {profile_name}")
+
+        except Exception as e:
+            self.logger.log_issue("script list", str(e), f"Profile: {profile_name}")
+
     def test_space_folder_workflow(self, client: Any, profile_name: str, root_path: str):
         console.print(f"\n[bold]Testing Space/Folder Workflow ({profile_name})[/bold]")
         test_folder_name = f"cli_test_{int(time.time())}"
@@ -219,7 +279,10 @@ class LiveTestSuite:
                 # Execute Tests
                 self.test_catalog_ops(client, p_name)
                 self.test_sql_execution(client, p_name)
+                self.test_sql_execution(client, p_name)
                 self.test_source_ops(client, p_name)
+                self.test_reflection_ops(client, p_name)
+                self.test_script_ops(client, p_name)
                 
                 test_root = profile_config.get('test_folder')
                 if test_root:

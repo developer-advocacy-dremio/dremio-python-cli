@@ -38,7 +38,7 @@ class BaseClient:
             total=max_retries,
             backoff_factor=1,
             status_forcelist=[429, 500, 502, 503, 504],
-            allowed_methods=["HEAD", "GET", "OPTIONS", "POST", "PUT", "DELETE"],
+            allowed_methods=["HEAD", "GET", "OPTIONS", "POST", "PUT", "DELETE", "PATCH"],
         )
         adapter = HTTPAdapter(max_retries=retry_strategy)
         self.session.mount("http://", adapter)
@@ -185,6 +185,25 @@ class BaseClient:
         response = self.session.delete(
             url,
             headers=self._get_headers(),
+            timeout=self.timeout,
+        )
+        return self._handle_response(response)
+
+    def patch(self, endpoint: str, data: Optional[Dict[str, Any]] = None) -> Any:
+        """Make PATCH request.
+        
+        Args:
+            endpoint: API endpoint
+            data: Request body data
+            
+        Returns:
+            Response data
+        """
+        url = self._build_url(endpoint)
+        response = self.session.patch(
+            url,
+            headers=self._get_headers(),
+            json=data,
             timeout=self.timeout,
         )
         return self._handle_response(response)

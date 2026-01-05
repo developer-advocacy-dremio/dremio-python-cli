@@ -559,3 +559,60 @@ class SoftwareClient(BaseClient):
             Updated dataset
         """
         return self.put(f"catalog/{dataset_id}", data=dataset_data)
+
+    # Reflection operations
+    def list_reflections(self, summary: bool = False) -> Dict[str, Any]:
+        """List all reflections.
+        
+        Args:
+            summary: Return summary only
+            
+        Returns:
+            Reflections data
+        """
+        # Note: 'summary' parameter usage depends on API version, keeping simple for now
+        return self.get("reflection")
+
+    def get_reflection(self, reflection_id: str) -> Dict[str, Any]:
+        """Get reflection by ID.
+        
+        Args:
+            reflection_id: Reflection ID
+            
+        Returns:
+            Reflection data
+        """
+        return self.get(f"reflection/{reflection_id}")
+
+    def create_reflection(self, reflection_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a reflection.
+        
+        Args:
+            reflection_data: Reflection definition
+            
+        Returns:
+            Created reflection
+        """
+        return self.post("reflection", data=reflection_data)
+
+    def update_reflection(self, reflection_id: str, reflection_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a reflection.
+        
+        Args:
+            reflection_id: Reflection ID
+            reflection_data: Updated reflection definition
+            
+        Returns:
+            Updated reflection
+        """
+        # Software API usually uses PUT for full update
+        return self.put(f"reflection/{reflection_id}", data=reflection_data)
+
+    def delete_reflection(self, reflection_id: str) -> None:
+        """Delete a reflection.
+        
+        Args:
+            reflection_id: Reflection ID
+        """
+        return self.delete(f"reflection/{reflection_id}")
+

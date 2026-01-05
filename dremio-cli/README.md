@@ -60,6 +60,13 @@ dremio view create --path "Analytics.summary" \
 - **[Grants](docs/grants.md)** - Access control and permissions
 - **[Users](docs/users.md)** - User management
 - **[Roles](docs/roles.md)** - Role-based access control
+- **[Reflections](docs/reflections.md)** - Manage reflections
+- **[Scripts](docs/scripts.md)** - Manage scripts (Cloud only)
+
+### Productivity
+
+- **[Favorites](docs/favorites.md)** - Save frequently used queries
+- **[History](docs/history.md)** - View and re-run commands
 
 ## 🎯 Key Features
 

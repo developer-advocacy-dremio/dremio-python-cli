@@ -17,11 +17,17 @@ Complete documentation for the Dremio Command Line Interface.
 - **[Sources](sources.md)** - Manage data source connections
 - **[Views](views.md)** - Create and manage virtual datasets
 - **[Tables](tables.md)** - Promote and configure physical datasets
+- **[Reflections](reflections.md)** - Manage reflections for acceleration
+- **[Scripts](scripts.md)** - Manage scripts (Cloud only)
 - **[Spaces & Folders](spaces-folders.md)** - Organize your data catalog
 
 ### Collaboration & Governance
 - **[Tags & Wiki](tags-wiki.md)** - Document and categorize datasets
 - **[Grants](grants.md)** - Manage access control and permissions
+
+### Productivity
+- **[Favorites](favorites.md)** - Save frequently used queries
+- **[History](history.md)** - View and re-run commands
 
 ### Administration
 - **[Users](users.md)** - User account management
