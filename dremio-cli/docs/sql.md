@@ -29,9 +29,11 @@ dremio sql execute --file <FILE> [OPTIONS]
 dremio sql execute "SELECT * FROM customers LIMIT 10"
 
 # Execute from file (Waits for results)
+# Can contain multiple statements separated by semicolons (;)
 dremio sql execute --file query.sql
 
 # Execute asynchronously (Returns Job ID immediately)
+# Note: --async is ignored for multi-statement files (runs sequentially)
 dremio sql execute "SELECT * FROM large_table" --async
 
 # Save results to file
@@ -246,6 +248,8 @@ echo "Daily reports generated" | mail -s "Dremio Reports" admin@company.com
 
 ### Basic Query File
 
+You can execute single or multiple statements in a file. Statements must be separated by semicolons (`;`). execution stops if any query fails.
+
 ```sql
 -- monthly_sales.sql
 SELECT 
@@ -253,7 +257,10 @@ SELECT
   SUM(amount) as total_sales
 FROM orders
 GROUP BY 1
-ORDER BY 1 DESC
+ORDER BY 1 DESC;
+
+-- Second statement
+SELECT COUNT(*) FROM orders;
 ```
 
 ### Complex Query File
