@@ -2,6 +2,10 @@
 
 This repository contains the Dremio Command Line Interface - a comprehensive CLI tool for managing Dremio Cloud and Dremio Software.
 
+## 📚 Documentation
+
+See the **[complete documentation](https://github.com/developer-advocacy-dremio/dremio-python-cli)** for detailed guides on all features.
+
 ## 📁 Project Structure
 
 - **[dremio-cli/](./dremio-cli/)** - The Dremio CLI implementation
@@ -54,7 +58,7 @@ dremio catalog list
 
 ## 📚 Documentation
 
-See the **[complete documentation](./dremio-cli/docs/README.md)** for detailed guides on all features.
+See the **[complete documentation](https://github.com/developer-advocacy-dremio/dremio-python-cli)** for detailed guides on all features.
 
 ## 🔗 Additional Resources
 

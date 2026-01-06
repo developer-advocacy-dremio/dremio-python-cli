@@ -1,0 +1,25 @@
+{
+  "dremio-catalog.alexmerced.testing.local_new_view": {
+    "id": "ab8d38ae-c2a7-400f-b228-7f639b07cdb6",
+    "path": [
+      "dremio-catalog",
+      "alexmerced",
+      "testing",
+      "local_new_view"
+    ],
+    "type": "VIEW",
+    "hash": "-3924297948081909464",
+    "metadata": {
+      "context": [],
+      "path": [
+        "dremio-catalog",
+        "alexmerced",
+        "testing",
+        "local_new_view"
+      ],
+      "sql_file": "local_new_view.sql",
+      "type": "VIEW",
+      "sql_content": "SELECT 2 as val"
+    }
+  }
+}

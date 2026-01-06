@@ -37,7 +37,10 @@ dremio view create --path "Analytics.summary" \
 
 ## 📚 Documentation
 
-**[Complete Documentation →](docs/README.md)**
+**[Complete Documentation (GitHub) →](https://github.com/developer-advocacy-dremio/dremio-python-cli/tree/main/dremio-cli/docs)**
+
+*(Use the link above if browsing on PyPI)*
+
 
 ### Core Guides
 

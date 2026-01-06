@@ -1,0 +1,8 @@
+context: []
+path:
+- dremio-catalog
+- alexmerced
+- testing
+- local_new_view
+sql_file: local_new_view.sql
+type: VIEW

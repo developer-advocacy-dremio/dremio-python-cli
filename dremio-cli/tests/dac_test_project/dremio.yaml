@@ -1,0 +1,7 @@
+
+version: "1.0"
+scope:
+  path: "dremio-catalog.alexmerced.testing"
+  type: "SPACE" 
+ignore:
+  - "*.tmp"
