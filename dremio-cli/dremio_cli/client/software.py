@@ -609,10 +609,10 @@ class SoftwareClient(BaseClient):
         return self.put(f"reflection/{reflection_id}", data=reflection_data)
 
     def delete_reflection(self, reflection_id: str) -> None:
-        """Delete a reflection.
-        
-        Args:
-            reflection_id: Reflection ID
-        """
+        """Delete a reflection."""
         return self.delete(f"reflection/{reflection_id}")
 
+    # Lineage operations
+    def get_catalog_graph(self, catalog_id: str) -> Dict[str, Any]:
+        """Get lineage graph for a catalog item."""
+        return self.get(f"catalog/{catalog_id}/graph")

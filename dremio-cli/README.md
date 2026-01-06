@@ -67,6 +67,11 @@ dremio view create --path "Analytics.summary" \
 
 - **[Favorites](docs/favorites.md)** - Save frequently used queries
 - **[History](docs/history.md)** - View and re-run commands
+- **[REPL](docs/repl.md)** - Interactive SQL Shell (Enhanced)
+- **[Monitor](docs/monitor.md)** - Real-time System Monitor
+- **[Init](docs/init.md)** - Interactive Configuration Wizard
+- **[Completion](docs/completion.md)** - Shell Completion Scripts
+- **[Lineage](docs/lineage.md)** - Visualize dataset dependencies
 
 ## 🎯 Key Features
 

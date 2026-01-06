@@ -319,3 +319,85 @@ def get_job_reflections(ctx, job_id: str) -> None:
             import traceback
             traceback.print_exc()
         raise click.Abort()
+@job.command("analyze")
+@click.argument("job_id")
+@click.pass_context
+def analyze_job(ctx, job_id: str) -> None:
+    """Analyze job performance.
+    
+    Examples:
+        dremio job analyze <job-id>
+    """
+    try:
+        manager = ProfileManager()
+        profile_name = ctx.obj.profile_name
+        profile = manager.get_profile(profile_name)
+        
+        if not profile:
+            console.print(f"[red]Profile '{profile_name}' not found[/red]")
+            return
+            
+        client = create_client(profile)
+        
+        with console.status(f"[bold green]Analyzing job {job_id}..."):
+            job = client.get_job(job_id)
+            
+            # Basic info
+            state = job.get("jobState")
+            start = job.get("startTime")
+            end = job.get("endTime")
+            
+            # Stats (structure varies between Cloud/Software versions)
+            # Safe access to stats
+            stats = job.get("stats", {}) 
+            
+            # Provide insights
+            from rich.panel import Panel
+            from rich.columns import Columns
+            
+            # Duration
+            duration = "N/A"
+            if start and end:
+                # Basic duration calc if not in stats (assuming epoch ms)
+                try: 
+                    diff = (int(end) - int(start)) / 1000.0
+                    duration = f"{diff:.2f}s"
+                except:
+                    pass
+            
+            # Input/Output
+            input_bytes = stats.get("inputBytes", 0)
+            output_bytes = stats.get("outputBytes", 0)
+            
+            # Simple insights
+            insights = []
+            if state != "COMPLETED":
+                insights.append(f"[red]Job did not complete ({state})[/red]")
+                
+            input_records = stats.get("inputRecords", 0)
+            output_records = stats.get("outputRecords", 0)
+            if input_records > 0 and output_records > 0:
+                reduction = (1 - (output_records / input_records)) * 100
+                insights.append(f"[green]Data Reduction: {reduction:.1f}%[/green]")
+                
+            # Display
+            console.print(Panel(f"""
+[bold]Job ID[/bold]: {job_id}
+[bold]State[/bold]: {state}
+[bold]Duration[/bold]: {duration}
+[bold]User[/bold]: {job.get('user', 'N/A')}
+            """, title="Job Summary", border_style="cyan"))
+            
+            if insights:
+                console.print(Panel("\n".join(insights), title="Insights", border_style="yellow"))
+                
+            # Raw stats table
+            from rich.table import Table
+            t = Table(title="Metrics", show_header=False)
+            t.add_row("Input Records", str(input_records))
+            t.add_row("Output Records", str(output_records))
+            t.add_row("Memory Used", f"{stats.get('memoryAllocation', 0)} bytes")
+            console.print(t)
+            
+    except Exception as e:
+        console.print(f"[red]Analysis failed: {e}[/red]")

@@ -148,7 +148,26 @@ def execute_sql(ctx, query: str, sql_file: str, context: str, async_mode: bool, 
                                 console.print("[yellow]Warning: --output-file with multiple queries will subscribe/overwite. Currently not fully supported for multi-statement.[/yellow]")
                             
                             output_path = Path(output_file)
-                            if output_path.suffix == '.json':
+                            
+                            # Advanced Formats (Pandas required)
+                            if output_path.suffix in ['.parquet', '.csv']:
+                                try:
+                                    import pandas as pd
+                                    df = pd.DataFrame(rows)
+                                    
+                                    if output_path.suffix == '.parquet':
+                                        df.to_parquet(output_path)
+                                    else: # csv
+                                        df.to_csv(output_path, index=False)
+                                        
+                                except ImportError:
+                                    console.print("[red]Error: 'pandas' and 'pyarrow' are required for Parquet/CSV export. Install them with pip.[/red]")
+                                    raise click.Abort()
+                                except Exception as e:
+                                     console.print(f"[red]Export failed: {e}[/red]")
+                                     raise click.Abort()
+
+                            elif output_path.suffix == '.json':
                                 output_path.write_text(json.dumps(results, indent=2))
                             elif output_path.suffix in ['.yaml', '.yml']:
                                 import yaml

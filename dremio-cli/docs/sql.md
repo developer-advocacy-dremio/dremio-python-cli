@@ -20,7 +20,9 @@ dremio sql execute --file <FILE> [OPTIONS]
 - `--file PATH` - Execute SQL from file
 - `--context TEXT` - Query context (comma-separated path)
 - `--async` - Execute asynchronously (return job ID immediately). Default behavior waits for results.
-- `--output-file PATH` - Save results to file
+- `--output-file PATH` - Save results to file (supports .json, .yaml, .csv, .parquet)
+
+**Note:** `.csv` and `.parquet` export require `pandas` and `pyarrow` installed.
 
 **Examples:**
 

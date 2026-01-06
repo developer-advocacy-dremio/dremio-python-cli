@@ -60,6 +60,19 @@ dremio --output json job get 16b2c9cd-a920-952b-b162-2280c9059d00
 dremio --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
 ```
 
+### Analyze Job
+
+Analyze the performance of a job to identify bottlenecks.
+
+```bash
+dremio job analyze <JOB_ID>
+```
+
+**Output:**
+- Job duration and state
+- Data reduction ratio (input vs output records)
+- Insights on performance metrics
+
 ### Get Job Results
 
 Retrieve the results of a completed job.

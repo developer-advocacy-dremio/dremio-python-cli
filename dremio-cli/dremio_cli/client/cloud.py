@@ -363,3 +363,9 @@ class CloudClient(BaseClient):
         """Delete a script."""
         return self.delete(self._project_endpoint(f"scripts/{script_id}"))
 
+    # Lineage operations
+    def get_catalog_graph(self, catalog_id: str) -> Dict[str, Any]:
+        """Get lineage graph for a catalog item."""
+        # Cloud API usually follows similar pattern or project endpoint
+        return self.get(self._project_endpoint(f"catalog/{catalog_id}/graph"))
+

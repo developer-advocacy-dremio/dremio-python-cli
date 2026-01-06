@@ -116,12 +116,25 @@ class LiveTestSuite:
                 
                 # Get Results
                 if job_id:
-                    time.sleep(1) # wait for job
-                    job_results = client.get_job_results(job_id)
-                    rows = job_results.get("rows", [])
-                    if len(rows) > 0 and rows[0].get("test_col") == 1:
+                     # Wait for job completion with ENGINE_START handling
+                     max_retries = 30
+                     for _ in range(max_retries):
+                         job_info = client.get_job(job_id)
+                         state = job_info.get("jobState")
+                         if state == "COMPLETED":
+                             break
+                         elif state in ["FAILED", "CANCELED"]:
+                             self.logger.log_issue("sql execution", f"Job failed: {state}", f"Profile: {profile_name}")
+                             return
+                         time.sleep(2) # Poll every 2s
+                     
+                     job_results = client.get_job_results(job_id)
+                     rows = job_results.get("rows", [])
+                     if len(rows) > 0 and rows[0].get("test_col") == 1:
                          console.print(f"[green]✓[/green] SQL Results Verified")
-                    else:
+                     elif len(rows) == 0:
+                         self.logger.log_issue("sql results", "No results returned", f"Profile: {profile_name}, Query: {query}")
+                     else:
                          self.logger.log_issue("sql results", "Unexpected results", f"Profile: {profile_name}, Query: {query}")
             else:
                 self.logger.log_issue("sql execution", f"Return type mismatch: {type(result)} - {result}", f"Profile: {profile_name}")
@@ -236,6 +249,44 @@ class LiveTestSuite:
         except Exception as e:
              self.logger.log_issue("folder workflow setup", str(e), f"Profile: {profile_name}")
 
+    def test_advanced_features(self, client: Any, profile_name: str):
+        console.print(f"\n[bold]Testing Advanced Features ({profile_name})[/bold]")
+        
+        # Lineage
+        try:
+            # Try to get lineage for a known item (e.g. from catalog list)
+            # We need a dataset ID.
+            catalog = client.get_catalog()
+            datasets = [x for x in catalog.get('data', []) if x.get('containerType') == 'DATASET']
+            if not datasets:
+                 # Try deeper if none at root
+                 pass 
+            
+            if datasets:
+                d_id = datasets[0]['id']
+                if hasattr(client, "get_catalog_graph"):
+                    graph = client.get_catalog_graph(d_id)
+                    console.print(f"[green]✓[/green] Lineage Graph fetched for {d_id}")
+                else:
+                    console.print("[yellow]Lineage not supported on client[/yellow]")
+        except Exception as e:
+            self.logger.log_issue("lineage", str(e), f"Profile: {profile_name}")
+
+        # Job Analyzer
+        # We need a job ID. We can use one from recent SQL test if we stored it, 
+        # but for now let's just trigger a quick new one.
+        try:
+            res = client.execute_sql("SELECT 1")
+            job_id = res.get("id")
+            if job_id and hasattr(client, "get_job"):
+                # Analyze logic is client-side in CLI command, but here we verify we can fetch the data needed for it.
+                # Actually, the analyze command uses client.get_job, so just verifying that works well enough.
+                job = client.get_job(job_id)
+                if job.get("jobState"):
+                     console.print(f"[green]✓[/green] Job Analyzer Data available (Job {job_id})")
+        except Exception as e:
+            self.logger.log_issue("job analyzer", str(e), f"Profile: {profile_name}")
+
     def run(self):
         profiles = self.setup_profiles()
         
@@ -289,6 +340,8 @@ class LiveTestSuite:
                     self.test_space_folder_workflow(client, p_name, test_root)
                 else:
                     console.print("[yellow]Skipping folder tests (no test folder defined)[/yellow]")
+                
+                self.test_advanced_features(client, p_name)
 
             except Exception as e:
                 self.logger.log_issue("client init", str(e), f"Profile: {p_name}")
