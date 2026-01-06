@@ -21,6 +21,11 @@ class SoftwareClient(BaseClient):
             token: Authentication token
             timeout: Request timeout in seconds
         """
+        # Auto-append /api/v3 if missing
+        base_url = base_url.rstrip("/")
+        if not base_url.endswith("/api/v3"):
+            base_url = f"{base_url}/api/v3"
+            
         super().__init__(base_url, token, timeout)
 
     # Catalog operations

@@ -32,6 +32,7 @@ from dremio_cli.commands import (
     completion,
     lineage,
     sync,
+    ui,
 )
 
 
@@ -106,6 +107,7 @@ cli.add_command(monitor.monitor_command)
 cli.add_command(completion.completion_command)
 cli.add_command(lineage.lineage)
 cli.add_command(sync.sync)
+cli.add_command(ui.ui)
 
 
 

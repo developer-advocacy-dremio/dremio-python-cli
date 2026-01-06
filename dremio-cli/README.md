@@ -72,6 +72,7 @@ dremio view create --path "Analytics.summary" \
 - **[History](docs/history.md)** - View and re-run commands
 - **[REPL](docs/repl.md)** - Interactive SQL Shell (Enhanced)
 - **[Monitor](docs/monitor.md)** - Real-time System Monitor
+- **[Catalog Explorer](docs/tui.md)** - Interactive Catalog TUI
 - **[Init](docs/init.md)** - Interactive Configuration Wizard
 - **[Completion](docs/completion.md)** - Shell Completion Scripts
 - **[Lineage](docs/lineage.md)** - Visualize dataset dependencies

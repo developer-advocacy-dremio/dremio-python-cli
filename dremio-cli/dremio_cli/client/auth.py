@@ -25,7 +25,12 @@ def authenticate_with_username_password(
         AuthenticationError: If authentication fails
     """
     # Use v2 API for login
-    login_url = base_url.replace("/api/v3", "/apiv2/login")
+    # Normalize base_url to get root
+    root_url = base_url.rstrip("/")
+    if root_url.endswith("/api/v3"):
+        root_url = root_url[:-7] # remove /api/v3
+    
+    login_url = f"{root_url}/apiv2/login"
     
     try:
         response = requests.post(
