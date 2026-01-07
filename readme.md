@@ -17,6 +17,7 @@ See the **[complete documentation](https://github.com/developer-advocacy-dremio/
 ## 🚀 Quick Links
 
 - **[CLI Documentation](./dremio-cli/docs/README.md)** - Complete user guide
+- **[Dremio-as-Code Guide](./dremio-cli/docs/dac.md)** - GitOps for Dremio
 - **[Installation Guide](./dremio-cli/docs/installation.md)** - Get started
 - **[Main README](./dremio-cli/README.md)** - CLI overview
 
@@ -33,7 +34,9 @@ The Dremio CLI provides **100% API coverage** with support for:
 - ✅ Tag & Wiki Management
 - ✅ Grant & Permission Management
 - ✅ User & Role Management
-- ✅ Table Operations
+- [x] User & Role Management
+- [x] Table Operations
+- [x] Dremio-as-Code (GitOps)
 
 ## 📦 Installation
 

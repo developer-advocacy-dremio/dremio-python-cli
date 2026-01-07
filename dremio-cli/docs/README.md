@@ -33,6 +33,9 @@ Complete documentation for the Dremio Command Line Interface.
 - **[Users](users.md)** - User account management
 - **[Roles](roles.md)** - Role-based access control
 
+- **[Dremio-as-Code Guide](dac.md)** - GitOps for Dremio
+
+
 ## 🚀 Quick Start
 
 ```bash
