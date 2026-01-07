@@ -1,9 +1,0 @@
-
-name: "my-s3"
-type: SOURCE
-path: ["my-s3"]
-source_type: "S3"
-config:
-  accessKey: "${MOCK_KEY}"
-  secretKey: "${MOCK_SECRET}"
-  other: "literal"

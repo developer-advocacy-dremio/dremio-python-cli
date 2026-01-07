@@ -1,2 +1,0 @@
-version: "1.0"
-scope: {path: "dremio", type: "SPACE"}
