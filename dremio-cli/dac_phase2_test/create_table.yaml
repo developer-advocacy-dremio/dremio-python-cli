@@ -1,0 +1,5 @@
+
+name: create_table
+type: ICEBERG_TABLE
+path: ["dremio", "create_table"]
+create_sql: "CREATE TABLE foo AS SELECT 1"

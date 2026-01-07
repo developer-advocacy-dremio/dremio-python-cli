@@ -1,0 +1,32 @@
+{
+  "dremio.update_table": {
+    "id": "tbl_update",
+    "path": [
+      "dremio",
+      "update_table"
+    ],
+    "type": "ICEBERG_TABLE",
+    "hash": "3848450296561531980",
+    "metadata": {
+      "name": "update_table",
+      "type": "ICEBERG_TABLE",
+      "path": [
+        "dremio",
+        "update_table"
+      ],
+      "update_sql": "INSERT INTO foo SELECT 2",
+      "validations": [
+        {
+          "name": "check_gt",
+          "sql": "SELECT count(*) /* gt 0 */ FROM foo",
+          "condition": "gt 0"
+        },
+        {
+          "name": "check_eq",
+          "sql": "SELECT nulls /* eq 0 */ FROM foo",
+          "condition": "eq 0"
+        }
+      ]
+    }
+  }
+}

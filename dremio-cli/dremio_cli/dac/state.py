@@ -57,28 +57,63 @@ class LocalState:
 
     def scan_filesystem(self) -> Dict[str, Dict[str, Any]]:
         """
-        Scans the root_dir for .yaml and .sql files to build a picture of local state.
+        Scans the root_dir (and children) for .yaml files to build resource state.
         Returns a dict of resource definitions found on disk.
         """
         local_resources = {}
         for root, dirs, files in os.walk(self.root_path):
-            # skipping .git, .dremio_state.json, etc is handled by not parsing them
+            # skips
+            if ".git" in dirs: dirs.remove(".git")
+            
             for file in files:
                 if file.endswith(".yaml") and file != "dremio.yaml":
                     full_path = os.path.join(root, file)
+                    rel_dir = os.path.relpath(root, self.root_path)
+                    if rel_dir == ".": rel_dir = ""
+
                     try:
                         with open(full_path, 'r') as f:
                             data = yaml.safe_load(f)
-                            # We expect 'type' and 'path' in the yaml
-                            if data and "type" in data and "path" in data:
-                                path_key = ".".join(data["path"])
-                                local_resources[path_key] = data
-                                # If there is a sql file, read it
-                                if "sql_file" in data:
-                                    sql_path = os.path.join(root, data["sql_file"])
-                                    if os.path.exists(sql_path):
-                                        with open(sql_path, 'r') as sql_f:
-                                            data["sql_content"] = sql_f.read()
+                        
+                        if not data or "name" not in data or "type" not in data:
+                            continue
+
+                        # Determine full path key
+                        # Logic: if 'path' explicit in YAML, use it.
+                        # Else: derive from valid dremio.yaml scope + subdirs
+                        resource_path = []
+                        if "path" in data:
+                            resource_path = data["path"]
+                        else:
+                            # We need context/scope to know the root prefix.
+                            # For now, we store just the name, assuming sync logic resolves parent
+                            # OR ideally: we require 'path' OR we inject it from outside.
+                            # Let's rely on 'name' key grouping for now, but sync logic needs full path.
+                            # Store relative path for now.
+                            resource_path = [data["name"]]
+
+                        path_key = ".".join(resource_path)
+                        
+                        # Handle SQL
+                        if "sql" in data:
+                            data["sql_content"] = data["sql"]
+                        elif "sql_content" in data:
+                             pass # Already there
+                        
+                        # Handle Wiki (description file)
+                        desc = data.get("description", "")
+                        if desc and desc.endswith(".md"):
+                            md_path = os.path.join(root, desc)
+                            if os.path.exists(md_path):
+                                with open(md_path, 'r') as md_f:
+                                    data["description"] = md_f.read()
+                            else:
+                                print(f"Warning: Wiki file {md_path} referenced but not found.")
+
+                        # Store dependencies and tags implicitly (passed as is)
+                        
+                        local_resources[path_key] = data
+                        
                     except Exception as e:
                         print(f"Error reading {full_path}: {e}")
         return local_resources

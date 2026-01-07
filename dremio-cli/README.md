@@ -66,6 +66,15 @@ dremio view create --path "Analytics.summary" \
 - **[Reflections](docs/reflections.md)** - Manage reflections
 - **[Scripts](docs/scripts.md)** - Manage scripts (Cloud only)
 
+### Dremio-as-Code (GitOps)
+
+- **[Overview](docs/dac.md)** - Getting Started with DAC
+- **[Sources](docs/dac_sources.md)** - Manage Sources
+- **[Tables](docs/dac_tables.md)** - Manage Physical Tables
+- **[Validations](docs/dac_validations.md)** - Data Quality Checks
+- **[Reflections](docs/dac_reflections.md)** - Manage Reflections
+- **[Governance](docs/dac_governance.md)** - Managing Access Control
+
 ### Productivity
 
 - **[Favorites](docs/favorites.md)** - Save frequently used queries

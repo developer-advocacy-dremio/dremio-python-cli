@@ -1,0 +1,54 @@
+{
+  "dremio.gov_view": {
+    "id": "view_123",
+    "path": [
+      "dremio",
+      "gov_view"
+    ],
+    "type": "VIRTUAL_DATASET",
+    "hash": "-9058006104546393116",
+    "metadata": {
+      "name": "gov_view",
+      "type": "VIRTUAL_DATASET",
+      "path": [
+        "dremio",
+        "gov_view"
+      ],
+      "sql": "SELECT 1",
+      "access_control": {
+        "roles": [
+          {
+            "name": "admin_role",
+            "privileges": [
+              "SELECT",
+              "ALTER"
+            ]
+          }
+        ],
+        "users": [
+          {
+            "name": "bob@example.com",
+            "privileges": [
+              "SELECT"
+            ]
+          }
+        ]
+      },
+      "governance": {
+        "row_access_policy": {
+          "name": "region_filter",
+          "args": [
+            "region"
+          ]
+        },
+        "masking_policies": [
+          {
+            "column": "salary",
+            "name": "mask_num"
+          }
+        ]
+      },
+      "sql_content": "SELECT 1"
+    }
+  }
+}
