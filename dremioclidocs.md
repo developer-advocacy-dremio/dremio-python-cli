@@ -19,15 +19,24 @@ Complete documentation for the Dremio Command Line Interface.
 - **[Sources](sources.md)** - Manage data source connections
 - **[Views](views.md)** - Create and manage virtual datasets
 - **[Tables](tables.md)** - Promote and configure physical datasets
+- **[Reflections](reflections.md)** - Manage reflections for acceleration
+- **[Scripts](scripts.md)** - Manage scripts (Cloud only)
 - **[Spaces & Folders](spaces-folders.md)** - Organize your data catalog
 
 ### Collaboration & Governance
 - **[Tags & Wiki](tags-wiki.md)** - Document and categorize datasets
 - **[Grants](grants.md)** - Manage access control and permissions
 
+### Productivity
+- **[Favorites](favorites.md)** - Save frequently used queries
+- **[History](history.md)** - View and re-run commands
+
 ### Administration
 - **[Users](users.md)** - User account management
 - **[Roles](roles.md)** - Role-based access control
+
+- **[Dremio-as-Code Guide](dac.md)** - GitOps for Dremio
+
 
 ## 🚀 Quick Start
 
@@ -855,6 +864,645 @@ dremio catalog get-by-path "Space.Folder.Object"
 
 ---
 
+<!-- Source: dremio-cli/docs/completion.md -->
+
+# Shell Completion
+
+Generate shell completion scripts for Bash, Zsh, and Fish.
+
+## Usage
+
+```bash
+dremio completion [bash|zsh|fish]
+```
+
+## Installation
+
+### Bash
+
+Add this to your `~/.bashrc`:
+
+```bash
+eval "$(_DREMIO_COMPLETE=bash_source dremio)"
+```
+
+### Zsh
+
+Add this to your `~/.zshrc`:
+
+```bash
+eval "$(_DREMIO_COMPLETE=zsh_source dremio)"
+```
+
+### Fish
+
+Add this to your `~/.config/fish/config.fish`:
+
+```fish
+eval (env _DREMIO_COMPLETE=fish_source dremio)
+```
+
+After adding the line, restart your shell or source the config file to enable tab completion.
+
+
+---
+
+<!-- Source: dremio-cli/docs/dac.md -->
+
+# Dremio-as-Code (GitOps)
+
+Dremio-as-Code (DAC) allows you to manage your Dremio catalog (Spaces, Folders, Views) using local files, enabling GitOps workflows.
+
+## Quick Start
+
+### 1. Initialize Configuration
+Create a `dremio.yaml` file in your project root:
+
+```yaml
+version: "1.0"
+scope:
+  path: "dremio-catalog.finance"  # The Dremio path to sync
+  type: "SPACE"                   # SPACE or ICEBERGCATALOG
+ignore:
+  - "*.tmp"
+```
+
+### 2. Pull State
+Capture the current state of your Dremio space into local files.
+
+```bash
+dremio sync pull
+```
+
+Returns a directory structure mirroring Dremio:
+- `finance/`
+    - `monthly_report.sql`
+    - `monthly_report.yaml`
+
+### View Definition (`view.yaml`)
+
+Define your virtual datasets with SQL, tags, wiki content, dependencies, and governance policies.
+
+```yaml
+name: revenue_report
+type: VIRTUAL_DATASET
+# Full path in Dremio
+path: ["dremio-catalog", "finance", "reports", "revenue_report"]
+# SQL Definition
+sql: |
+  SELECT region, sum(amount) as total 
+  FROM "dremio-catalog".finance.stg_sales 
+  GROUP BY region
+# Dependencies
+dependencies: 
+  - "stg_sales"
+# Tags & Wiki
+tags: ["finance", "official"]
+description: "docs/revenue_report.md" 
+
+# Governance: Access Control (RBAC)
+access_control:
+  roles:
+    - name: "finance_managers"
+      privileges: ["SELECT"]
+  users:
+    - name: "auditor@example.com"
+      privileges: ["SELECT", "ALTER"]
+
+# Governance: Row/Column Policies
+# (Requires UDFs to be defined separately)
+governance:
+  row_access_policy:
+    name: "protect_region_udf"
+    args: ["region"]
+  masking_policies:
+    - column: "total"
+      name: "mask_amount_udf"
+
+# Reflections
+reflections:
+  - name: "raw_sales_agg"
+    type: "RAW"
+    displayFields: ["region", "total"]
+  - name: "agg_sales_by_region"
+    type: "AGGREGATION"
+    dimensionFields: ["region"]
+    measureFields: ["total"]
+    distributionFields: ["region"]
+    partitionFields: ["region"]
+```
+
+### Workflow
+
+1.  **Push**: `dremio sync push`
+    -    recurses, sorts dependencies, applies SQL, updates Tags/Wiki.
+    -   **Applies Grants**: Resolves Role/User names to IDs and enforces access control.
+    -   **Applies Policies**: Executes SQL commands to attach Row Access and Masking policies.
+
+2.  **Pull**: `dremio sync pull`
+    -   Fetches state, rebuilds folders, views, wikis.
+    -   **Important Limitation**: Governance policies (RBAC, Row Access, Masking) and **Reflections** are **NOT** automatically retrieved from Dremio during a pull.
+        -   To manage them via DAC, you must manually define `access_control`, `governance`, and `reflections` blocks in your YAML files.
+        -   The `pull` command will only generate the standard SQL and metadata.
+
+**new_view.sql**:
+```sql
+SELECT * FROM parent.table
+```
+
+**new_view.yaml**:
+```yaml
+type: VIEW
+path: ["dremio-catalog", "finance", "new_view"]
+sql_file: "new_view.sql"
+context: []
+```
+
+### 4. Push Changes
+Apply your local changes back to Dremio.
+
+```bash
+dremio sync push
+```
+
+## Feature Guides
+
+- **[Sources](dac_sources.md)**: Manage Dremio Sources (S3, Nessie, Relational).
+- **[Tables](dac_tables.md)**: Manage Physical Datasets and Iceberg Tables.
+- **[Validations](dac_validations.md)**: Define Data Quality Checks.
+- **[Reflections](dac_reflections.md)**: Manage RAW and AGGREGATION reflections.
+- **[Governance](dac_governance.md)**: Manage Access Control (RBAC) and Row/Column Policies.
+
+## Concepts
+
+- **Scope**: Limits the sync to a specific subtree to support multi-team environments.
+- **State File**: `.dremio_state.json` tracks the last known state to enable efficient updates and deletes. **Do not edit this file manually.**
+
+
+---
+
+<!-- Source: dremio-cli/docs/dac_governance.md -->
+
+
+# Governance in Dremio-as-Code
+
+DAC allows you to manage Access Control (RBAC) and Fine-Grained Access Control (Row/Column Policies) as code.
+
+## 1. Access Control (RBAC)
+
+Define who can access your dataset using the `access_control` block.
+
+### YAML Schema
+
+```yaml
+name: "sensitive_data"
+type: VIRTUAL_DATASET
+...
+
+access_control:
+  roles:
+    - name: "PUBLIC"
+      privileges: ["SELECT"]
+    - name: "finance_analysts"
+      privileges: ["SELECT", "ALTER"]
+  users:
+    - name: "bob@example.com"
+      privileges: ["SELECT"]
+```
+
+### Privileges
+Common privileges include:
+-   `SELECT`: Read data.
+-   `ALTER`: Modify definition.
+-   `MANAGE_GRANTS`: Change permissions.
+
+### Workflow
+-   **Push**: DAC resolves User/Role names to IDs and applies the grants.
+-   *Note*: This **replaces** existing grants on the dataset.
+
+## 2. Row Access Policies
+
+Filter rows based on user context at query time.
+
+### YAML Schema
+
+```yaml
+governance:
+  row_access_policy:
+    name: "dremio.security.region_policy"
+    args: ["region_id"]
+```
+
+-   **name**: Full path to the UDF (User Defined Function) that implements the logic.
+-   **args**: Columns from the dataset to pass as arguments to the UDF.
+
+### UDF Example
+You must create the UDF in Dremio first (or via `create_sql` in DAC).
+```sql
+CREATE FUNCTION dremio.security.region_policy (region_id VARCHAR)
+RETURNS BOOLEAN
+RETURN query_user() = 'admin' OR region_id = 'US'
+```
+
+## 3. Masking Policies (Column Level)
+
+Mask sensitive column values.
+
+### YAML Schema
+
+```yaml
+governance:
+  masking_policies:
+    - name: "dremio.security.mask_ssn"
+      column: "ssn"
+      args: ["ssn"]
+    - name: "dremio.security.mask_email"
+      column: "email"
+      args: ["email"]
+```
+
+-   **name**: Full path to the Masking UDF.
+-   **column**: The column to apply the mask to.
+-   **args**: Columns to pass to the UDF.
+
+### Workflow
+-   **Push**: DAC executes `ALTER VIEW ... ADD ROW ACCESS POLICY` or `MODIFY COLUMN ... SET MASKING POLICY`.
+-   **Limitations**:
+    -   Only supported on Views (`VIRTUAL_DATASET`).
+    -   Requires existing UDFs.
+    -   Removing a policy from YAML does **not** automatically remove it from Dremio (requires manual `DROP` or `UNSET` logic, currently additive).
+
+
+---
+
+<!-- Source: dremio-cli/docs/dac_reflections.md -->
+
+
+# Managing Reflections in Dremio-as-Code
+
+Reflections are Dremio's query acceleration technology. DAC allows you to define and manage reflections alongside your dataset definitions.
+
+## YAML Schema
+
+Add a `reflections` list to your Dataset YAML (`VIRTUAL_DATASET`, `ICEBERG_TABLE`, or `PHYSICAL_DATASET`).
+
+```yaml
+name: "orders"
+type: VIRTUAL_DATASET
+path: ["dremio", "business", "orders"]
+sql: "SELECT * FROM source.orders"
+
+reflections:
+  # Raw Reflection
+  - name: "raw_orders"
+    type: "RAW"
+    displayFields: ["order_id", "customer_id", "amount", "order_date"]
+    partitionFields: ["order_date"]
+    distributionFields: ["customer_id"]
+    enabled: true
+
+  # Aggregation Reflection
+  - name: "agg_orders_by_customer"
+    type: "AGGREGATION"
+    dimensionFields: ["customer_id", "order_year"]
+    measureFields: ["amount"]
+    partitionFields: ["order_year"]
+    distributionFields: ["customer_id"]
+    enabled: true
+```
+
+## Reflection Types
+
+### RAW
+Accelerates detailed queries.
+-   `displayFields`: List of columns to include.
+-   `partitionFields`: Columns to partition the reflection by.
+-   `distributionFields`: Columns to distribute data across nodes.
+
+### AGGREGATION
+Accelerates aggregate queries (GROUP BY).
+-   `dimensionFields`: Columns used in GROUP BY.
+-   `measureFields`: Columns used in aggregate functions (SUM, COUNT, etc.).
+-   `partitionFields`: Partitioning configuration.
+-   `distributionFields`: Distribution configuration.
+
+## Workflow
+
+1.  **Push**:
+    -   DAC checks for existing reflections on the dataset.
+    -   Matches by **Name**.
+    -   **Update**: If found, updates configuration (enabled, fields).
+    -   **Create**: If missing, creates the reflection.
+2.  **Pull**:
+    -   *Limitation*: Currently, pulling reflections from existing datasets is not fully supported. You must define them manually in your YAML.
+
+## Best Practices
+-   Use descriptive names (e.g., `agg_by_region`).
+-   Keep definitions in the same YAML file as the View/Table.
+-   Use `enabled: false` to disable a reflection without deleting the definition.
+
+
+---
+
+<!-- Source: dremio-cli/docs/dac_sources.md -->
+
+
+# Managing Sources with Dremio-as-Code
+
+DAC allows you to define and manage Dremio Sources (e.g., S3, Postgres, Nessie, Arctic) using YAML configuration files.
+
+## Overview
+
+- **Secure**: Use Environment Variable substitution (`${ENV_VAR}`) to keep credentials out of code.
+- **Declarative**: Define the source configuration, and `dremio sync push` handles creation or updates.
+- **Top-Level**: Sources are usually defined in the root of your DAC directory or a dedicated `sources/` folder.
+
+## YAML Schema
+
+```yaml
+name: "my-source-name"
+type: SOURCE
+path: ["my-source-name"] # Must match name
+source_type: "S3" # Dremio Source Type Code (e.g. S3, POSTGRES, NESSIE, ARCTIC, ADL)
+config:
+  # Source specific configuration
+  accessKey: "${AWS_ACCESS_KEY}"
+  secretKey: "${AWS_SECRET_KEY}"
+  rootPath: "/"
+metadata_policy:
+  authTtlMs: 3600000
+  ...
+```
+
+## Examples
+
+### 1. Amazon S3
+
+```yaml
+name: "datalake-s3"
+type: SOURCE
+source_type: "S3"
+config:
+  accessKey: "${AWS_ACCESS_KEY}"
+  secretKey: "${AWS_SECRET_KEY}" 
+  secure: true
+  rootPath: "/my-bucket/data"
+```
+
+### 2. Postgres
+
+```yaml
+name: "app-db"
+type: SOURCE
+source_type: "POSTGRES"
+config:
+  hostname: "db.production.internal"
+  port: 5432
+  username: "dremio_user"
+  password: "${PG_PASSWORD}"
+  databaseName: "myapp"
+```
+
+### 3. Nessie / Arctic
+
+```yaml
+name: "arctic-catalog"
+type: SOURCE
+source_type: "NESSIE"
+config:
+  endpoint: "https://nessie.dremio.cloud/v1/projects/${PROJECT_ID}"
+  authType: "BEARER"
+  token: "${NESSIE_TOKEN}"
+```
+
+## Environment Variables
+
+Prior to running `dremio sync push`, ensure the referenced environment variables are set in your shell or `.env` file.
+
+```bash
+export AWS_ACCESS_KEY="AKI..."
+export AWS_SECRET_KEY="secret..."
+dremio sync push
+```
+
+If a variable is missing, the CLI will warn you and keep the literal string (which leads to auth failure), protecting you from accidental commits of unexpanded secrets.
+
+
+---
+
+<!-- Source: dremio-cli/docs/dac_tables.md -->
+
+
+# Managing Tables in Dremio-as-Code
+
+DAC supports managing Physical Iceberg Tables and standard Physical Datasets.
+
+## 1. Iceberg Tables (`type: ICEBERG_TABLE`)
+
+You can use DAC to manage the lifecycle of Dremio-native Iceberg tables (e.g., in Arctic, Nessie, or S3). This allows for "Lightweight ETL" where every `push` triggers an SQL update script.
+
+### YAML Schema
+
+```yaml
+name: "app_events"
+type: ICEBERG_TABLE
+path: ["dremio", "etl", "app_events"]
+
+# Run ONE-TIME if table doesn't exist
+create_sql: |
+  CREATE TABLE dremio.etl.app_events (
+    id VARCHAR, 
+    event_time TIMESTAMP, 
+    payload VARCHAR
+  ) PARTITION BY (event_time)
+
+# Run EVERY PUSH (if table exists)
+update_sql: |
+  MERGE INTO dremio.etl.app_events t 
+  USING source.raw_events s 
+  ON t.id = s.id
+  WHEN MATCHED THEN UPDATE SET t.payload = s.payload
+  WHEN NOT MATCHED THEN INSERT VALUES (s.id, s.event_time, s.payload)
+
+# Standard features
+tags: ["events", "etl"]
+governance: ...
+reflections: ...
+```
+
+### Workflow
+1.  **First Push**: CLI detects missing table. executes `create_sql`.
+2.  **Subsequent Pushes**: CLI detects existing table. Executes `update_sql`.
+
+### Pulling Iceberg Tables
+`dremio sync pull` will generate the YAML for existing Iceberg tables.
+*Limitation*: The CLI cannot reconstruct the `create_sql` or `update_sql` logic. The fields will be generated as placeholders or comments.
+
+## 2. Physical Datasets (`type: PHYSICAL_DATASET`)
+
+For external files (S3 Parquet/CSV) or RDBMS tables that are read-only to Dremio, use `PHYSICAL_DATASET`. DAC manages their **metadata** (Governance, Reflections, Wiki), not their data lifecycle.
+
+### YAML Schema
+
+```yaml
+name: "raw_customers"
+type: PHYSICAL_DATASET
+path: ["s3-source", "bucket", "customers.parquet"]
+
+# Metadata
+tags: ["raw", "source"]
+description: "docs/raw_customers.md"
+
+# Format (Optional - for auto-promotion)
+format: 
+  type: "Parquet"
+
+# Governance
+access_control:
+  roles:
+    - name: "analysts"
+      privileges: ["SELECT"]
+reflections:
+  - name: "raw_ref"
+    type: "RAW"
+```
+
+### Workflow
+-   **Push**: Ensures the dataset is promoted/exists. Applies tags, wiki, grants, and reflections.
+-   **Pull**: Generates YAML for existing promoted datasets in the scope.
+
+
+---
+
+<!-- Source: dremio-cli/docs/dac_validations.md -->
+
+
+# Data Validations in Dremio-as-Code
+
+Ensure data quality and integrity by defining SQL assertions that run after every `sync push`.
+
+## Overview
+
+Validations are SQL queries paired with a condition. The CLI executes the query, fetches the scalar result (first column of first row), and compares it against your condition.
+
+## YAML Schema
+
+Add a `validations` block to any dataset YAML (`VIRTUAL_DATASET` or `ICEBERG_TABLE`).
+
+```yaml
+name: "mart_revenue"
+type: VIRTUAL_DATASET
+path: ["dremio", "finance", "mart_revenue"]
+sql: "SELECT ..."
+
+validations:
+  # Check 1: Non-zero rows
+  - name: "row_count"
+    sql: "SELECT count(*) FROM dremio.finance.mart_revenue"
+    condition: "gt 0"
+
+  # Check 2: No null regions
+  - name: "no_null_regions"
+    sql: "SELECT count(*) FROM dremio.finance.mart_revenue WHERE region IS NULL"
+    condition: "eq 0"
+
+  # Check 3: Total is positive
+  - name: "positive_revenue"
+    sql: "SELECT min(total_revenue) FROM dremio.finance.mart_revenue"
+    condition: "gte 0"
+```
+
+## Supported Conditions
+
+-   `eq {val}`: Equal to value
+-   `neq {val}`: Not equal to value
+-   `gt {val}`: Greater than value
+-   `lt {val}`: Less than value
+-   `gte {val}`: Greater than or equal to value
+-   `lte {val}`: Less than or equal to value
+
+## Workflow
+
+1.  Sync (Create/Update View/Table).
+2.  Wait for completion.
+3.  **Run Validations**:
+    -   Execute Check SQL.
+    -   Fetch Result.
+    -   Evaluate Condition.
+    -   Log `[PASS]` or `[FAIL]`.
+
+
+---
+
+<!-- Source: dremio-cli/docs/favorites.md -->
+
+# Favorite Queries
+
+Manage and re-run your favorite SQL queries.
+
+## Commands
+
+### Add Favorite
+
+Save a query as a favorite.
+
+```bash
+dremio favorite add <NAME> [OPTIONS]
+```
+
+**Options:**
+- `--sql TEXT` - The SQL query to save (Required)
+- `--description TEXT` - A brief description of the query
+
+**Examples:**
+```bash
+dremio favorite add daily_sales --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
+dremio favorite add top_users --sql "SELECT * FROM users ORDER BY score DESC LIMIT 10" --description "Top 10 users by score"
+```
+
+### List Favorites
+
+List all saved favorite queries.
+
+```bash
+dremio favorite list [OPTIONS]
+```
+
+**Examples:**
+```bash
+dremio favorite list
+dremio --output json favorite list
+```
+
+### Run Favorite
+
+Execute a saved favorite query.
+
+```bash
+dremio favorite run <NAME>
+```
+
+**Examples:**
+```bash
+dremio favorite run daily_sales
+```
+
+### Delete Favorite
+
+Remove a query from favorites.
+
+```bash
+dremio favorite delete <NAME>
+```
+
+**Examples:**
+```bash
+dremio favorite delete daily_sales
+```
+
+
+---
+
 <!-- Source: dremio-cli/docs/grants.md -->
 
 # Grant and Privilege Management
@@ -1337,6 +1985,100 @@ done
 
 ---
 
+<!-- Source: dremio-cli/docs/history.md -->
+
+# Query History
+
+View and manage your local query execution history.
+
+## Commands
+
+### List History
+
+List recent query history.
+
+```bash
+dremio history list [OPTIONS]
+```
+
+**Options:**
+- `--limit INT` - Maximum number of entries to show (Default: 50)
+
+**Examples:**
+```bash
+dremio history list
+dremio history list --limit 10
+```
+
+### Run History
+
+Re-run a command from history.
+
+```bash
+dremio history run <HISTORY_ID>
+```
+
+**Examples:**
+```bash
+dremio history run 5
+```
+
+### Clear History
+
+Clear all query history.
+
+```bash
+dremio history clear
+```
+
+**Examples:**
+```bash
+dremio history clear
+```
+
+
+---
+
+<!-- Source: dremio-cli/docs/init.md -->
+
+# Interactive Initialization
+
+Quickly set up your Dremio CLI configuration using an interactive wizard.
+
+## Usage
+
+```bash
+dremio init
+```
+
+The wizard will guide you through:
+1. Creating a new profile
+2. Selecting platform (Cloud/Software)
+3. Entering base URL and credentials
+4. Verifying the connection immediately
+5. Saving the profile and setting it as default
+
+## Example Interaction
+
+```text
+Dremio CLI Setup
+───────────────
+Profile Name [default]: prod
+Platform (software/cloud) [software]: cloud
+Base URL [https://api.dremio.cloud]: 
+Project ID: b49...
+Personal Access Token (PAT): ********
+
+Verifying connection...
+✓ Connection Successful!
+
+Configuration saved to: /Users/user/.dremio/profiles.yaml
+Run 'dremio catalog list' to get started!
+```
+
+
+---
+
 <!-- Source: dremio-cli/docs/installation.md -->
 
 # Installation Guide
@@ -1452,6 +2194,19 @@ dremio --output json job get 16b2c9cd-a920-952b-b162-2280c9059d00
 # Get job details with verbose output
 dremio --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
 ```
+
+### Analyze Job
+
+Analyze the performance of a job to identify bottlenecks.
+
+```bash
+dremio job analyze <JOB_ID>
+```
+
+**Output:**
+- Job duration and state
+- Data reduction ratio (input vs output records)
+- Insights on performance metrics
 
 ### Get Job Results
 
@@ -1769,6 +2524,63 @@ Error: Access forbidden
 
 ---
 
+<!-- Source: dremio-cli/docs/lineage.md -->
+
+# Lineage Visualization
+
+Visualize the dependencies between datasets.
+
+## Commands
+
+### Show Lineage
+
+Show the upstream parents of a dataset.
+
+```bash
+dremio lineage show <CATALOG_ID> [OPTIONS]
+```
+
+**Options:**
+- `--format [tree|json|mermaid]` - Output format (Default: tree)
+
+**Examples:**
+```bash
+# Tree view (Terminal)
+dremio lineage show dremio-catalog.space.view
+
+# Mermaid Graph (for markdown)
+dremio lineage show dremio-catalog.space.view --format mermaid
+```
+
+
+---
+
+<!-- Source: dremio-cli/docs/monitor.md -->
+
+# Real-time Monitor (TUI)
+
+A terminal-based user interface (TUI) for monitoring Dremio jobs and system status in real-time.
+
+## Usage
+
+```bash
+dremio monitor
+```
+
+## Features
+
+- **Live Job Feed**: Auto-refreshes every 5 seconds.
+- **Job Details**: Shows Job ID, Status, User, Query Type, and Start Time.
+- **Interactive Table**: Scroll through the list of recent jobs.
+
+## Navigation
+
+- `q`: Quit the monitor
+- `r`: Force refresh
+
+
+---
+
 <!-- Source: dremio-cli/docs/profiles.md -->
 
 # Profile Management Guide
@@ -1779,42 +2591,50 @@ This guide covers how to create and manage Dremio CLI profiles using both YAML c
 
 Profiles store connection information for Dremio instances. The CLI supports two methods:
 
-1. **YAML Configuration** - Stored in `~/.dremio/profiles.yaml`
-2. **Environment Variables** - Loaded from `.env` file or shell environment
+1. **YAML Configuration** - Stored in `~/.dremio/profiles.yaml` (RECOMMENDED for local use)
+2. **Environment Variables** - Loaded from `.env` file or shell environment (RECOMMENDED for CI/CD)
 
 Environment variables take precedence over YAML profiles.
 
+---
+
+## 🚀 Profile Values Guide
+
+### 1. Base URL
+The URL to your Dremio instance's API.
+
+| Platform | Format | Example | Note |
+|----------|--------|---------|------|
+| **Dremio Cloud** | `https://api.dremio.cloud/v0` | `https://api.dremio.cloud/v0` | Used for US control plane |
+| **Dremio Cloud (EU)** | `https://api.dremio.eu/v0` | `https://api.dremio.eu/v0` | Used for EU control plane |
+| **Dremio Software** | `http(s)://<host>:<port>` | `https://dremio.company.com` | **Smart URL**: The CLI automatically appends `/api/v3` if you omit it. |
+| **Local Software** | `http://localhost:9047` | `http://localhost:9047` | Defaults for local Docker/install |
+
+> **Note:** For Dremio Software, you can provide `https://dremio.company.com` OR `https://dremio.company.com/api/v3`. The CLI handles both correctly.
+
+### 2. Authentication
+How you log in to Dremio.
+
+| Type | Platform | Description |
+|------|----------|-------------|
+| **PAT** (Token) | Cloud & Software | **Recommended**. Personal Access Token generated in User Settings. |
+| **Services Account** | Cloud Only | Treats Client/Secret as a PAT for automation. |
+| **Username/Password** | Software Only | Traditional login. **Less secure** than PAT. |
+
+### 3. Project ID (Cloud Only)
+Can be found in the URL of your Dremio Cloud project.
+- URL: `https://app.dremio.cloud/projectId/12345-abcde.../home`
+- Project ID: `12345-abcde...`
+
+---
+
 ## YAML Configuration
 
-### Location
+**Location**: `~/.dremio/profiles.yaml`
 
-Profiles are stored in: `~/.dremio/profiles.yaml`
+### Examples
 
-### Creating Profiles via CLI
-
-```bash
-# Create a Dremio Cloud profile
-dremio profile create \
-  --name cloud-prod \
-  --type cloud \
-  --base-url https://api.dremio.cloud/v0 \
-  --auth-type pat \
-  --token YOUR_PERSONAL_ACCESS_TOKEN \
-  --project-id YOUR_PROJECT_ID
-
-# Create a Dremio Software profile
-dremio profile create \
-  --name software-dev \
-  --type software \
-  --base-url https://dremio.company.com/api/v3 \
-  --auth-type pat \
-  --token YOUR_PERSONAL_ACCESS_TOKEN
-```
-
-### Manual YAML Configuration
-
-Edit `~/.dremio/profiles.yaml`:
-
+**Dremio Cloud (US)**
 ```yaml
 profiles:
   cloud-prod:
@@ -1823,332 +2643,85 @@ profiles:
     project_id: 788baab4-3c3b-42da-9f1d-5cc6dc03147d
     auth:
       type: pat
-      token: YOUR_ENCRYPTED_TOKEN
-    testing_folder: testing
-  
-  software-dev:
+      token: your-personal-access-token
+```
+
+**Dremio Software (Corporate)**
+```yaml
+profiles:
+  corp-dremio:
     type: software
-    base_url: https://dremio.company.com/api/v3
+    base_url: https://dremio.corp.com  # CLI will add /api/v3 automatically
     auth:
       type: pat
-      token: YOUR_ENCRYPTED_TOKEN
-    testing_folder: '"dremio-catalog".alexmerced.testing'
-  
-  software-local:
+      token: your-personal-access-token
+```
+
+**Dremio Software (Local/Docker)**
+```yaml
+profiles:
+  local:
     type: software
-    base_url: http://localhost:9047/api/v3
+    base_url: http://localhost:9047  # Default port
     auth:
       type: username_password
       username: admin
-      password: YOUR_ENCRYPTED_PASSWORD
-
-default_profile: cloud-prod
+      password: password123
 ```
 
-### Profile Fields
+### CLI Commands
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `type` | Yes | `cloud` or `software` |
-| `base_url` | Yes | API endpoint URL |
-| `project_id` | Cloud only | Project UUID |
-| `auth.type` | Yes | `pat`, `oauth`, or `username_password` |
-| `auth.token` | For PAT | Personal Access Token |
-| `auth.username` | For user/pass | Username |
-| `auth.password` | For user/pass | Password |
-| `testing_folder` | No | Default folder for testing |
+```bash
+# Interactve Wizard (Best for beginners)
+dremio init
+
+# Create manually
+dremio profile create --name prod --type cloud ...
+```
+
+---
 
 ## Environment Variable Configuration
 
+Ideal for CI/CD pipelines or Docker containers.
+
 ### Pattern
+`DREMIO_{PROFILE_NAME}_KEY=VALUE`
 
-Environment variables follow the pattern:
-```
-DREMIO_{PROFILE}_{KEY}=value
-```
-
-### Example .env File
-
-Create a `.env` file in your project directory or home directory:
-
+### Example `.env` File
 ```bash
-# Cloud Profile
+# Cloud Profile (Name: 'CLOUD')
 DREMIO_CLOUD_TYPE=cloud
 DREMIO_CLOUD_BASE_URL=https://api.dremio.cloud/v0
 DREMIO_CLOUD_PROJECTID=788baab4-3c3b-42da-9f1d-5cc6dc03147d
-DREMIO_CLOUD_TOKEN=s3JcLOqFTR6qnurWp09epkXfy0+06N9i5oSwG0KbRthqmgiL1DvMgd2+LSNgUA==
-DREMIO_CLOUD_TESTING_FOLDER=testing
+DREMIO_CLOUD_TOKEN=s3JcLOqFTR...
 
-# Software Profile
-DREMIO_SOFTWARE_TYPE=software
-DREMIO_SOFTWARE_BASE_URL=https://v26.dremio.org/api/v3
-DREMIO_SOFTWARE_TOKEN=Q/ToosxORAuvy2zBLL+Q9O9JCnJL/8KKrsiC1Np3UL8yxQ3IyzGzgoBo2LwzvQ==
-DREMIO_SOFTWARE_TESTING_FOLDER='"dremio-catalog".alexmerced.testing'
-
-# Local Development Profile
-DREMIO_LOCAL_TYPE=software
-DREMIO_LOCAL_BASE_URL=http://localhost:9047/api/v3
-DREMIO_LOCAL_USERNAME=admin
-DREMIO_LOCAL_PASSWORD=password123
+# Software Profile (Name: 'PROD')
+DREMIO_PROD_TYPE=software
+DREMIO_PROD_BASE_URL=https://dremio.corp.com
+DREMIO_PROD_TOKEN=Q/ToosxORA...
 ```
 
-### Supported Environment Variables
-
-| Variable Pattern | Description | Example |
-|-----------------|-------------|---------|
-| `DREMIO_{PROFILE}_TYPE` | Profile type | `cloud` or `software` |
-| `DREMIO_{PROFILE}_BASE_URL` | API endpoint | `https://api.dremio.cloud/v0` |
-| `DREMIO_{PROFILE}_PROJECTID` | Project ID (Cloud) | `788baab4-...` |
-| `DREMIO_{PROFILE}_TOKEN` | Personal Access Token | `s3JcLOqFTR...` |
-| `DREMIO_{PROFILE}_USERNAME` | Username (user/pass auth) | `admin` |
-| `DREMIO_{PROFILE}_PASSWORD` | Password (user/pass auth) | `password123` |
-| `DREMIO_{PROFILE}_TESTING_FOLDER` | Default test folder | `testing` |
-
-### Loading Environment Variables
-
-The CLI automatically loads `.env` files from:
-1. Current working directory
-2. Home directory (`~/.env`)
-
-You can also set environment variables in your shell:
-
+### Usage
 ```bash
-export DREMIO_PROD_TYPE=cloud
-export DREMIO_PROD_BASE_URL=https://api.dremio.cloud/v0
-export DREMIO_PROD_TOKEN=your_token_here
-```
-
-## Profile Management Commands
-
-### List Profiles
-
-```bash
-# List all profiles (YAML + environment variables)
-dremio profile list
-
-# Output formats
-dremio --output json profile list
-dremio --output yaml profile list
-```
-
-### View Current Profile
-
-```bash
-# Show the default profile
-dremio profile current
-```
-
-### Set Default Profile
-
-```bash
-# Set default profile in YAML
-dremio profile set-default cloud-prod
-```
-
-### Delete Profile
-
-```bash
-# Delete a YAML profile
-dremio profile delete software-dev
-```
-
-**Note:** Environment variable profiles cannot be deleted via CLI.
-
-## Using Profiles
-
-### Specify Profile for Commands
-
-```bash
-# Use specific profile
-dremio --profile cloud-prod catalog list
-dremio --profile software-dev sql execute "SELECT 1"
-
-# Use default profile (no --profile flag)
-dremio catalog list
-```
-
-### Profile Priority
-
-When multiple profiles exist with the same name:
-
-1. **Environment Variables** (highest priority)
-2. **YAML Configuration**
-
-Example:
-```bash
-# If both exist, environment variable wins
-DREMIO_CLOUD_TOKEN=env_token  # This is used
-# vs
-profiles.yaml: cloud.auth.token: yaml_token  # This is ignored
-```
-
-## Security Best Practices
-
-### 1. Never Commit Credentials
-
-Add to `.gitignore`:
-```gitignore
-.env
-.env.*
-!.env.example
-.dremio/
-```
-
-### 2. Use Environment Variables for CI/CD
-
-```yaml
-# GitHub Actions example
-env:
-  DREMIO_PROD_TYPE: cloud
-  DREMIO_PROD_BASE_URL: ${{ secrets.DREMIO_BASE_URL }}
-  DREMIO_PROD_TOKEN: ${{ secrets.DREMIO_TOKEN }}
-  DREMIO_PROD_PROJECTID: ${{ secrets.DREMIO_PROJECT_ID }}
-```
-
-### 3. Token Encryption
-
-YAML profiles automatically encrypt tokens. Environment variables are stored as-is.
-
-### 4. Rotate Tokens Regularly
-
-```bash
-# Update token in YAML
-dremio profile create --name cloud-prod --token NEW_TOKEN
-
-# Update environment variable
-export DREMIO_CLOUD_TOKEN=NEW_TOKEN
-```
-
-## Example Workflows
-
-### Development Workflow
-
-```bash
-# .env file for local development
-DREMIO_DEV_TYPE=software
-DREMIO_DEV_BASE_URL=http://localhost:9047/api/v3
-DREMIO_DEV_USERNAME=admin
-DREMIO_DEV_PASSWORD=password123
-
-# Use in commands
-dremio --profile dev catalog list
-dremio --profile dev sql execute "SELECT * FROM my_table LIMIT 10"
-```
-
-### Production Workflow
-
-```bash
-# profiles.yaml for production
-profiles:
-  prod:
-    type: cloud
-    base_url: https://api.dremio.cloud/v0
-    project_id: YOUR_PROJECT_ID
-    auth:
-      type: pat
-      token: ENCRYPTED_TOKEN
-
-# Use in commands
-dremio --profile prod job list
-dremio --profile prod view create --path '["Analytics", "Summary"]' --sql "..."
-```
-
-### Multi-Environment Setup
-
-```bash
-# .env file with multiple environments
-DREMIO_DEV_TYPE=software
-DREMIO_DEV_BASE_URL=http://localhost:9047/api/v3
-DREMIO_DEV_TOKEN=dev_token
-
-DREMIO_STAGING_TYPE=cloud
-DREMIO_STAGING_BASE_URL=https://api.dremio.cloud/v0
-DREMIO_STAGING_PROJECTID=staging_project_id
-DREMIO_STAGING_TOKEN=staging_token
-
-DREMIO_PROD_TYPE=cloud
-DREMIO_PROD_BASE_URL=https://api.dremio.cloud/v0
-DREMIO_PROD_PROJECTID=prod_project_id
-DREMIO_PROD_TOKEN=prod_token
-
-# Switch between environments
-dremio --profile dev catalog list
-dremio --profile staging catalog list
+# Authenticates using DREMIO_PROD_* variables
 dremio --profile prod catalog list
 ```
 
-## Troubleshooting
+---
 
-### Profile Not Found
+## Profile Management
 
 ```bash
-# List all available profiles
+# List all profiles
 dremio profile list
 
-# Check environment variables
-env | grep DREMIO_
+# Show active profile details
+dremio profile current
+
+# Set default profile (so you don't need --profile flag)
+dremio profile set-default cloud-prod
 ```
-
-### Authentication Errors
-
-```bash
-# Verify token is valid
-dremio --profile cloud-prod --verbose catalog list
-
-# Check base URL is correct
-dremio profile list
-```
-
-### Environment Variables Not Loading
-
-```bash
-# Verify .env file location
-ls -la .env
-
-# Check .env file format (no spaces around =)
-cat .env
-
-# Manually load .env
-export $(cat .env | xargs)
-```
-
-## Advanced Configuration
-
-### Custom .env Location
-
-```bash
-# Set custom .env file path
-export DREMIO_ENV_FILE=/path/to/custom/.env
-```
-
-### Profile Inheritance
-
-Environment variables can override specific YAML fields:
-
-```yaml
-# profiles.yaml
-profiles:
-  cloud:
-    type: cloud
-    base_url: https://api.dremio.cloud/v0
-    project_id: default_project
-```
-
-```bash
-# Override project_id via environment
-export DREMIO_CLOUD_PROJECTID=different_project
-
-# Now uses different_project instead of default_project
-dremio --profile cloud catalog list
-```
-
-## Summary
-
-- **YAML**: Best for persistent, encrypted profiles
-- **Environment Variables**: Best for CI/CD, temporary configs, and overrides
-- **Priority**: Environment variables > YAML
-- **Security**: Never commit credentials, use `.gitignore`
-- **Flexibility**: Mix and match YAML and environment variables as needed
 
 
 ---
@@ -2243,6 +2816,138 @@ dremio catalog list --output yaml
 - Browse the [Command Reference](commands/) for detailed documentation
 - Check out [Examples](examples/) for common use cases
 - Learn about [Profile Management](commands/profile.md)
+
+
+---
+
+<!-- Source: dremio-cli/docs/reflections.md -->
+
+# Reflection Management
+
+Manage Dremio reflections (Software and Cloud).
+
+## Commands
+
+### List Reflections
+
+List all reflections.
+
+```bash
+dremio reflection list [OPTIONS]
+```
+
+**Options:**
+- `--summary` - Show summary only
+
+**Examples:**
+```bash
+dremio reflection list
+dremio --output json reflection list
+```
+
+### Get Reflection
+
+Get details of a specific reflection.
+
+```bash
+dremio reflection get <REFLECTION_ID>
+```
+
+**Examples:**
+```bash
+dremio reflection get abc-123-def-456
+dremio reflection get abc-123-def-456 --output yaml
+```
+
+### Create Reflection
+
+Create a reflection using a JSON definition.
+
+```bash
+dremio reflection create [OPTIONS]
+```
+
+**Options:**
+- `--file PATH` - Path to JSON file containing reflection definition
+- `--json STRING` - JSON string containing reflection definition
+
+**Examples:**
+```bash
+# From file
+dremio reflection create --file reflection_def.json
+
+# From JSON string
+dremio reflection create --json '{"name": "my_reflection", "datasetId": "...", "type": "RAW", ...}'
+```
+
+**Reflection Definition Format:**
+Refer to Dremio API documentation for the full reflection object structure.
+
+### Update Reflection
+
+Update an existing reflection.
+
+```bash
+dremio reflection update <REFLECTION_ID> [OPTIONS]
+```
+
+**Options:**
+- `--file PATH` - Path to JSON file containing updated reflection definition
+- `--json STRING` - JSON string containing updated reflection definition
+
+**Examples:**
+```bash
+dremio reflection update abc-123 --file update.json
+```
+
+### Delete Reflection
+
+Delete a reflection.
+
+```bash
+dremio reflection delete <REFLECTION_ID>
+```
+
+**Examples:**
+```bash
+dremio reflection delete abc-123
+```
+
+
+---
+
+<!-- Source: dremio-cli/docs/repl.md -->
+
+# Interactive SQL Shell (REPL)
+
+An enhanced interactive shell for executing SQL queries against Dremio.
+
+## Features
+
+- **Syntax Highlighting**: SQL keywords are highlighted as you type.
+- **Persistent History**: Command history is saved across sessions (up arrow to recall).
+- **Auto-completion**: Basic completion for SQL keywords.
+- **Rich Output**: Results formatted in pretty tables.
+
+## Usage
+
+```bash
+dremio repl
+```
+
+To exit, type `exit` or `quit`. To clear the screen, type `clear`.
+
+## Commands
+
+Inside the REPL, you can type any SQL query. Semicolons are optional.
+
+```sql
+dremio> SELECT * FROM "Space"."MyTable" LIMIT 5
+```
+
+You can also run other Dremio CLI commands by prefixing them with `dremio` (optional within REPL context logic depending on implementation, but standard SQL is primary).
+
+*Note: The current implementation primarily focuses on SQL execution.*
 
 
 ---
@@ -2354,6 +3059,98 @@ dremio grant add dataset-id --grantee-type ROLE --grantee-id engineer-role-id --
 - Primarily available in Dremio Software
 - Cloud has different role management (via cloud console)
 - Use roles with grant management for access control
+
+
+---
+
+<!-- Source: dremio-cli/docs/scripts.md -->
+
+# Script Management
+
+Manage Dremio scripts (Cloud Only).
+
+## Commands
+
+### List Scripts
+
+List scripts.
+
+```bash
+dremio script list [OPTIONS]
+```
+
+**Options:**
+- `--limit INT` - Number of results to return (default: 25)
+- `--offset INT` - Offset for pagination (default: 0)
+
+**Examples:**
+```bash
+dremio script list
+dremio script list --limit 10
+```
+
+### Get Script
+
+Get details and content of a specific script.
+
+```bash
+dremio script get <SCRIPT_ID>
+```
+
+**Examples:**
+```bash
+dremio script get abc-123-def-456
+```
+
+### Create Script
+
+Create a new script.
+
+```bash
+dremio script create [OPTIONS]
+```
+
+**Options:**
+- `--name TEXT` - Name of the script (Required)
+- `--content TEXT` - SQL content of the script (Required)
+- `--context TEXT` - Context for the script (e.g., "Space.Folder")
+
+**Examples:**
+```bash
+dremio script create --name "Monthly Report" --content "SELECT * FROM sales"
+dremio script create --name "Analysis" --content "SELECT 1" --context "Marketing"
+```
+
+### Update Script
+
+Update an existing script.
+
+```bash
+dremio script update <SCRIPT_ID> [OPTIONS]
+```
+
+**Options:**
+- `--name TEXT` - Name of the script (Required)
+- `--content TEXT` - SQL content of the script (Required)
+- `--context TEXT` - Context for the script
+
+**Examples:**
+```bash
+dremio script update abc-123 --name "Updated Report" --content "SELECT * FROM new_sales"
+```
+
+### Delete Script
+
+Delete a script.
+
+```bash
+dremio script delete <SCRIPT_ID>
+```
+
+**Examples:**
+```bash
+dremio script delete abc-123
+```
 
 
 ---
@@ -3414,22 +4211,23 @@ dremio sql execute --file <FILE> [OPTIONS]
 **Options:**
 - `--file PATH` - Execute SQL from file
 - `--context TEXT` - Query context (comma-separated path)
-- `--async` - Execute asynchronously (return job ID immediately)
-- `--output-file PATH` - Save results to file
+- `--async` - Execute asynchronously (return job ID immediately). Default behavior waits for results.
+- `--output-file PATH` - Save results to file (supports .json, .yaml, .csv, .parquet)
+
+**Note:** `.csv` and `.parquet` export require `pandas` and `pyarrow` installed.
 
 **Examples:**
 
 ```bash
-# Execute simple query
+# Execute simple query (Waits for results)
 dremio sql execute "SELECT * FROM customers LIMIT 10"
 
-# Execute from file
+# Execute from file (Waits for results)
+# Can contain multiple statements separated by semicolons (;)
 dremio sql execute --file query.sql
 
-# Execute with context
-dremio sql execute "SELECT * FROM table" --context "MySpace"
-
-# Async execution (for long-running queries)
+# Execute asynchronously (Returns Job ID immediately)
+# Note: --async is ignored for multi-statement files (runs sequentially)
 dremio sql execute "SELECT * FROM large_table" --async
 
 # Save results to file
@@ -3644,6 +4442,8 @@ echo "Daily reports generated" | mail -s "Dremio Reports" admin@company.com
 
 ### Basic Query File
 
+You can execute single or multiple statements in a file. Statements must be separated by semicolons (`;`). execution stops if any query fails.
+
 ```sql
 -- monthly_sales.sql
 SELECT 
@@ -3651,7 +4451,10 @@ SELECT
   SUM(amount) as total_sales
 FROM orders
 GROUP BY 1
-ORDER BY 1 DESC
+ORDER BY 1 DESC;
+
+-- Second statement
+SELECT COUNT(*) FROM orders;
 ```
 
 ### Complex Query File
@@ -4707,6 +5510,56 @@ done
 - **Governance**: Use tags for data classification
 - **Automation**: Script tagging and documentation
 - **Version Control**: Store wikis in git
+
+
+---
+
+<!-- Source: dremio-cli/docs/tui.md -->
+
+# Catalog Explorer (TUI)
+
+The Dremio CLI includes an interactive Terminal User Interface (TUI) for exploring your Dremio catalog, viewing schemas, and previewing data without leaving the command line.
+
+## Usage
+
+```bash
+dremio ui catalog
+```
+
+Or using a specific profile:
+
+```bash
+dremio --profile prod ui catalog
+```
+
+## Features
+
+### 1. Interactive Navigation
+- **Tree View**: Navigate seamlessly through Spaces, Sources, Folders, and your Home directory.
+- **Async Loading**: Large catalogs load quickly as you expand nodes.
+
+### 2. Dataset Details
+Select any dataset (View/Table) to see:
+- **Info**: Metadata, ID, and Type.
+- **Schema**: Column names and types.
+- **SQL**: The underlying SQL definition (for Views).
+
+### 3. Data Preview
+- Switch to the **Preview** tab to instantly run a query (`SELECT * ... LIMIT 20`) and view actual data samples in a table.
+
+## Controls
+
+| Key | Action |
+|-----|--------|
+| `↑` / `↓` | Navigate Tree |
+| `Space` | Expand/Collapse Folder |
+| `Enter` | Select Item |
+| `Click` | Select tabs (Info, Schema, Preview) |
+| `q` | Quit |
+
+## Requirements
+- Dremio Software or Dremio Cloud
+- Terminal with UTF-8 support
 
 
 ---
