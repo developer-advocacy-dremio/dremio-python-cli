@@ -49,8 +49,8 @@ def authenticate_with_username_password(
         if not token:
             raise AuthenticationError("No token in authentication response")
         
-        # Return self-contained token
-        return f"_dremio{token}"
+        # Return raw token (BaseClient adds prefix)
+        return token
         
     except requests.RequestException as e:
         raise AuthenticationError(f"Authentication request failed: {e}")
