@@ -89,6 +89,8 @@ def current_profile() -> None:
 @click.option("--token", help="Authentication token")
 @click.option("--username", help="Username (for username_password auth)")
 @click.option("--password", help="Password (for username_password auth)")
+@click.option("--client-id", help="Client ID (for oauth auth)")
+@click.option("--client-secret", help="Client Secret (for oauth auth)")
 def create_profile(
     name: str,
     profile_type: str,
@@ -98,6 +100,8 @@ def create_profile(
     token: str,
     username: str,
     password: str,
+    client_id: str,
+    client_secret: str,
 ) -> None:
     """Create a new profile."""
     try:
@@ -116,6 +120,9 @@ def create_profile(
         
         if auth_type == "username_password" and (not username or not password):
             raise DremioCliError("--username and --password are required for username_password authentication")
+            
+        if auth_type == "oauth" and (not client_id or not client_secret):
+            raise DremioCliError("--client-id and --client-secret are required for oauth (client credentials) authentication")
         
         manager = ProfileManager()
         manager.create_profile(
@@ -127,6 +134,8 @@ def create_profile(
             token=token,
             username=username,
             password=password,
+            client_id=client_id,
+            client_secret=client_secret,
         )
         
         console.print(f"[green]✓[/green] Profile '[cyan]{name}[/cyan]' created successfully")

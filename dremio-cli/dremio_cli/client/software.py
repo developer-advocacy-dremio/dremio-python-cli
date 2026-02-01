@@ -13,6 +13,9 @@ class SoftwareClient(BaseClient):
         base_url: str,
         token: str,
         timeout: int = 30,
+        refresh_token: Optional[str] = None,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
     ):
         """Initialize Software client.
         
@@ -20,13 +23,23 @@ class SoftwareClient(BaseClient):
             base_url: Base URL for Dremio Software API
             token: Authentication token
             timeout: Request timeout in seconds
+            refresh_token: OAuth Refresh Token
+            client_id: OAuth Client ID
+            client_secret: OAuth Client Secret
         """
         # Auto-append /api/v3 if missing
         base_url = base_url.rstrip("/")
         if not base_url.endswith("/api/v3"):
             base_url = f"{base_url}/api/v3"
             
-        super().__init__(base_url, token, timeout)
+        super().__init__(
+            base_url=base_url,
+            token=token,
+            timeout=timeout,
+            refresh_token=refresh_token,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
 
     # Catalog operations
     def get_catalog(

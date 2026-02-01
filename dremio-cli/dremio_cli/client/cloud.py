@@ -14,6 +14,9 @@ class CloudClient(BaseClient):
         project_id: str,
         token: str,
         timeout: int = 30,
+        refresh_token: Optional[str] = None,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
     ):
         """Initialize Cloud client.
         
@@ -22,8 +25,18 @@ class CloudClient(BaseClient):
             project_id: Project ID
             token: Authentication token
             timeout: Request timeout in seconds
+            refresh_token: OAuth Refresh Token
+            client_id: OAuth Client ID
+            client_secret: OAuth Client Secret
         """
-        super().__init__(base_url, token, timeout)
+        super().__init__(
+            base_url=base_url,
+            token=token,
+            timeout=timeout,
+            refresh_token=refresh_token,
+            client_id=client_id,
+            client_secret=client_secret,
+        )
         self.project_id = project_id
 
     def _project_endpoint(self, endpoint: str) -> str:

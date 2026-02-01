@@ -6,8 +6,9 @@ This guide covers how to create and manage Dremio CLI profiles using CLI command
 
 The fastest way to set up profiles is using the `dremio profile create` command. Below are examples for every supported configuration.
 
-### Dremio Cloud (PAT)
+### 1. Dremio Cloud (PAT)
 *Requires Project ID from your URL (e.g., `app.dremio.cloud/projectId/<PROJECT_ID>/...`).*
+*For Dremio Cloud, the CLI automatically attempts to exchange this PAT for a short-lived OAuth token for enhanced security.*
 
 ```bash
 dremio profile create cloud-prod \
@@ -18,7 +19,21 @@ dremio profile create cloud-prod \
   --token "dtYQ629..."
 ```
 
-### Dremio Software (PAT)
+### 2. Dremio Cloud (Service User / Client Credentials)
+
+For service accounts using Client ID and Secret (OAuth Client Credentials flow).
+
+```bash
+dremio profile create cloud-service \
+  --type cloud \
+  --base-url https://api.dremio.cloud \
+  --project-id <PROJECT_ID> \
+  --auth-type oauth \
+  --client-id <CLIENT_ID> \
+  --client-secret <CLIENT_SECRET>
+```
+
+### 3. Dremio Software (PAT)
 *Recommended for production scripts and service accounts.*
 
 ```bash
@@ -29,16 +44,17 @@ dremio profile create software-prod \
   --token "96fVB..."
 ```
 
-### Dremio Software (Username/Password)
-*Useful for local development or ad-hoc testing.*
+### 4. Dremio Software (Username/Password)
+
+Legacy authentication for Dremio Software.
 
 ```bash
-dremio profile create software-dev \
+dremio profile create soft-auth \
   --type software \
   --base-url http://localhost:9047 \
   --auth-type username_password \
-  --username "admin" \
-  --password "password123"
+  --username <USERNAME> \
+  --password <PASSWORD>
 ```
 
 > **Note on Service Users**: To use a Service User (Cloud or Software), simply generate a Personal Access Token (PAT) for that service account and use the **PAT** profile type shown above. The CLI does not currently support automated Client Credentials exchange.
@@ -63,7 +79,17 @@ profiles:
       type: pat
       token: dtYQ629xQRukYE+cOExuAUr6VbWI/B+bu2c6hd6WM7c63XOXQS++3S4T6dJPfA==
 
-  # 2. Dremio Software (Legacy/Corporate)
+  # 2. Cloud Service Account (Recommended for Automation)
+  cloud-service-bot:
+    type: cloud
+    base_url: https://api.dremio.cloud
+    project_id: b5e7h8...
+    auth:
+      type: oauth
+      client_id: <CLIENT_ID>
+      client_secret: <CLIENT_SECRET>
+
+  # 3. Dremio Software (Legacy/Corporate)
   software-prod:
     type: software
     base_url: https://dremio.corp.com
@@ -71,7 +97,7 @@ profiles:
       type: pat
       token: 96fVBEuWREyqyVAJ9EWlRfxWR7UZx32YWpe/uZ86P5K3MjduYb8a3wp12jYIUA==
 
-  # 3. Dremio Software (Local Dev)
+  # 4. Dremio Software (Local Dev)
   software-local:
     type: software
     base_url: http://localhost:9047
@@ -91,8 +117,10 @@ default_profile: cloud-prod
 | `type` | `cloud` or `software`. |
 | `base_url` | API Endpoint. <br>• Cloud (US): `https://api.dremio.cloud/v0`<br>• Cloud (EU): `https://api.dremio.eu/v0`<br>• Software: `https://<host>:<port>` |
 | `project_id`| **Cloud Only**. Found in the Cloud Console URL. |
-| `auth.type` | • `pat`: Personal Access Token (Recommended)<br>• `username_password`: Software Only. |
+| `auth.type` | • `pat`: Personal Access Token<br>• `oauth`: Client Credentials Flow (Service User)<br>• `username_password`: Software Only. |
 | `auth.token`| The token string (for `pat`). |
+| `auth.client_id`| OAuth Client ID (for `oauth`). |
+| `auth.client_secret`| OAuth Client Secret (for `oauth`). |
 
 ---
 

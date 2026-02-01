@@ -87,6 +87,8 @@ class ProfileManager:
         token: Optional[str] = None,
         username: Optional[str] = None,
         password: Optional[str] = None,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
     ) -> None:
         """Create a new profile.
         
@@ -99,6 +101,8 @@ class ProfileManager:
             token: Authentication token
             username: Username (for username_password auth)
             password: Password (for username_password auth)
+            client_id: OAuth Client ID
+            client_secret: OAuth Client Secret
         """
         config = self._load_config()
         
@@ -122,6 +126,12 @@ class ProfileManager:
         
         if password:
             profile["auth"]["password"] = password
+            
+        if client_id:
+            profile["auth"]["client_id"] = client_id
+            
+        if client_secret:
+            profile["auth"]["client_secret"] = client_secret
         
         config["profiles"][name] = profile
         
