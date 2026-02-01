@@ -124,18 +124,33 @@ def authenticate_client_credentials(
     }
     
     try:
-        # Client credentials usually sent via Basic Auth header or body
-        # Dremio often accepts them in body or basic auth. Using Basic Auth is safer standard.
+        # Standard OAuth 2.0 Client Credentials flow usually prefers form-urlencoded data
+        # not JSON. The 415 error indicates the server rejected application/json.
+        payload = {
+            "grant_type": "client_credentials",
+            "client_id": client_id,
+            "client_secret": client_secret
+        }
+        
+        # Requests sends this as application/x-www-form-urlencoded by default when 'data' is a dict
         response = requests.post(
             oauth_url,
-            data=data,  # form-encoded for standard OAuth, but Dremio might expect JSON
-                        # Dremio docs usually imply JSON body for other endpoints, but let's check.
-                        # Actually standard Dremio /oauth/token often takes JSON.
-                        # Let's try JSON body first as it matches other methods here.
-            json=data | {"client_id": client_id, "client_secret": client_secret},
-            headers={"Content-Type": "application/json"},
+            data=payload,
             timeout=30,
         )
+        
+        if not response.ok:
+            # Check if scope is needed (common Dremio issue)
+            # Dremio returns "missing scope" or "invalid_scope"
+            error_text = response.text.lower()
+            if response.status_code == 400 and ("scope" in error_text):
+                 # Retry with default scope if we haven't already
+                 payload["scope"] = "dremio.all" # User hint
+                 response = requests.post(
+                    oauth_url,
+                    data=payload,
+                    timeout=30,
+                )
         
         if not response.ok:
             raise AuthenticationError(f"Client credentials auth failed: {response.text}")
