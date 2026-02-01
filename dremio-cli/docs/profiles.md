@@ -1,139 +1,119 @@
 # Profile Management Guide
 
-This guide covers how to create and manage Dremio CLI profiles using both YAML configuration files and environment variables.
+This guide covers how to create and manage Dremio CLI profiles using CLI commands, YAML configuration, or environment variables.
 
-## Overview
+## 1. Quick Start: CLI Commands
 
-Profiles store connection information for Dremio instances. The CLI supports two methods:
+The fastest way to set up profiles is using the `dremio profile create` command. Below are examples for every supported configuration.
 
-1. **YAML Configuration** - Stored in `~/.dremio/profiles.yaml` (RECOMMENDED for local use)
-2. **Environment Variables** - Loaded from `.env` file or shell environment (RECOMMENDED for CI/CD)
+### Dremio Cloud (PAT)
+*Requires Project ID from your URL (e.g., `app.dremio.cloud/projectId/<PROJECT_ID>/...`).*
 
-Environment variables take precedence over YAML profiles.
+```bash
+dremio profile create cloud-prod \
+  --type cloud \
+  --base-url https://api.dremio.cloud/v0 \
+  --project-id 788baab4-3c3b-42da-9f1d-5cc6dc03147d \
+  --auth-type pat \
+  --token "dtYQ629..."
+```
+
+### Dremio Software (PAT)
+*Recommended for production scripts and service accounts.*
+
+```bash
+dremio profile create software-prod \
+  --type software \
+  --base-url https://dremio.company.com \
+  --auth-type pat \
+  --token "96fVB..."
+```
+
+### Dremio Software (Username/Password)
+*Useful for local development or ad-hoc testing.*
+
+```bash
+dremio profile create software-dev \
+  --type software \
+  --base-url http://localhost:9047 \
+  --auth-type username_password \
+  --username "admin" \
+  --password "password123"
+```
+
+> **Note on Service Users**: To use a Service User (Cloud or Software), simply generate a Personal Access Token (PAT) for that service account and use the **PAT** profile type shown above. The CLI does not currently support automated Client Credentials exchange.
 
 ---
 
-## 🚀 Profile Values Guide
+## 2. Comprehensive YAML Configuration
 
-### 1. Base URL
-The URL to your Dremio instance's API.
+You can manage all your profiles in a single file: `~/.dremio/profiles.yaml`.
 
-| Platform | Format | Example | Note |
-|----------|--------|---------|------|
-| **Dremio Cloud** | `https://api.dremio.cloud/v0` | `https://api.dremio.cloud/v0` | Used for US control plane |
-| **Dremio Cloud (EU)** | `https://api.dremio.eu/v0` | `https://api.dremio.eu/v0` | Used for EU control plane |
-| **Dremio Software** | `http(s)://<host>:<port>` | `https://dremio.company.com` | **Smart URL**: The CLI automatically appends `/api/v3` if you omit it. |
-| **Local Software** | `http://localhost:9047` | `http://localhost:9047` | Defaults for local Docker/install |
+Below is a complete example configuration showing all supported profile types.
 
-> **Note:** For Dremio Software, you can provide `https://dremio.company.com` OR `https://dremio.company.com/api/v3`. The CLI handles both correctly.
-
-### 2. Authentication
-How you log in to Dremio.
-
-| Type | Platform | Description |
-|------|----------|-------------|
-| **PAT** (Token) | Cloud & Software | **Recommended**. Personal Access Token generated in User Settings. |
-| **Services Account** | Cloud Only | Treats Client/Secret as a PAT for automation. |
-| **Username/Password** | Software Only | Traditional login. **Less secure** than PAT. |
-
-### 3. Project ID (Cloud Only)
-Can be found in the URL of your Dremio Cloud project.
-- URL: `https://app.dremio.cloud/projectId/12345-abcde.../home`
-- Project ID: `12345-abcde...`
-
----
-
-## YAML Configuration
-
-**Location**: `~/.dremio/profiles.yaml`
-
-### Examples
-
-**Dremio Cloud (US)**
 ```yaml
+# ~/.dremio/profiles.yaml
 profiles:
+  # 1. Dremio Cloud (Default)
   cloud-prod:
     type: cloud
     base_url: https://api.dremio.cloud/v0
     project_id: 788baab4-3c3b-42da-9f1d-5cc6dc03147d
     auth:
       type: pat
-      token: your-personal-access-token
-```
+      token: dtYQ629xQRukYE+cOExuAUr6VbWI/B+bu2c6hd6WM7c63XOXQS++3S4T6dJPfA==
 
-**Dremio Software (Corporate)**
-```yaml
-profiles:
-  corp-dremio:
+  # 2. Dremio Software (Legacy/Corporate)
+  software-prod:
     type: software
-    base_url: https://dremio.corp.com  # CLI will add /api/v3 automatically
+    base_url: https://dremio.corp.com
     auth:
       type: pat
-      token: your-personal-access-token
-```
+      token: 96fVBEuWREyqyVAJ9EWlRfxWR7UZx32YWpe/uZ86P5K3MjduYb8a3wp12jYIUA==
 
-**Dremio Software (Local/Docker)**
-```yaml
-profiles:
-  local:
+  # 3. Dremio Software (Local Dev)
+  software-local:
     type: software
-    base_url: http://localhost:9047  # Default port
+    base_url: http://localhost:9047
     auth:
       type: username_password
       username: admin
       password: password123
+
+# Set the active profile
+default_profile: cloud-prod
 ```
 
-### CLI Commands
+### Profile Fields Guide
 
-```bash
-# Interactve Wizard (Best for beginners)
-dremio init
-
-# Create manually
-dremio profile create --name prod --type cloud ...
-```
+| Field | Description |
+|-------|-------------|
+| `type` | `cloud` or `software`. |
+| `base_url` | API Endpoint. <br>• Cloud (US): `https://api.dremio.cloud/v0`<br>• Cloud (EU): `https://api.dremio.eu/v0`<br>• Software: `https://<host>:<port>` |
+| `project_id`| **Cloud Only**. Found in the Cloud Console URL. |
+| `auth.type` | • `pat`: Personal Access Token (Recommended)<br>• `username_password`: Software Only. |
+| `auth.token`| The token string (for `pat`). |
 
 ---
 
-## Environment Variable Configuration
+## 3. Environment Variable Configuration
 
-Ideal for CI/CD pipelines or Docker containers.
+Ideal for CI/CD pipelines. Environment variables override the YAML file.
 
-### Pattern
-`DREMIO_{PROFILE_NAME}_KEY=VALUE`
+| variable | example |
+|----------|---------|
+| `DREMIO_PROFILE_{NAME}_TYPE` | `cloud` |
+| `DREMIO_{NAME}_BASE_URL` | `https://api.dremio.cloud/v0` |
+| `DREMIO_{NAME}_PROJECTID` | `788b...` |
+| `DREMIO_{NAME}_AUTH_TYPE` | `pat` |
+| `DREMIO_{NAME}_TOKEN` | `dtYQ...` |
 
-### Example `.env` File
+### Example `.env`
+
 ```bash
-# Cloud Profile (Name: 'CLOUD')
 DREMIO_CLOUD_TYPE=cloud
 DREMIO_CLOUD_BASE_URL=https://api.dremio.cloud/v0
 DREMIO_CLOUD_PROJECTID=788baab4-3c3b-42da-9f1d-5cc6dc03147d
-DREMIO_CLOUD_TOKEN=s3JcLOqFTR...
-
-# Software Profile (Name: 'PROD')
-DREMIO_PROD_TYPE=software
-DREMIO_PROD_BASE_URL=https://dremio.corp.com
-DREMIO_PROD_TOKEN=Q/ToosxORA...
-```
-
-### Usage
-```bash
-# Authenticates using DREMIO_PROD_* variables
-dremio --profile prod catalog list
-```
-
----
-
-## Profile Management
-
-```bash
-# List all profiles
-dremio profile list
-
-# Show active profile details
-dremio profile current
-
-# Set default profile (so you don't need --profile flag)
-dremio profile set-default cloud-prod
+DREMIO_CLOUD_AUTH_TYPE=pat
+DREMIO_CLOUD_TOKEN=dtYQ629...
 ```
