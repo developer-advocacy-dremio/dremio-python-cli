@@ -105,7 +105,7 @@ Example Profile
       enterprise_catalog_namespace: dev  
       pat: A1BCDrE2FwgH3IJkLM4123qrsT5uV6WXyza7I8bcDEFgJ9hIj0Kl1MNOPq2Rstu==  
       threads: 1  
-      type: dremio  
+      type: alt-dremio-cli  
       use_ssl: true  
       user: name@company.com  
     prod:  
@@ -115,7 +115,7 @@ Example Profile
       enterprise_catalog_namespace: prod  
       pat: A1BCDrE2FwgH3IJkLM4123qrsT5uV6WXyza7I8bcDEFgJ9hIj0Kl1MNOPq2Rstu==  
       threads: 1  
-      type: dremio  
+      type: alt-dremio-cli  
       use_ssl: true  
       user: name@company.com  
   target: dev

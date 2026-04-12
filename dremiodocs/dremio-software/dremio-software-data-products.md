@@ -358,7 +358,7 @@ Example Profile
       dremio_space: Space1  
       dremio_space_folder: Folder1.Folder2  
       threads: 1  
-      type: dremio  
+      type: alt-dremio-cli  
       use_ssl: true  
       user: userName  
   target: dev
@@ -380,7 +380,7 @@ Example Profile
       dremio_space: Space1  
       dremio_space_folder: Folder1.Folder2  
       threads: 1  
-      type: dremio  
+      type: alt-dremio-cli  
       use_ssl: true  
       user: userName  
   target: dev
@@ -401,7 +401,7 @@ Example Profile
 | `dremio_space` | No | `@<username>` | The value of the Dremio space in which to create views. The dbt alias is `database`. This value corresponds to the name in this location in the **Spaces** section of the Datasets page in Dremio: Spaces1 |
 | `dremio_space_folder` | No | `no_schema` | The folder in the Dremio space in which to create views. The default is the top level in the space. The dbt alias is `schema`. Nested folders are separated with periods. This value corresponds to the path in this location in the Datasets page in Dremio: |
 | `threads` | Yes | 1 | The number of threads the dbt project runs on. |
-| `type` | Yes | dremio | Auto-populated when creating a Dremio project. Do not change this value. |
+| `type` | Yes | alt-dremio-cli | Auto-populated when creating a Dremio project. Do not change this value. |
 | `use_ssl` | Yes | `true` | Acceptable values are `true` and `false`. If the value is set to true, ensure that full wire encryption is configured in your Dremio cluster. See [Prerequisites](/current/data-products/deploy-with-dbt#prerequisites). |
 | `verify_ssl` | No | `true` | Acceptable values are `true` and `false`. Set to `false` if using a self-signed certificate or if the root certificate authority (CA) is not included in Python’s CA certificates. |
 | `user` | Yes | None | The username of the account to use when logging into the Dremio cluster. |

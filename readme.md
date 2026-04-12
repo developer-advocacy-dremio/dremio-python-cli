@@ -41,22 +41,22 @@ The Dremio CLI provides **100% API coverage** with support for:
 ## 📦 Installation
 
 ```bash
-pip install dremio-cli
+pip install alt-dremio-cli
 ```
 
 ## ⚡ Quick Start
 
 ```bash
 # Configure profile
-dremio profile create --name myprofile --type software \
+alt-dremio-cli profile create --name myprofile --type software \
   --base-url https://dremio.company.com \
   --username admin --password secret
 
 # Execute SQL
-dremio sql execute "SELECT * FROM customers LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 10"
 
 # List catalog
-dremio catalog list
+alt-dremio-cli catalog list
 ```
 
 ## 📚 Documentation

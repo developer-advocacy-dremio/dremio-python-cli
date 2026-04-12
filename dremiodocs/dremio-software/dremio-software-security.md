@@ -1979,7 +1979,7 @@ To encrypt the bind password, follow these steps:
    LDAP secret Encryption 
 
    ```
-   sudo su - dremio bin/dremio-admin encrypt <yourSecret>
+   sudo su - alt-dremio-cli bin/dremio-admin encrypt <yourSecret>
    ```
 
    If running the command as the `dremio` user is impossible, change the owner and group of the `$DREMIO_HOME/data/security` folder and underlying files to the `dremio` service user.

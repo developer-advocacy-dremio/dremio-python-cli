@@ -42,21 +42,21 @@ Complete documentation for the Dremio Command Line Interface.
 
 ```bash
 # Install
-pip install dremio-cli
+pip install alt-dremio-cli
 
 # Configure profile
-dremio profile create --name myprofile --type software \
+alt-dremio-cli profile create --name myprofile --type software \
   --base-url https://dremio.company.com \
   --username admin --password secret
 
 # List catalog
-dremio catalog list
+alt-dremio-cli catalog list
 
 # Execute SQL
-dremio sql execute "SELECT * FROM customers LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 10"
 
 # Create a view
-dremio view create --path "Analytics.customer_summary" \
+alt-dremio-cli view create --path "Analytics.customer_summary" \
   --sql "SELECT id, name, email FROM customers"
 ```
 
@@ -87,52 +87,52 @@ dremio view create --path "Analytics.customer_summary" \
 
 ### Catalog Operations
 ```bash
-dremio catalog list              # List catalog items
-dremio catalog get <id>          # Get item details
-dremio catalog get-by-path <path> # Get by path
+alt-dremio-cli catalog list              # List catalog items
+alt-dremio-cli catalog get <id>          # Get item details
+alt-dremio-cli catalog get-by-path <path> # Get by path
 ```
 
 ### SQL Operations
 ```bash
-dremio sql execute <query>       # Execute SQL
-dremio sql explain <query>       # Show execution plan
-dremio sql validate <query>      # Validate syntax
+alt-dremio-cli sql execute <query>       # Execute SQL
+alt-dremio-cli sql explain <query>       # Show execution plan
+alt-dremio-cli sql validate <query>      # Validate syntax
 ```
 
 ### Source Management
 ```bash
-dremio source list               # List sources
-dremio source create             # Create source
-dremio source refresh <id>       # Refresh metadata
+alt-dremio-cli source list               # List sources
+alt-dremio-cli source create             # Create source
+alt-dremio-cli source refresh <id>       # Refresh metadata
 ```
 
 ### View Management
 ```bash
-dremio view list                 # List views
-dremio view create               # Create view
-dremio view update <id>          # Update view
+alt-dremio-cli view list                 # List views
+alt-dremio-cli view create               # Create view
+alt-dremio-cli view update <id>          # Update view
 ```
 
 ### Job Management
 ```bash
-dremio job list                  # List jobs
-dremio job get <id>              # Get job details
-dremio job results <id>          # Get results
-dremio job cancel <id>           # Cancel job
+alt-dremio-cli job list                  # List jobs
+alt-dremio-cli job get <id>              # Get job details
+alt-dremio-cli job results <id>          # Get results
+alt-dremio-cli job cancel <id>           # Cancel job
 ```
 
 ### Space & Folder Management
 ```bash
-dremio space create --name <name>  # Create space
-dremio folder create --path <path> # Create folder
+alt-dremio-cli space create --name <name>  # Create space
+alt-dremio-cli folder create --path <path> # Create folder
 ```
 
 ### Access Control
 ```bash
-dremio grant list <id>           # List grants
-dremio grant add <id>            # Add grant
-dremio user list                 # List users
-dremio role list                 # List roles
+alt-dremio-cli grant list <id>           # List grants
+alt-dremio-cli grant add <id>            # Add grant
+alt-dremio-cli user list                 # List users
+alt-dremio-cli role list                 # List roles
 ```
 
 ## 🌐 Platform Support
@@ -164,39 +164,39 @@ dremio role list                 # List roles
 ### Data Pipeline
 ```bash
 # 1. Create source
-dremio source create --name MyDB --type POSTGRES --config-file db.json
+alt-dremio-cli source create --name MyDB --type POSTGRES --config-file db.json
 
 # 2. Create space
-dremio space create --name Analytics
+alt-dremio-cli space create --name Analytics
 
 # 3. Create view
-dremio view create --path "Analytics.sales_summary" \
+alt-dremio-cli view create --path "Analytics.sales_summary" \
   --sql "SELECT date, SUM(amount) FROM sales GROUP BY date"
 
 # 4. Grant access
-dremio grant add <view-id> --grantee-type ROLE \
+alt-dremio-cli grant add <view-id> --grantee-type ROLE \
   --grantee-id analyst --privileges SELECT
 ```
 
 ### Monitoring
 ```bash
 # List recent jobs
-dremio job list --max-results 10
+alt-dremio-cli job list --max-results 10
 
 # Get job details
-dremio job get <job-id>
+alt-dremio-cli job get <job-id>
 
 # Download profile
-dremio job profile <job-id> --download profile.zip
+alt-dremio-cli job profile <job-id> --download profile.zip
 ```
 
 ### Documentation
 ```bash
 # Add wiki
-dremio wiki set <id> --file README.md
+alt-dremio-cli wiki set <id> --file README.md
 
 # Add tags
-dremio tag set <id> --tags "production,sensitive,pii"
+alt-dremio-cli tag set <id> --tags "production,sensitive,pii"
 ```
 
 ## 🔗 Additional Resources
@@ -209,13 +209,13 @@ dremio tag set <id> --tags "production,sensitive,pii"
 
 ```bash
 # General help
-dremio --help
+alt-dremio-cli --help
 
 # Command help
-dremio <command> --help
+alt-dremio-cli <command> --help
 
 # Subcommand help
-dremio <command> <subcommand> --help
+alt-dremio-cli <command> <subcommand> --help
 ```
 
 ## 📄 License
@@ -238,24 +238,24 @@ The CLI automatically tracks your query execution history in a local SQLite data
 ### List History
 
 ```bash
-dremio history list
-dremio history list --limit 10
+alt-dremio-cli history list
+alt-dremio-cli history list --limit 10
 ```
 
 ### Re-run from History
 
 ```bash
 # List history to find ID
-dremio history list
+alt-dremio-cli history list
 
 # Re-run command
-dremio history run 5
+alt-dremio-cli history run 5
 ```
 
 ### Clear History
 
 ```bash
-dremio history clear
+alt-dremio-cli history clear
 ```
 
 **Storage Location:** `~/.dremio/history.db`
@@ -267,28 +267,28 @@ Save frequently used queries as favorites for quick access.
 ### Add Favorite
 
 ```bash
-dremio favorite add daily_report --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
+alt-dremio-cli favorite add daily_report --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
 
-dremio favorite add customer_count --sql "SELECT COUNT(*) FROM customers" \
+alt-dremio-cli favorite add customer_count --sql "SELECT COUNT(*) FROM customers" \
   --description "Total customer count"
 ```
 
 ### List Favorites
 
 ```bash
-dremio favorite list
+alt-dremio-cli favorite list
 ```
 
 ### Run Favorite
 
 ```bash
-dremio favorite run daily_report
+alt-dremio-cli favorite run daily_report
 ```
 
 ### Delete Favorite
 
 ```bash
-dremio favorite delete daily_report
+alt-dremio-cli favorite delete daily_report
 ```
 
 ## Interactive Mode
@@ -296,7 +296,7 @@ dremio favorite delete daily_report
 Launch an interactive REPL for executing multiple commands.
 
 ```bash
-dremio repl
+alt-dremio-cli repl
 ```
 
 **Features:**
@@ -313,7 +313,7 @@ dremio repl
 **Example Session:**
 
 ```
-$ dremio repl
+$ alt-dremio-cli repl
 Dremio CLI - Interactive Mode
 Type 'help' for available commands, 'exit' or 'quit' to exit.
 
@@ -343,7 +343,7 @@ Examples:
   help sql
 
 dremio> help sql
-Usage: dremio sql [OPTIONS] COMMAND [ARGS]...
+Usage: alt-dremio-cli sql [OPTIONS] COMMAND [ARGS]...
 
   SQL operations.
 
@@ -396,15 +396,15 @@ echo 'source /path/to/dremio-cli/completions/dremio-completion.zsh' >> ~/.zshrc
 
 ```bash
 # Tab completion for commands
-dremio <TAB>
+alt-dremio-cli <TAB>
 catalog  profile  source  space  ...
 
 # Tab completion for subcommands
-dremio catalog <TAB>
+alt-dremio-cli catalog <TAB>
 list  get  get-by-path
 
 # Tab completion for options
-dremio --<TAB>
+alt-dremio-cli --<TAB>
 --profile  --output  --verbose  --help
 ```
 
@@ -414,7 +414,7 @@ dremio --<TAB>
 
 ```bash
 # 1. Save daily report as favorite
-dremio favorite add daily_sales --sql "
+alt-dremio-cli favorite add daily_sales --sql "
 SELECT 
   date,
   SUM(amount) as total_sales,
@@ -425,17 +425,17 @@ GROUP BY date
 "
 
 # 2. Run daily
-dremio favorite run daily_sales
+alt-dremio-cli favorite run daily_sales
 
 # 3. Check history
-dremio history list --limit 5
+alt-dremio-cli history list --limit 5
 ```
 
 ### Interactive Exploration
 
 ```bash
 # Launch REPL
-dremio repl
+alt-dremio-cli repl
 
 # Explore catalog
 dremio> catalog list
@@ -452,32 +452,32 @@ dremio> favorite add sales_summary --sql "SELECT region, SUM(amount) FROM Analyt
 
 ```bash
 # Execute multiple queries
-dremio sql execute "SELECT COUNT(*) FROM table1"
-dremio sql execute "SELECT COUNT(*) FROM table2"
-dremio sql execute "SELECT COUNT(*) FROM table3"
+alt-dremio-cli sql execute "SELECT COUNT(*) FROM table1"
+alt-dremio-cli sql execute "SELECT COUNT(*) FROM table2"
+alt-dremio-cli sql execute "SELECT COUNT(*) FROM table3"
 
 # Review history
-dremio history list
+alt-dremio-cli history list
 
 # Re-run if needed
-dremio history run 2
+alt-dremio-cli history run 2
 ```
 
 ## Tips
 
 1. **Use favorites for complex queries** - Save time on frequently used queries
    ```bash
-   dremio favorite add monthly_report --sql "$(cat report.sql)"
+   alt-dremio-cli favorite add monthly_report --sql "$(cat report.sql)"
    ```
 
 2. **History for debugging** - Review past commands when troubleshooting
    ```bash
-   dremio history list --limit 20
+   alt-dremio-cli history list --limit 20
    ```
 
 3. **REPL for exploration** - Use interactive mode when learning the API
    ```bash
-   dremio repl
+   alt-dremio-cli repl
    ```
 
 4. **Completion for speed** - Enable shell completion to type faster
@@ -487,7 +487,7 @@ dremio history run 2
 
 5. **Combine with pipes** - Use standard Unix tools
    ```bash
-   dremio history list --output json | jq '.[] | select(.success == 1)'
+   alt-dremio-cli history list --output json | jq '.[] | select(.success == 1)'
    ```
 
 ## Configuration
@@ -508,7 +508,7 @@ History is stored indefinitely. Clear periodically:
 
 ```bash
 # Clear all history
-dremio history clear
+alt-dremio-cli history clear
 
 # Or manually delete database
 rm ~/.dremio/history.db
@@ -537,7 +537,7 @@ This guide covers catalog operations including listing, retrieving, and navigati
 List all items in the catalog.
 
 ```bash
-dremio catalog list [OPTIONS]
+alt-dremio-cli catalog list [OPTIONS]
 ```
 
 **Options:**
@@ -547,19 +547,19 @@ dremio catalog list [OPTIONS]
 
 ```bash
 # List all catalog items
-dremio catalog list
+alt-dremio-cli catalog list
 
 # List with permissions
-dremio catalog list --include permissions
+alt-dremio-cli catalog list --include permissions
 
 # List with dataset count
-dremio catalog list --include datasetCount
+alt-dremio-cli catalog list --include datasetCount
 
 # JSON output
-dremio --output json catalog list
+alt-dremio-cli --output json catalog list
 
 # Use specific profile
-dremio --profile software catalog list
+alt-dremio-cli --profile software catalog list
 ```
 
 ### Get Catalog Item by ID
@@ -567,7 +567,7 @@ dremio --profile software catalog list
 Retrieve a specific catalog item by its ID.
 
 ```bash
-dremio catalog get <ITEM_ID> [OPTIONS]
+alt-dremio-cli catalog get <ITEM_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -580,16 +580,16 @@ dremio catalog get <ITEM_ID> [OPTIONS]
 
 ```bash
 # Get catalog item
-dremio catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
+alt-dremio-cli catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 
 # Get with SQL definition
-dremio catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include sql
+alt-dremio-cli catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include sql
 
 # Get with permissions
-dremio catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include permissions
+alt-dremio-cli catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include permissions
 
 # YAML output
-dremio --output yaml catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
+alt-dremio-cli --output yaml catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 ```
 
 ### Get Catalog Item by Path
@@ -597,7 +597,7 @@ dremio --output yaml catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 Retrieve a catalog item by its path.
 
 ```bash
-dremio catalog get-by-path <PATH> [OPTIONS]
+alt-dremio-cli catalog get-by-path <PATH> [OPTIONS]
 ```
 
 **Arguments:**
@@ -610,20 +610,20 @@ dremio catalog get-by-path <PATH> [OPTIONS]
 
 ```bash
 # Get by dot-separated path
-dremio catalog get-by-path "MySpace.MyTable"
+alt-dremio-cli catalog get-by-path "MySpace.MyTable"
 
 # Get by slash-separated path
-dremio catalog get-by-path "MySpace/MyFolder/MyView"
+alt-dremio-cli catalog get-by-path "MySpace/MyFolder/MyView"
 
 # Cloud: source.namespace.object
-dremio catalog get-by-path "evangelism-2026.testing.my_table"
+alt-dremio-cli catalog get-by-path "evangelism-2026.testing.my_table"
 
 # Software: space.object or catalog.namespace.object
-dremio catalog get-by-path "Analytics.sales_data"
-dremio catalog get-by-path "dremio-catalog.alexmerced.testing"
+alt-dremio-cli catalog get-by-path "Analytics.sales_data"
+alt-dremio-cli catalog get-by-path "dremio-catalog.alexmerced.testing"
 
 # With additional fields
-dremio catalog get-by-path "MySpace.MyView" --include sql
+alt-dremio-cli catalog get-by-path "MySpace.MyView" --include sql
 ```
 
 ## Scenarios
@@ -632,47 +632,47 @@ dremio catalog get-by-path "MySpace.MyView" --include sql
 
 ```bash
 # 1. List all top-level items
-dremio catalog list
+alt-dremio-cli catalog list
 
 # 2. Find a specific space or source
-dremio catalog list | grep "MySpace"
+alt-dremio-cli catalog list | grep "MySpace"
 
 # 3. Get details about a space
-dremio catalog get-by-path "MySpace"
+alt-dremio-cli catalog get-by-path "MySpace"
 
 # 4. Explore nested items
-dremio catalog get-by-path "MySpace/Reports"
+alt-dremio-cli catalog get-by-path "MySpace/Reports"
 ```
 
 ### Finding Datasets
 
 ```bash
 # List all items with dataset counts
-dremio catalog list --include datasetCount
+alt-dremio-cli catalog list --include datasetCount
 
 # Get specific dataset
-dremio catalog get-by-path "Sales.customers"
+alt-dremio-cli catalog get-by-path "Sales.customers"
 
 # Check dataset permissions
-dremio catalog get-by-path "Sales.customers" --include permissions
+alt-dremio-cli catalog get-by-path "Sales.customers" --include permissions
 ```
 
 ### Working with Views
 
 ```bash
 # Get view definition
-dremio catalog get-by-path "Analytics.monthly_summary" --include sql
+alt-dremio-cli catalog get-by-path "Analytics.monthly_summary" --include sql
 
 # Get view metadata
-dremio --output json catalog get-by-path "Analytics.monthly_summary"
+alt-dremio-cli --output json catalog get-by-path "Analytics.monthly_summary"
 ```
 
 ### Cross-Environment Comparison
 
 ```bash
 # Compare catalog between environments
-dremio --profile dev catalog list > dev_catalog.json
-dremio --profile prod catalog list > prod_catalog.json
+alt-dremio-cli --profile dev catalog list > dev_catalog.json
+alt-dremio-cli --profile prod catalog list > prod_catalog.json
 diff dev_catalog.json prod_catalog.json
 ```
 
@@ -681,7 +681,7 @@ diff dev_catalog.json prod_catalog.json
 ### Table (Default)
 
 ```bash
-dremio catalog list
+alt-dremio-cli catalog list
 ```
 
 Output:
@@ -697,7 +697,7 @@ Output:
 ### JSON
 
 ```bash
-dremio --output json catalog list
+alt-dremio-cli --output json catalog list
 ```
 
 Output:
@@ -718,7 +718,7 @@ Output:
 ### YAML
 
 ```bash
-dremio --output yaml catalog list
+alt-dremio-cli --output yaml catalog list
 ```
 
 Output:
@@ -762,43 +762,43 @@ Examples:
 
 ```bash
 # Export full catalog inventory
-dremio --output json catalog list > catalog_inventory.json
+alt-dremio-cli --output json catalog list > catalog_inventory.json
 
 # Count items by type
-dremio --output json catalog list | jq '[.data[] | .containerType] | group_by(.) | map({type: .[0], count: length})'
+alt-dremio-cli --output json catalog list | jq '[.data[] | .containerType] | group_by(.) | map({type: .[0], count: length})'
 ```
 
 ### 2. Finding Specific Items
 
 ```bash
 # Find all spaces
-dremio --output json catalog list | jq '.data[] | select(.containerType == "SPACE")'
+alt-dremio-cli --output json catalog list | jq '.data[] | select(.containerType == "SPACE")'
 
 # Find all sources
-dremio --output json catalog list | jq '.data[] | select(.containerType == "SOURCE")'
+alt-dremio-cli --output json catalog list | jq '.data[] | select(.containerType == "SOURCE")'
 
 # Find all views
-dremio --output json catalog list | jq '.data[] | select(.type == "VIRTUAL_DATASET")'
+alt-dremio-cli --output json catalog list | jq '.data[] | select(.type == "VIRTUAL_DATASET")'
 ```
 
 ### 3. Validation
 
 ```bash
 # Verify item exists
-dremio catalog get-by-path "MySpace.MyTable" && echo "Exists" || echo "Not found"
+alt-dremio-cli catalog get-by-path "MySpace.MyTable" && echo "Exists" || echo "Not found"
 
 # Check if path is accessible
-dremio catalog get-by-path "Sales.customers" --include permissions
+alt-dremio-cli catalog get-by-path "Sales.customers" --include permissions
 ```
 
 ### 4. Migration Planning
 
 ```bash
 # List all items in source environment
-dremio --profile source catalog list --include datasetCount > source_catalog.json
+alt-dremio-cli --profile source catalog list --include datasetCount > source_catalog.json
 
 # List all items in target environment
-dremio --profile target catalog list --include datasetCount > target_catalog.json
+alt-dremio-cli --profile target catalog list --include datasetCount > target_catalog.json
 
 # Compare and plan migration
 diff source_catalog.json target_catalog.json
@@ -808,22 +808,22 @@ diff source_catalog.json target_catalog.json
 
 1. **Use JSON output for scripting**:
    ```bash
-   dremio --output json catalog list | jq '.data[] | .path'
+   alt-dremio-cli --output json catalog list | jq '.data[] | .path'
    ```
 
 2. **Filter results with grep**:
    ```bash
-   dremio catalog list | grep "Analytics"
+   alt-dremio-cli catalog list | grep "Analytics"
    ```
 
 3. **Save catalog snapshots**:
    ```bash
-   dremio --output json catalog list > catalog_$(date +%Y%m%d).json
+   alt-dremio-cli --output json catalog list > catalog_$(date +%Y%m%d).json
    ```
 
 4. **Check permissions before operations**:
    ```bash
-   dremio catalog get-by-path "MySpace.MyTable" --include permissions
+   alt-dremio-cli catalog get-by-path "MySpace.MyTable" --include permissions
    ```
 
 ## Error Handling
@@ -831,19 +831,19 @@ diff source_catalog.json target_catalog.json
 ### Item Not Found
 
 ```bash
-$ dremio catalog get-by-path "NonExistent.Table"
+$ alt-dremio-cli catalog get-by-path "NonExistent.Table"
 Error: Resource not found
 ```
 
 **Solution**: Verify the path exists:
 ```bash
-dremio catalog list | grep "NonExistent"
+alt-dremio-cli catalog list | grep "NonExistent"
 ```
 
 ### Permission Denied
 
 ```bash
-$ dremio catalog get abc-123
+$ alt-dremio-cli catalog get abc-123
 Error: Access forbidden
 ```
 
@@ -852,13 +852,13 @@ Error: Access forbidden
 ### Invalid Path Format
 
 ```bash
-$ dremio catalog get-by-path "Invalid Path With Spaces"
+$ alt-dremio-cli catalog get-by-path "Invalid Path With Spaces"
 Error: Invalid path format
 ```
 
 **Solution**: Use proper path separators:
 ```bash
-dremio catalog get-by-path "Space.Folder.Object"
+alt-dremio-cli catalog get-by-path "Space.Folder.Object"
 ```
 
 
@@ -873,7 +873,7 @@ Generate shell completion scripts for Bash, Zsh, and Fish.
 ## Usage
 
 ```bash
-dremio completion [bash|zsh|fish]
+alt-dremio-cli completion [bash|zsh|fish]
 ```
 
 ## Installation
@@ -931,7 +931,7 @@ ignore:
 Capture the current state of your Dremio space into local files.
 
 ```bash
-dremio sync pull
+alt-dremio-cli sync pull
 ```
 
 Returns a directory structure mirroring Dremio:
@@ -994,12 +994,12 @@ reflections:
 
 ### Workflow
 
-1.  **Push**: `dremio sync push`
+1.  **Push**: `alt-dremio-cli sync push`
     -    recurses, sorts dependencies, applies SQL, updates Tags/Wiki.
     -   **Applies Grants**: Resolves Role/User names to IDs and enforces access control.
     -   **Applies Policies**: Executes SQL commands to attach Row Access and Masking policies.
 
-2.  **Pull**: `dremio sync pull`
+2.  **Pull**: `alt-dremio-cli sync pull`
     -   Fetches state, rebuilds folders, views, wikis.
     -   **Important Limitation**: Governance policies (RBAC, Row Access, Masking) and **Reflections** are **NOT** automatically retrieved from Dremio during a pull.
         -   To manage them via DAC, you must manually define `access_control`, `governance`, and `reflections` blocks in your YAML files.
@@ -1022,7 +1022,7 @@ context: []
 Apply your local changes back to Dremio.
 
 ```bash
-dremio sync push
+alt-dremio-cli sync push
 ```
 
 ## Feature Guides
@@ -1214,7 +1214,7 @@ DAC allows you to define and manage Dremio Sources (e.g., S3, Postgres, Nessie, 
 ## Overview
 
 - **Secure**: Use Environment Variable substitution (`${ENV_VAR}`) to keep credentials out of code.
-- **Declarative**: Define the source configuration, and `dremio sync push` handles creation or updates.
+- **Declarative**: Define the source configuration, and `alt-dremio-cli sync push` handles creation or updates.
 - **Top-Level**: Sources are usually defined in the root of your DAC directory or a dedicated `sources/` folder.
 
 ## YAML Schema
@@ -1277,12 +1277,12 @@ config:
 
 ## Environment Variables
 
-Prior to running `dremio sync push`, ensure the referenced environment variables are set in your shell or `.env` file.
+Prior to running `alt-dremio-cli sync push`, ensure the referenced environment variables are set in your shell or `.env` file.
 
 ```bash
 export AWS_ACCESS_KEY="AKI..."
 export AWS_SECRET_KEY="secret..."
-dremio sync push
+alt-dremio-cli sync push
 ```
 
 If a variable is missing, the CLI will warn you and keep the literal string (which leads to auth failure), protecting you from accidental commits of unexpanded secrets.
@@ -1335,7 +1335,7 @@ reflections: ...
 2.  **Subsequent Pushes**: CLI detects existing table. Executes `update_sql`.
 
 ### Pulling Iceberg Tables
-`dremio sync pull` will generate the YAML for existing Iceberg tables.
+`alt-dremio-cli sync pull` will generate the YAML for existing Iceberg tables.
 *Limitation*: The CLI cannot reconstruct the `create_sql` or `update_sql` logic. The fields will be generated as placeholders or comments.
 
 ## 2. Physical Datasets (`type: PHYSICAL_DATASET`)
@@ -1447,7 +1447,7 @@ Manage and re-run your favorite SQL queries.
 Save a query as a favorite.
 
 ```bash
-dremio favorite add <NAME> [OPTIONS]
+alt-dremio-cli favorite add <NAME> [OPTIONS]
 ```
 
 **Options:**
@@ -1456,8 +1456,8 @@ dremio favorite add <NAME> [OPTIONS]
 
 **Examples:**
 ```bash
-dremio favorite add daily_sales --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
-dremio favorite add top_users --sql "SELECT * FROM users ORDER BY score DESC LIMIT 10" --description "Top 10 users by score"
+alt-dremio-cli favorite add daily_sales --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
+alt-dremio-cli favorite add top_users --sql "SELECT * FROM users ORDER BY score DESC LIMIT 10" --description "Top 10 users by score"
 ```
 
 ### List Favorites
@@ -1465,13 +1465,13 @@ dremio favorite add top_users --sql "SELECT * FROM users ORDER BY score DESC LIM
 List all saved favorite queries.
 
 ```bash
-dremio favorite list [OPTIONS]
+alt-dremio-cli favorite list [OPTIONS]
 ```
 
 **Examples:**
 ```bash
-dremio favorite list
-dremio --output json favorite list
+alt-dremio-cli favorite list
+alt-dremio-cli --output json favorite list
 ```
 
 ### Run Favorite
@@ -1479,12 +1479,12 @@ dremio --output json favorite list
 Execute a saved favorite query.
 
 ```bash
-dremio favorite run <NAME>
+alt-dremio-cli favorite run <NAME>
 ```
 
 **Examples:**
 ```bash
-dremio favorite run daily_sales
+alt-dremio-cli favorite run daily_sales
 ```
 
 ### Delete Favorite
@@ -1492,12 +1492,12 @@ dremio favorite run daily_sales
 Remove a query from favorites.
 
 ```bash
-dremio favorite delete <NAME>
+alt-dremio-cli favorite delete <NAME>
 ```
 
 **Examples:**
 ```bash
-dremio favorite delete daily_sales
+alt-dremio-cli favorite delete daily_sales
 ```
 
 
@@ -1536,7 +1536,7 @@ Common privileges include:
 List all grants for a catalog object.
 
 ```bash
-dremio grant list <CATALOG_ID>
+alt-dremio-cli grant list <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -1546,10 +1546,10 @@ dremio grant list <CATALOG_ID>
 
 ```bash
 # List grants for a space
-dremio grant list abc-123-def-456
+alt-dremio-cli grant list abc-123-def-456
 
 # List in JSON format
-dremio --output json grant list abc-123-def-456
+alt-dremio-cli --output json grant list abc-123-def-456
 ```
 
 ### Add Grant
@@ -1557,7 +1557,7 @@ dremio --output json grant list abc-123-def-456
 Add a grant to a catalog object.
 
 ```bash
-dremio grant add <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID> --privileges <PRIVS>
+alt-dremio-cli grant add <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID> --privileges <PRIVS>
 ```
 
 **Arguments:**
@@ -1572,13 +1572,13 @@ dremio grant add <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID> --privileg
 
 ```bash
 # Grant SELECT to a user
-dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
+alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
 
 # Grant multiple privileges to a role
-dremio grant add abc-123 --grantee-type ROLE --grantee-id role-789 --privileges SELECT,ALTER,MODIFY
+alt-dremio-cli grant add abc-123 --grantee-type ROLE --grantee-id role-789 --privileges SELECT,ALTER,MODIFY
 
 # Grant read-only access
-dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT,VIEW_REFLECTION,READ_METADATA
+alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT,VIEW_REFLECTION,READ_METADATA
 ```
 
 ### Remove Grant
@@ -1586,7 +1586,7 @@ dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges 
 Remove a grant from a catalog object.
 
 ```bash
-dremio grant remove <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID>
+alt-dremio-cli grant remove <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID>
 ```
 
 **Arguments:**
@@ -1600,13 +1600,13 @@ dremio grant remove <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID>
 
 ```bash
 # Remove grant from user
-dremio grant remove abc-123 --grantee-type USER --grantee-id user-456
+alt-dremio-cli grant remove abc-123 --grantee-type USER --grantee-id user-456
 
 # Remove grant from role (with confirmation)
-dremio grant remove abc-123 --grantee-type ROLE --grantee-id role-789
+alt-dremio-cli grant remove abc-123 --grantee-type ROLE --grantee-id role-789
 
 # Remove without confirmation
-dremio grant remove abc-123 --grantee-type USER --grantee-id user-456 --yes
+alt-dremio-cli grant remove abc-123 --grantee-type USER --grantee-id user-456 --yes
 ```
 
 ### Set Grants
@@ -1614,7 +1614,7 @@ dremio grant remove abc-123 --grantee-type USER --grantee-id user-456 --yes
 Set all grants for a catalog object (replaces existing).
 
 ```bash
-dremio grant set <CATALOG_ID> --from-file <FILE>
+alt-dremio-cli grant set <CATALOG_ID> --from-file <FILE>
 ```
 
 **Arguments:**
@@ -1627,7 +1627,7 @@ dremio grant set <CATALOG_ID> --from-file <FILE>
 
 ```bash
 # Set grants from file
-dremio grant set abc-123 --from-file grants.json
+alt-dremio-cli grant set abc-123 --from-file grants.json
 ```
 
 ## Grant File Format
@@ -1665,10 +1665,10 @@ dremio grant set abc-123 --from-file grants.json
 DATASET_ID=$(dremio --output json view get-by-path "Analytics.sales_data" | jq -r '.id')
 
 # 2. Grant SELECT to analyst role
-dremio grant add $DATASET_ID --grantee-type ROLE --grantee-id analyst-role --privileges SELECT,VIEW_REFLECTION
+alt-dremio-cli grant add $DATASET_ID --grantee-type ROLE --grantee-id analyst-role --privileges SELECT,VIEW_REFLECTION
 
 # 3. Verify grant
-dremio grant list $DATASET_ID
+alt-dremio-cli grant list $DATASET_ID
 ```
 
 ### Setting Up Role-Based Access
@@ -1699,7 +1699,7 @@ EOF
 
 # Apply grants
 SPACE_ID=$(dremio --output json space list | jq -r '.[] | select(.path[0] == "Analytics") | .id')
-dremio grant set $SPACE_ID --from-file space_grants.json
+alt-dremio-cli grant set $SPACE_ID --from-file space_grants.json
 ```
 
 ### Migrating Grants
@@ -1707,11 +1707,11 @@ dremio grant set $SPACE_ID --from-file space_grants.json
 ```bash
 # Export grants from source
 SOURCE_ID=$(dremio --profile source --output json view get-by-path "Analytics.summary" | jq -r '.id')
-dremio --profile source --output json grant list $SOURCE_ID > grants_export.json
+alt-dremio-cli --profile source --output json grant list $SOURCE_ID > grants_export.json
 
 # Apply to target
 TARGET_ID=$(dremio --profile target --output json view get-by-path "Analytics.summary" | jq -r '.id')
-dremio --profile target grant set $TARGET_ID --from-file grants_export.json
+alt-dremio-cli --profile target grant set $TARGET_ID --from-file grants_export.json
 ```
 
 ## Common Workflows
@@ -1723,9 +1723,9 @@ dremio --profile target grant set $TARGET_ID --from-file grants_export.json
 # audit_access.sh - Audit grants across catalog
 
 # Get all spaces
-dremio --output json space list | jq -r '.[].id' | while read space_id; do
+alt-dremio-cli --output json space list | jq -r '.[].id' | while read space_id; do
   echo "Space: $space_id"
-  dremio --output json grant list $space_id | jq '.grants[] | "\(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
+  alt-dremio-cli --output json grant list $space_id | jq '.grants[] | "\(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
   echo ""
 done
 ```
@@ -1741,9 +1741,9 @@ ROLE_ID="analyst-role"
 PRIVILEGES="SELECT,VIEW_REFLECTION"
 
 # Get all views in space
-dremio --output json view list --space $SPACE | jq -r '.[].id' | while read view_id; do
+alt-dremio-cli --output json view list --space $SPACE | jq -r '.[].id' | while read view_id; do
   echo "Granting to view: $view_id"
-  dremio grant add $view_id --grantee-type ROLE --grantee-id $ROLE_ID --privileges $PRIVILEGES
+  alt-dremio-cli grant add $view_id --grantee-type ROLE --grantee-id $ROLE_ID --privileges $PRIVILEGES
 done
 ```
 
@@ -1756,11 +1756,11 @@ done
 USER_ID="user-123"
 
 # Find all objects with grants
-dremio --output json catalog list | jq -r '.data[].id' | while read object_id; do
+alt-dremio-cli --output json catalog list | jq -r '.data[].id' | while read object_id; do
   # Check if user has grants
-  if dremio --output json grant list $object_id | jq -e ".grants[] | select(.granteeId == \"$USER_ID\")" > /dev/null; then
+  if alt-dremio-cli --output json grant list $object_id | jq -e ".grants[] | select(.granteeId == \"$USER_ID\")" > /dev/null; then
     echo "Removing grant from: $object_id"
-    dremio grant remove $object_id --grantee-type USER --grantee-id $USER_ID --yes
+    alt-dremio-cli grant remove $object_id --grantee-type USER --grantee-id $USER_ID --yes
   fi
 done
 ```
@@ -1816,7 +1816,7 @@ EOF
     ;;
 esac
 
-dremio grant set $OBJECT_ID --from-file grants.json
+alt-dremio-cli grant set $OBJECT_ID --from-file grants.json
 rm grants.json
 ```
 
@@ -1824,27 +1824,27 @@ rm grants.json
 
 1. **Use roles over users**: Assign grants to roles for easier management
    ```bash
-   dremio grant add $ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
+   alt-dremio-cli grant add $ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
    ```
 
 2. **Principle of least privilege**: Grant minimum necessary permissions
    ```bash
    # Good: specific privileges
-   dremio grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT
+   alt-dremio-cli grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT
    
    # Avoid: excessive privileges
-   dremio grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT,ALTER,MODIFY,DROP
+   alt-dremio-cli grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT,ALTER,MODIFY,DROP
    ```
 
 3. **Document grant decisions**: Add wiki documentation
    ```bash
-   dremio wiki set $ID --text "# Access Control\n\nAnalyst role has read-only access"
+   alt-dremio-cli wiki set $ID --text "# Access Control\n\nAnalyst role has read-only access"
    ```
 
 4. **Regular audits**: Review grants periodically
    ```bash
    # Export current grants for review
-   dremio --output json grant list $ID > grants_$(date +%Y%m%d).json
+   alt-dremio-cli --output json grant list $ID > grants_$(date +%Y%m%d).json
    ```
 
 ## Error Handling
@@ -1852,7 +1852,7 @@ rm grants.json
 ### Insufficient Permissions
 
 ```bash
-$ dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
+$ alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
 Error: Insufficient permissions to manage grants
 ```
 
@@ -1861,7 +1861,7 @@ Error: Insufficient permissions to manage grants
 ### Invalid Privilege
 
 ```bash
-$ dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges INVALID
+$ alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges INVALID
 Error: Invalid privilege: INVALID
 ```
 
@@ -1870,7 +1870,7 @@ Error: Invalid privilege: INVALID
 ### Grantee Not Found
 
 ```bash
-$ dremio grant add abc-123 --grantee-type USER --grantee-id invalid-user --privileges SELECT
+$ alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id invalid-user --privileges SELECT
 Error: User not found: invalid-user
 ```
 
@@ -1929,10 +1929,10 @@ ENVIRONMENT=$2
 
 if [ "$ENVIRONMENT" == "production" ]; then
   # Production: read-only for most users
-  dremio grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
+  alt-dremio-cli grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
 else
   # Development: read-write
-  dremio grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT,ALTER,MODIFY
+  alt-dremio-cli grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT,ALTER,MODIFY
 fi
 ```
 
@@ -1945,11 +1945,11 @@ fi
 PARENT_ID=$1
 
 # Get parent grants
-dremio --output json grant list $PARENT_ID > parent_grants.json
+alt-dremio-cli --output json grant list $PARENT_ID > parent_grants.json
 
 # Apply to all children
-dremio --output json catalog list | jq -r ".data[] | select(.path[0] == \"$PARENT_NAME\") | .id" | while read child_id; do
-  dremio grant set $child_id --from-file parent_grants.json
+alt-dremio-cli --output json catalog list | jq -r ".data[] | select(.path[0] == \"$PARENT_NAME\") | .id" | while read child_id; do
+  alt-dremio-cli grant set $child_id --from-file parent_grants.json
 done
 ```
 
@@ -1962,12 +1962,12 @@ done
 echo "# Grant Report - $(date)"
 echo ""
 
-dremio --output json catalog list | jq -r '.data[] | select(.containerType == "SPACE") | .id' | while read space_id; do
+alt-dremio-cli --output json catalog list | jq -r '.data[] | select(.containerType == "SPACE") | .id' | while read space_id; do
   SPACE_NAME=$(dremio --output json catalog get $space_id | jq -r '.path[0]')
   echo "## Space: $SPACE_NAME"
   echo ""
   
-  dremio --output json grant list $space_id | jq -r '.grants[] | "- \(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
+  alt-dremio-cli --output json grant list $space_id | jq -r '.grants[] | "- \(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
   echo ""
 done
 ```
@@ -1998,7 +1998,7 @@ View and manage your local query execution history.
 List recent query history.
 
 ```bash
-dremio history list [OPTIONS]
+alt-dremio-cli history list [OPTIONS]
 ```
 
 **Options:**
@@ -2006,8 +2006,8 @@ dremio history list [OPTIONS]
 
 **Examples:**
 ```bash
-dremio history list
-dremio history list --limit 10
+alt-dremio-cli history list
+alt-dremio-cli history list --limit 10
 ```
 
 ### Run History
@@ -2015,12 +2015,12 @@ dremio history list --limit 10
 Re-run a command from history.
 
 ```bash
-dremio history run <HISTORY_ID>
+alt-dremio-cli history run <HISTORY_ID>
 ```
 
 **Examples:**
 ```bash
-dremio history run 5
+alt-dremio-cli history run 5
 ```
 
 ### Clear History
@@ -2028,12 +2028,12 @@ dremio history run 5
 Clear all query history.
 
 ```bash
-dremio history clear
+alt-dremio-cli history clear
 ```
 
 **Examples:**
 ```bash
-dremio history clear
+alt-dremio-cli history clear
 ```
 
 
@@ -2048,7 +2048,7 @@ Quickly set up your Dremio CLI configuration using an interactive wizard.
 ## Usage
 
 ```bash
-dremio init
+alt-dremio-cli init
 ```
 
 The wizard will guide you through:
@@ -2093,7 +2093,7 @@ Run 'dremio catalog list' to get started!
 ### Using pip (Recommended for users)
 
 ```bash
-pip install dremio-cli
+pip install alt-dremio-cli
 ```
 
 ### Using pipx (Isolated environment)
@@ -2121,7 +2121,7 @@ pip install -e ".[dev]"
 ## Verify Installation
 
 ```bash
-dremio --version
+alt-dremio-cli --version
 ```
 
 ## Next Steps
@@ -2144,7 +2144,7 @@ This guide covers job management operations including listing, monitoring, and m
 List recent jobs.
 
 ```bash
-dremio job list [OPTIONS]
+alt-dremio-cli job list [OPTIONS]
 ```
 
 **Options:**
@@ -2156,19 +2156,19 @@ dremio job list [OPTIONS]
 
 ```bash
 # List recent jobs
-dremio job list
+alt-dremio-cli job list
 
 # List last 50 jobs
-dremio job list --max-results 50
+alt-dremio-cli job list --max-results 50
 
 # List only completed jobs
-dremio job list --filter "state=COMPLETED"
+alt-dremio-cli job list --filter "state=COMPLETED"
 
 # List jobs sorted by submission time (newest first)
-dremio job list --sort "-submittedAt"
+alt-dremio-cli job list --sort "-submittedAt"
 
 # Combine filters and sorting
-dremio job list --max-results 20 --filter "state=RUNNING" --sort "-submittedAt"
+alt-dremio-cli job list --max-results 20 --filter "state=RUNNING" --sort "-submittedAt"
 ```
 
 ### Get Job Details
@@ -2176,7 +2176,7 @@ dremio job list --max-results 20 --filter "state=RUNNING" --sort "-submittedAt"
 Retrieve detailed information about a specific job.
 
 ```bash
-dremio job get <JOB_ID>
+alt-dremio-cli job get <JOB_ID>
 ```
 
 **Arguments:**
@@ -2186,13 +2186,13 @@ dremio job get <JOB_ID>
 
 ```bash
 # Get job details
-dremio job get 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job get 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get job details in JSON
-dremio --output json job get 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli --output json job get 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get job details with verbose output
-dremio --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
 ```
 
 ### Analyze Job
@@ -2200,7 +2200,7 @@ dremio --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
 Analyze the performance of a job to identify bottlenecks.
 
 ```bash
-dremio job analyze <JOB_ID>
+alt-dremio-cli job analyze <JOB_ID>
 ```
 
 **Output:**
@@ -2213,7 +2213,7 @@ dremio job analyze <JOB_ID>
 Retrieve the results of a completed job.
 
 ```bash
-dremio job results <JOB_ID> [OPTIONS]
+alt-dremio-cli job results <JOB_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -2227,16 +2227,16 @@ dremio job results <JOB_ID> [OPTIONS]
 
 ```bash
 # Get job results
-dremio job results 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job results 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get first 100 rows
-dremio job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100
+alt-dremio-cli job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100
 
 # Get next 100 rows (pagination)
-dremio job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100 --offset 100
+alt-dremio-cli job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100 --offset 100
 
 # Export results to JSON
-dremio --output json job results 16b2c9cd-a920-952b-b162-2280c9059d00 > results.json
+alt-dremio-cli --output json job results 16b2c9cd-a920-952b-b162-2280c9059d00 > results.json
 ```
 
 ### Cancel Job
@@ -2244,7 +2244,7 @@ dremio --output json job results 16b2c9cd-a920-952b-b162-2280c9059d00 > results.
 Cancel a running job.
 
 ```bash
-dremio job cancel <JOB_ID>
+alt-dremio-cli job cancel <JOB_ID>
 ```
 
 **Arguments:**
@@ -2254,10 +2254,10 @@ dremio job cancel <JOB_ID>
 
 ```bash
 # Cancel a running job
-dremio job cancel 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job cancel 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Cancel without confirmation prompt
-dremio job cancel 16b2c9cd-a920-952b-b162-2280c9059d00 --yes
+alt-dremio-cli job cancel 16b2c9cd-a920-952b-b162-2280c9059d00 --yes
 ```
 
 ### Get Job Profile
@@ -2265,7 +2265,7 @@ dremio job cancel 16b2c9cd-a920-952b-b162-2280c9059d00 --yes
 Download job profile for performance analysis.
 
 ```bash
-dremio job profile <JOB_ID> [OPTIONS]
+alt-dremio-cli job profile <JOB_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -2278,10 +2278,10 @@ dremio job profile <JOB_ID> [OPTIONS]
 
 ```bash
 # View job profile
-dremio job profile 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job profile 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Download profile to file
-dremio job profile 16b2c9cd-a920-952b-b162-2280c9059d00 --download profile.zip
+alt-dremio-cli job profile 16b2c9cd-a920-952b-b162-2280c9059d00 --download profile.zip
 ```
 
 ### Get Job Reflections
@@ -2289,7 +2289,7 @@ dremio job profile 16b2c9cd-a920-952b-b162-2280c9059d00 --download profile.zip
 Get reflection information for a job.
 
 ```bash
-dremio job reflections <JOB_ID>
+alt-dremio-cli job reflections <JOB_ID>
 ```
 
 **Arguments:**
@@ -2299,10 +2299,10 @@ dremio job reflections <JOB_ID>
 
 ```bash
 # Get reflection info
-dremio job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get in JSON format
-dremio --output json job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli --output json job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
 ```
 
 ## Scenarios
@@ -2311,30 +2311,30 @@ dremio --output json job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
 
 ```bash
 # 1. Execute a query
-dremio sql execute "SELECT * FROM large_table LIMIT 1000"
+alt-dremio-cli sql execute "SELECT * FROM large_table LIMIT 1000"
 # Output: Job ID: abc-123-def-456
 
 # 2. Check job status
-dremio job get abc-123-def-456
+alt-dremio-cli job get abc-123-def-456
 
 # 3. Wait for completion, then get results
-dremio job results abc-123-def-456
+alt-dremio-cli job results abc-123-def-456
 ```
 
 ### Debugging Slow Queries
 
 ```bash
 # 1. List recent jobs
-dremio job list --max-results 10
+alt-dremio-cli job list --max-results 10
 
 # 2. Get details of slow job
-dremio job get slow-job-id
+alt-dremio-cli job get slow-job-id
 
 # 3. Download profile for analysis
-dremio job profile slow-job-id --download slow_query_profile.zip
+alt-dremio-cli job profile slow-job-id --download slow_query_profile.zip
 
 # 4. Check if reflections were used
-dremio job reflections slow-job-id
+alt-dremio-cli job reflections slow-job-id
 ```
 
 ### Pagination Through Large Results
@@ -2343,7 +2343,7 @@ dremio job reflections slow-job-id
 # Get results in batches of 1000
 for i in {0..9}; do
   offset=$((i * 1000))
-  dremio job results abc-123 --limit 1000 --offset $offset > results_part_$i.json
+  alt-dremio-cli job results abc-123 --limit 1000 --offset $offset > results_part_$i.json
 done
 ```
 
@@ -2351,20 +2351,20 @@ done
 
 ```bash
 # List all running jobs
-dremio job list --filter "state=RUNNING"
+alt-dremio-cli job list --filter "state=RUNNING"
 
 # Check specific running job
-dremio job get running-job-id
+alt-dremio-cli job get running-job-id
 
 # Cancel if needed
-dremio job cancel running-job-id
+alt-dremio-cli job cancel running-job-id
 ```
 
 ### Job History Analysis
 
 ```bash
 # Export last 100 jobs
-dremio --output json job list --max-results 100 > job_history.json
+alt-dremio-cli --output json job list --max-results 100 > job_history.json
 
 # Analyze with jq
 cat job_history.json | jq '.jobs[] | {id: .id, state: .jobState, duration: .duration}'
@@ -2401,7 +2401,7 @@ while true; do
 done
 
 # Get results
-dremio job results $JOB_ID
+alt-dremio-cli job results $JOB_ID
 ```
 
 ### 2. Batch Job Management
@@ -2412,7 +2412,7 @@ RUNNING_JOBS=$(dremio --output json job list --filter "state=RUNNING" | jq -r '.
 
 # Cancel all running jobs
 for job_id in $RUNNING_JOBS; do
-  dremio job cancel $job_id --yes
+  alt-dremio-cli job cancel $job_id --yes
 done
 ```
 
@@ -2420,7 +2420,7 @@ done
 
 ```bash
 # Get job details
-dremio --output json job get $JOB_ID > job_details.json
+alt-dremio-cli --output json job get $JOB_ID > job_details.json
 
 # Extract performance metrics
 cat job_details.json | jq '{
@@ -2431,19 +2431,19 @@ cat job_details.json | jq '{
 }'
 
 # Download profile for deep analysis
-dremio job profile $JOB_ID --download profile_$JOB_ID.zip
+alt-dremio-cli job profile $JOB_ID --download profile_$JOB_ID.zip
 ```
 
 ### 4. Result Export
 
 ```bash
 # Export results to different formats
-dremio --output json job results $JOB_ID > results.json
-dremio --output yaml job results $JOB_ID > results.yaml
-dremio --output table job results $JOB_ID > results.txt
+alt-dremio-cli --output json job results $JOB_ID > results.json
+alt-dremio-cli --output yaml job results $JOB_ID > results.yaml
+alt-dremio-cli --output table job results $JOB_ID > results.txt
 
 # Convert JSON to CSV
-dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
+alt-dremio-cli --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 ```
 
 ## Tips
@@ -2456,7 +2456,7 @@ dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 
 2. **Use filters effectively**: Narrow down job lists
    ```bash
-   dremio job list --filter "state=FAILED" --max-results 10
+   alt-dremio-cli job list --filter "state=FAILED" --max-results 10
    ```
 
 3. **Automate monitoring**: Create scripts to watch jobs
@@ -2466,7 +2466,7 @@ dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 
 4. **Export for analysis**: Use JSON output for processing
    ```bash
-   dremio --output json job list > jobs.json
+   alt-dremio-cli --output json job list > jobs.json
    ```
 
 ## Error Handling
@@ -2474,7 +2474,7 @@ dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 ### Job Not Found
 
 ```bash
-$ dremio job get invalid-job-id
+$ alt-dremio-cli job get invalid-job-id
 Error: Resource not found
 ```
 
@@ -2483,19 +2483,19 @@ Error: Resource not found
 ### Results Not Available
 
 ```bash
-$ dremio job results abc-123
+$ alt-dremio-cli job results abc-123
 Error: Cannot fetch results for job in PLANNING state
 ```
 
 **Solution**: Wait for job to complete:
 ```bash
-dremio job get abc-123  # Check state
+alt-dremio-cli job get abc-123  # Check state
 ```
 
 ### Permission Denied
 
 ```bash
-$ dremio job get abc-123
+$ alt-dremio-cli job get abc-123
 Error: Access forbidden
 ```
 
@@ -2537,7 +2537,7 @@ Visualize the dependencies between datasets.
 Show the upstream parents of a dataset.
 
 ```bash
-dremio lineage show <CATALOG_ID> [OPTIONS]
+alt-dremio-cli lineage show <CATALOG_ID> [OPTIONS]
 ```
 
 **Options:**
@@ -2546,10 +2546,10 @@ dremio lineage show <CATALOG_ID> [OPTIONS]
 **Examples:**
 ```bash
 # Tree view (Terminal)
-dremio lineage show dremio-catalog.space.view
+alt-dremio-cli lineage show dremio-catalog.space.view
 
 # Mermaid Graph (for markdown)
-dremio lineage show dremio-catalog.space.view --format mermaid
+alt-dremio-cli lineage show dremio-catalog.space.view --format mermaid
 ```
 
 
@@ -2564,7 +2564,7 @@ A terminal-based user interface (TUI) for monitoring Dremio jobs and system stat
 ## Usage
 
 ```bash
-dremio monitor
+alt-dremio-cli monitor
 ```
 
 ## Features
@@ -2673,10 +2673,10 @@ profiles:
 
 ```bash
 # Interactve Wizard (Best for beginners)
-dremio init
+alt-dremio-cli init
 
 # Create manually
-dremio profile create --name prod --type cloud ...
+alt-dremio-cli profile create --name prod --type cloud ...
 ```
 
 ---
@@ -2705,7 +2705,7 @@ DREMIO_PROD_TOKEN=Q/ToosxORA...
 ### Usage
 ```bash
 # Authenticates using DREMIO_PROD_* variables
-dremio --profile prod catalog list
+alt-dremio-cli --profile prod catalog list
 ```
 
 ---
@@ -2714,13 +2714,13 @@ dremio --profile prod catalog list
 
 ```bash
 # List all profiles
-dremio profile list
+alt-dremio-cli profile list
 
 # Show active profile details
-dremio profile current
+alt-dremio-cli profile current
 
 # Set default profile (so you don't need --profile flag)
-dremio profile set-default cloud-prod
+alt-dremio-cli profile set-default cloud-prod
 ```
 
 
@@ -2735,7 +2735,7 @@ dremio profile set-default cloud-prod
 ### For Dremio Cloud
 
 ```bash
-dremio profile create production \
+alt-dremio-cli profile create production \
   --type cloud \
   --base-url https://api.dremio.cloud/v0 \
   --project-id your-project-id \
@@ -2746,11 +2746,11 @@ dremio profile create production \
 ### For Dremio Software
 
 ```bash
-dremio profile create local \
+alt-dremio-cli profile create local \
   --type software \
   --base-url http://localhost:9047/api/v3 \
   --auth-type username_password \
-  --username dremio \
+  --username alt-dremio-cli \
   --password dremio123
 ```
 
@@ -2758,10 +2758,10 @@ dremio profile create local \
 
 ```bash
 # List all profiles
-dremio profile list
+alt-dremio-cli profile list
 
 # Show current profile
-dremio profile current
+alt-dremio-cli profile current
 ```
 
 ## 3. Run Your First Commands
@@ -2769,25 +2769,25 @@ dremio profile current
 ### List Catalog
 
 ```bash
-dremio catalog list
+alt-dremio-cli catalog list
 ```
 
 ### Execute SQL
 
 ```bash
-dremio sql execute "SELECT * FROM MySource.MyTable LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM MySource.MyTable LIMIT 10"
 ```
 
 ### List Sources
 
 ```bash
-dremio source list
+alt-dremio-cli source list
 ```
 
 ## 4. Try Interactive Mode
 
 ```bash
-dremio repl
+alt-dremio-cli repl
 ```
 
 In REPL mode, you can run commands without the `dremio` prefix:
@@ -2802,13 +2802,13 @@ dremio> exit
 
 ```bash
 # Get help for any command
-dremio --help
-dremio catalog --help
-dremio source --help
+alt-dremio-cli --help
+alt-dremio-cli catalog --help
+alt-dremio-cli source --help
 
 # Use different output formats
-dremio catalog list --output json
-dremio catalog list --output yaml
+alt-dremio-cli catalog list --output json
+alt-dremio-cli catalog list --output yaml
 ```
 
 ## Next Steps
@@ -2833,7 +2833,7 @@ Manage Dremio reflections (Software and Cloud).
 List all reflections.
 
 ```bash
-dremio reflection list [OPTIONS]
+alt-dremio-cli reflection list [OPTIONS]
 ```
 
 **Options:**
@@ -2841,8 +2841,8 @@ dremio reflection list [OPTIONS]
 
 **Examples:**
 ```bash
-dremio reflection list
-dremio --output json reflection list
+alt-dremio-cli reflection list
+alt-dremio-cli --output json reflection list
 ```
 
 ### Get Reflection
@@ -2850,13 +2850,13 @@ dremio --output json reflection list
 Get details of a specific reflection.
 
 ```bash
-dremio reflection get <REFLECTION_ID>
+alt-dremio-cli reflection get <REFLECTION_ID>
 ```
 
 **Examples:**
 ```bash
-dremio reflection get abc-123-def-456
-dremio reflection get abc-123-def-456 --output yaml
+alt-dremio-cli reflection get abc-123-def-456
+alt-dremio-cli reflection get abc-123-def-456 --output yaml
 ```
 
 ### Create Reflection
@@ -2864,7 +2864,7 @@ dremio reflection get abc-123-def-456 --output yaml
 Create a reflection using a JSON definition.
 
 ```bash
-dremio reflection create [OPTIONS]
+alt-dremio-cli reflection create [OPTIONS]
 ```
 
 **Options:**
@@ -2874,10 +2874,10 @@ dremio reflection create [OPTIONS]
 **Examples:**
 ```bash
 # From file
-dremio reflection create --file reflection_def.json
+alt-dremio-cli reflection create --file reflection_def.json
 
 # From JSON string
-dremio reflection create --json '{"name": "my_reflection", "datasetId": "...", "type": "RAW", ...}'
+alt-dremio-cli reflection create --json '{"name": "my_reflection", "datasetId": "...", "type": "RAW", ...}'
 ```
 
 **Reflection Definition Format:**
@@ -2888,7 +2888,7 @@ Refer to Dremio API documentation for the full reflection object structure.
 Update an existing reflection.
 
 ```bash
-dremio reflection update <REFLECTION_ID> [OPTIONS]
+alt-dremio-cli reflection update <REFLECTION_ID> [OPTIONS]
 ```
 
 **Options:**
@@ -2897,7 +2897,7 @@ dremio reflection update <REFLECTION_ID> [OPTIONS]
 
 **Examples:**
 ```bash
-dremio reflection update abc-123 --file update.json
+alt-dremio-cli reflection update abc-123 --file update.json
 ```
 
 ### Delete Reflection
@@ -2905,12 +2905,12 @@ dremio reflection update abc-123 --file update.json
 Delete a reflection.
 
 ```bash
-dremio reflection delete <REFLECTION_ID>
+alt-dremio-cli reflection delete <REFLECTION_ID>
 ```
 
 **Examples:**
 ```bash
-dremio reflection delete abc-123
+alt-dremio-cli reflection delete abc-123
 ```
 
 
@@ -2932,7 +2932,7 @@ An enhanced interactive shell for executing SQL queries against Dremio.
 ## Usage
 
 ```bash
-dremio repl
+alt-dremio-cli repl
 ```
 
 To exit, type `exit` or `quit`. To clear the screen, type `clear`.
@@ -2967,63 +2967,63 @@ This guide covers role management operations for administering roles and role me
 ### List Roles
 
 ```bash
-dremio role list
+alt-dremio-cli role list
 ```
 
 ### Get Role
 
 ```bash
-dremio role get <ROLE_ID>
+alt-dremio-cli role get <ROLE_ID>
 ```
 
 ### Create Role
 
 ```bash
-dremio role create --name "Analyst"
-dremio role create --from-file role.json
+alt-dremio-cli role create --name "Analyst"
+alt-dremio-cli role create --from-file role.json
 ```
 
 ### Update Role
 
 ```bash
-dremio role update <ROLE_ID> --from-file updated_role.json
+alt-dremio-cli role update <ROLE_ID> --from-file updated_role.json
 ```
 
 ### Delete Role
 
 ```bash
-dremio role delete <ROLE_ID>
+alt-dremio-cli role delete <ROLE_ID>
 ```
 
 ### Add Member
 
 ```bash
-dremio role add-member <ROLE_ID> --user <USER_ID>
+alt-dremio-cli role add-member <ROLE_ID> --user <USER_ID>
 ```
 
 ### Remove Member
 
 ```bash
-dremio role remove-member <ROLE_ID> --user <USER_ID>
+alt-dremio-cli role remove-member <ROLE_ID> --user <USER_ID>
 ```
 
 ## Examples
 
 ```bash
 # List all roles
-dremio role list
+alt-dremio-cli role list
 
 # Create role
-dremio role create --name "Data Analyst"
+alt-dremio-cli role create --name "Data Analyst"
 
 # Add user to role
-dremio role add-member role-123 --user user-456
+alt-dremio-cli role add-member role-123 --user user-456
 
 # Remove user from role
-dremio role remove-member role-123 --user user-456
+alt-dremio-cli role remove-member role-123 --user user-456
 
 # Delete role
-dremio role delete role-123
+alt-dremio-cli role delete role-123
 ```
 
 ## Role File Format
@@ -3041,16 +3041,16 @@ dremio role delete role-123
 
 ```bash
 # 1. Create roles
-dremio role create --name "Analyst"
-dremio role create --name "Engineer"
+alt-dremio-cli role create --name "Analyst"
+alt-dremio-cli role create --name "Engineer"
 
 # 2. Add users to roles
-dremio role add-member analyst-role-id --user user-1
-dremio role add-member engineer-role-id --user user-2
+alt-dremio-cli role add-member analyst-role-id --user user-1
+alt-dremio-cli role add-member engineer-role-id --user user-2
 
 # 3. Grant permissions to roles
-dremio grant add dataset-id --grantee-type ROLE --grantee-id analyst-role-id --privileges SELECT
-dremio grant add dataset-id --grantee-type ROLE --grantee-id engineer-role-id --privileges SELECT,ALTER,MODIFY
+alt-dremio-cli grant add dataset-id --grantee-type ROLE --grantee-id analyst-role-id --privileges SELECT
+alt-dremio-cli grant add dataset-id --grantee-type ROLE --grantee-id engineer-role-id --privileges SELECT,ALTER,MODIFY
 ```
 
 ## Notes
@@ -3076,7 +3076,7 @@ Manage Dremio scripts (Cloud Only).
 List scripts.
 
 ```bash
-dremio script list [OPTIONS]
+alt-dremio-cli script list [OPTIONS]
 ```
 
 **Options:**
@@ -3085,8 +3085,8 @@ dremio script list [OPTIONS]
 
 **Examples:**
 ```bash
-dremio script list
-dremio script list --limit 10
+alt-dremio-cli script list
+alt-dremio-cli script list --limit 10
 ```
 
 ### Get Script
@@ -3094,12 +3094,12 @@ dremio script list --limit 10
 Get details and content of a specific script.
 
 ```bash
-dremio script get <SCRIPT_ID>
+alt-dremio-cli script get <SCRIPT_ID>
 ```
 
 **Examples:**
 ```bash
-dremio script get abc-123-def-456
+alt-dremio-cli script get abc-123-def-456
 ```
 
 ### Create Script
@@ -3107,7 +3107,7 @@ dremio script get abc-123-def-456
 Create a new script.
 
 ```bash
-dremio script create [OPTIONS]
+alt-dremio-cli script create [OPTIONS]
 ```
 
 **Options:**
@@ -3117,8 +3117,8 @@ dremio script create [OPTIONS]
 
 **Examples:**
 ```bash
-dremio script create --name "Monthly Report" --content "SELECT * FROM sales"
-dremio script create --name "Analysis" --content "SELECT 1" --context "Marketing"
+alt-dremio-cli script create --name "Monthly Report" --content "SELECT * FROM sales"
+alt-dremio-cli script create --name "Analysis" --content "SELECT 1" --context "Marketing"
 ```
 
 ### Update Script
@@ -3126,7 +3126,7 @@ dremio script create --name "Analysis" --content "SELECT 1" --context "Marketing
 Update an existing script.
 
 ```bash
-dremio script update <SCRIPT_ID> [OPTIONS]
+alt-dremio-cli script update <SCRIPT_ID> [OPTIONS]
 ```
 
 **Options:**
@@ -3136,7 +3136,7 @@ dremio script update <SCRIPT_ID> [OPTIONS]
 
 **Examples:**
 ```bash
-dremio script update abc-123 --name "Updated Report" --content "SELECT * FROM new_sales"
+alt-dremio-cli script update abc-123 --name "Updated Report" --content "SELECT * FROM new_sales"
 ```
 
 ### Delete Script
@@ -3144,12 +3144,12 @@ dremio script update abc-123 --name "Updated Report" --content "SELECT * FROM ne
 Delete a script.
 
 ```bash
-dremio script delete <SCRIPT_ID>
+alt-dremio-cli script delete <SCRIPT_ID>
 ```
 
 **Examples:**
 ```bash
-dremio script delete abc-123
+alt-dremio-cli script delete abc-123
 ```
 
 
@@ -3177,20 +3177,20 @@ This guide covers source management operations for connecting to and managing ex
 List all configured sources.
 
 ```bash
-dremio source list
+alt-dremio-cli source list
 ```
 
 **Examples:**
 
 ```bash
 # List all sources
-dremio source list
+alt-dremio-cli source list
 
 # JSON output
-dremio --output json source list
+alt-dremio-cli --output json source list
 
 # YAML output
-dremio --output yaml source list
+alt-dremio-cli --output yaml source list
 ```
 
 ### Get Source
@@ -3198,7 +3198,7 @@ dremio --output yaml source list
 Retrieve source details by ID.
 
 ```bash
-dremio source get <SOURCE_ID>
+alt-dremio-cli source get <SOURCE_ID>
 ```
 
 **Arguments:**
@@ -3208,10 +3208,10 @@ dremio source get <SOURCE_ID>
 
 ```bash
 # Get source details
-dremio source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
+alt-dremio-cli source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 
 # Get in JSON format
-dremio --output json source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
+alt-dremio-cli --output json source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 ```
 
 ### Create Source
@@ -3219,7 +3219,7 @@ dremio --output json source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 Create a new data source.
 
 ```bash
-dremio source create --name <NAME> --type <TYPE> --config-file <FILE>
+alt-dremio-cli source create --name <NAME> --type <TYPE> --config-file <FILE>
 ```
 
 **Options:**
@@ -3231,13 +3231,13 @@ dremio source create --name <NAME> --type <TYPE> --config-file <FILE>
 
 ```bash
 # Create PostgreSQL source
-dremio source create --name MyPostgres --type POSTGRES --config-file postgres.json
+alt-dremio-cli source create --name MyPostgres --type POSTGRES --config-file postgres.json
 
 # Create S3 source
-dremio source create --name MyS3 --type S3 --config-file s3.json
+alt-dremio-cli source create --name MyS3 --type S3 --config-file s3.json
 
 # Create MongoDB source
-dremio source create --name MyMongo --type MONGO --config-file mongo.json
+alt-dremio-cli source create --name MyMongo --type MONGO --config-file mongo.json
 ```
 
 ### Update Source
@@ -3245,7 +3245,7 @@ dremio source create --name MyMongo --type MONGO --config-file mongo.json
 Update an existing source configuration.
 
 ```bash
-dremio source update <SOURCE_ID> --config-file <FILE>
+alt-dremio-cli source update <SOURCE_ID> --config-file <FILE>
 ```
 
 **Arguments:**
@@ -3258,7 +3258,7 @@ dremio source update <SOURCE_ID> --config-file <FILE>
 
 ```bash
 # Update source configuration
-dremio source update abc-123 --config-file updated_postgres.json
+alt-dremio-cli source update abc-123 --config-file updated_postgres.json
 ```
 
 ### Refresh Source
@@ -3266,7 +3266,7 @@ dremio source update abc-123 --config-file updated_postgres.json
 Refresh source metadata to discover new tables/files.
 
 ```bash
-dremio source refresh <SOURCE_ID>
+alt-dremio-cli source refresh <SOURCE_ID>
 ```
 
 **Arguments:**
@@ -3276,7 +3276,7 @@ dremio source refresh <SOURCE_ID>
 
 ```bash
 # Refresh source metadata
-dremio source refresh 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
+alt-dremio-cli source refresh 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 ```
 
 ### Delete Source
@@ -3284,7 +3284,7 @@ dremio source refresh 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 Delete a source.
 
 ```bash
-dremio source delete <SOURCE_ID>
+alt-dremio-cli source delete <SOURCE_ID>
 ```
 
 **Arguments:**
@@ -3297,10 +3297,10 @@ dremio source delete <SOURCE_ID>
 
 ```bash
 # Delete source (with confirmation)
-dremio source delete abc-123
+alt-dremio-cli source delete abc-123
 
 # Delete without confirmation
-dremio source delete abc-123 --yes
+alt-dremio-cli source delete abc-123 --yes
 ```
 
 ### Test Connection
@@ -3308,7 +3308,7 @@ dremio source delete abc-123 --yes
 Test a source configuration before creating.
 
 ```bash
-dremio source test-connection --config-file <FILE>
+alt-dremio-cli source test-connection --config-file <FILE>
 ```
 
 **Options:**
@@ -3318,10 +3318,10 @@ dremio source test-connection --config-file <FILE>
 
 ```bash
 # Test PostgreSQL connection
-dremio source test-connection --config-file postgres.json
+alt-dremio-cli source test-connection --config-file postgres.json
 
 # Test S3 connection
-dremio source test-connection --config-file s3.json
+alt-dremio-cli source test-connection --config-file s3.json
 ```
 
 ## Configuration Examples
@@ -3396,45 +3396,45 @@ cat > postgres.json <<EOF
 EOF
 
 # 2. Test connection
-dremio source test-connection --config-file postgres.json
+alt-dremio-cli source test-connection --config-file postgres.json
 
 # 3. Create source
-dremio source create --name Analytics_DB --type POSTGRES --config-file postgres.json
+alt-dremio-cli source create --name Analytics_DB --type POSTGRES --config-file postgres.json
 
 # 4. Get source ID
 SOURCE_ID=$(dremio --output json source list | jq -r '.[] | select(.path[0] == "Analytics_DB") | .id')
 
 # 5. Refresh metadata
-dremio source refresh $SOURCE_ID
+alt-dremio-cli source refresh $SOURCE_ID
 ```
 
 ### Updating Source Credentials
 
 ```bash
 # 1. Get current source
-dremio --output json source get abc-123 > current_config.json
+alt-dremio-cli --output json source get abc-123 > current_config.json
 
 # 2. Edit configuration
 cat current_config.json | jq '.config.password = "new_password"' > updated_config.json
 
 # 3. Update source
-dremio source update abc-123 --config-file updated_config.json
+alt-dremio-cli source update abc-123 --config-file updated_config.json
 
 # 4. Test connection
-dremio source refresh abc-123
+alt-dremio-cli source refresh abc-123
 ```
 
 ### Migrating Sources
 
 ```bash
 # 1. Export source from old environment
-dremio --profile old --output json source get abc-123 > source_export.json
+alt-dremio-cli --profile old --output json source get abc-123 > source_export.json
 
 # 2. Extract configuration
 cat source_export.json | jq '.config' > source_config.json
 
 # 3. Create in new environment
-dremio --profile new source create \
+alt-dremio-cli --profile new source create \
   --name $(cat source_export.json | jq -r '.path[0]') \
   --type $(cat source_export.json | jq -r '.type') \
   --config-file source_config.json
@@ -3460,7 +3460,7 @@ for name in "${!SOURCES[@]}"; do
   IFS=':' read -r type config <<< "${SOURCES[$name]}"
   
   echo "Creating source: $name"
-  dremio source create --name "$name" --type "$type" --config-file "$config"
+  alt-dremio-cli source create --name "$name" --type "$type" --config-file "$config"
 done
 ```
 
@@ -3477,7 +3477,7 @@ for source_id in $SOURCES; do
   echo "Checking source: $source_id"
   
   # Try to refresh
-  if dremio source refresh $source_id 2>/dev/null; then
+  if alt-dremio-cli source refresh $source_id 2>/dev/null; then
     echo "  ✓ Healthy"
   else
     echo "  ✗ Unhealthy"
@@ -3492,9 +3492,9 @@ done
 # refresh_all_sources.sh
 
 # Refresh all sources nightly
-dremio --output json source list | jq -r '.[].id' | while read source_id; do
+alt-dremio-cli --output json source list | jq -r '.[].id' | while read source_id; do
   echo "Refreshing source: $source_id"
-  dremio source refresh $source_id
+  alt-dremio-cli source refresh $source_id
   sleep 5  # Rate limiting
 done
 ```
@@ -3503,7 +3503,7 @@ done
 
 ```bash
 # Export source inventory
-dremio --output json source list | jq '[.[] | {
+alt-dremio-cli --output json source list | jq '[.[] | {
   name: .path[0],
   type: .type,
   id: .id,
@@ -3518,7 +3518,7 @@ cat source_inventory.json | jq -r '.[] | "\(.name) (\(.type))"'
 
 1. **Test before creating**: Always test connections first
    ```bash
-   dremio source test-connection --config-file config.json
+   alt-dremio-cli source test-connection --config-file config.json
    ```
 
 2. **Store configs securely**: Don't commit credentials to git
@@ -3545,7 +3545,7 @@ cat source_inventory.json | jq -r '.[] | "\(.name) (\(.type))"'
 4. **Regular refreshes**: Keep metadata up-to-date
    ```bash
    # Cron job for daily refresh
-   0 2 * * * dremio source refresh abc-123
+   0 2 * * * alt-dremio-cli source refresh abc-123
    ```
 
 ## Error Handling
@@ -3553,7 +3553,7 @@ cat source_inventory.json | jq -r '.[] | "\(.name) (\(.type))"'
 ### Connection Test Failed
 
 ```bash
-$ dremio source test-connection --config-file postgres.json
+$ alt-dremio-cli source test-connection --config-file postgres.json
 ✗ Connection test failed
   Error: Connection refused
 ```
@@ -3570,7 +3570,7 @@ psql -h postgres.company.com -U dremio_user -d analytics
 ### Source Already Exists
 
 ```bash
-$ dremio source create --name MyDB --type POSTGRES --config-file config.json
+$ alt-dremio-cli source create --name MyDB --type POSTGRES --config-file config.json
 Error: Source with name 'MyDB' already exists
 ```
 
@@ -3580,13 +3580,13 @@ Error: Source with name 'MyDB' already exists
 SOURCE_ID=$(dremio --output json source list | jq -r '.[] | select(.path[0] == "MyDB") | .id')
 
 # Update instead
-dremio source update $SOURCE_ID --config-file config.json
+alt-dremio-cli source update $SOURCE_ID --config-file config.json
 ```
 
 ### Invalid Configuration
 
 ```bash
-$ dremio source create --name MyS3 --type S3 --config-file s3.json
+$ alt-dremio-cli source create --name MyS3 --type S3 --config-file s3.json
 Error: Invalid configuration: missing required field 'accessKey'
 ```
 
@@ -3664,7 +3664,7 @@ cat > source.json <<EOF
 EOF
 
 # Create source
-dremio source create --name "$SOURCE_NAME" --type POSTGRES --config-file source.json
+alt-dremio-cli source create --name "$SOURCE_NAME" --type POSTGRES --config-file source.json
 
 # Clean up
 rm source.json
@@ -3678,9 +3678,9 @@ rm source.json
 
 while true; do
   # Check each source
-  dremio --output json source list | jq -r '.[].id' | while read id; do
+  alt-dremio-cli --output json source list | jq -r '.[].id' | while read id; do
     # Try to get source
-    if ! dremio source get $id >/dev/null 2>&1; then
+    if ! alt-dremio-cli source get $id >/dev/null 2>&1; then
       echo "Alert: Source $id is unavailable"
       # Send notification
     fi
@@ -3725,7 +3725,7 @@ The CLI handles these differences transparently.
 Create a new space.
 
 ```bash
-dremio space create --name <NAME> [OPTIONS]
+alt-dremio-cli space create --name <NAME> [OPTIONS]
 ```
 
 **Options:**
@@ -3736,16 +3736,16 @@ dremio space create --name <NAME> [OPTIONS]
 
 ```bash
 # Create simple space
-dremio space create --name "Analytics"
+alt-dremio-cli space create --name "Analytics"
 
 # Create with description
-dremio space create --name "Sales" --description "Sales data and reports"
+alt-dremio-cli space create --name "Sales" --description "Sales data and reports"
 
 # Cloud: Creates top-level folder
-dremio --profile cloud space create --name "Marketing"
+alt-dremio-cli --profile cloud space create --name "Marketing"
 
 # Software: Creates traditional SPACE
-dremio --profile software space create --name "DataScience"
+alt-dremio-cli --profile software space create --name "DataScience"
 ```
 
 ### List Spaces
@@ -3753,20 +3753,20 @@ dremio --profile software space create --name "DataScience"
 List all spaces.
 
 ```bash
-dremio space list
+alt-dremio-cli space list
 ```
 
 **Examples:**
 
 ```bash
 # List all spaces
-dremio space list
+alt-dremio-cli space list
 
 # JSON output
-dremio --output json space list
+alt-dremio-cli --output json space list
 
 # YAML output
-dremio --output yaml space list
+alt-dremio-cli --output yaml space list
 ```
 
 ### Get Space
@@ -3774,7 +3774,7 @@ dremio --output yaml space list
 Retrieve space details by ID.
 
 ```bash
-dremio space get <SPACE_ID>
+alt-dremio-cli space get <SPACE_ID>
 ```
 
 **Arguments:**
@@ -3784,10 +3784,10 @@ dremio space get <SPACE_ID>
 
 ```bash
 # Get space details
-dremio space get 66c76a3e-0335-463b-8622-1720f8546537
+alt-dremio-cli space get 66c76a3e-0335-463b-8622-1720f8546537
 
 # Get in JSON format
-dremio --output json space get 66c76a3e-0335-463b-8622-1720f8546537
+alt-dremio-cli --output json space get 66c76a3e-0335-463b-8622-1720f8546537
 ```
 
 ### Delete Space
@@ -3795,7 +3795,7 @@ dremio --output json space get 66c76a3e-0335-463b-8622-1720f8546537
 Delete a space.
 
 ```bash
-dremio space delete <SPACE_ID> [OPTIONS]
+alt-dremio-cli space delete <SPACE_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -3808,13 +3808,13 @@ dremio space delete <SPACE_ID> [OPTIONS]
 
 ```bash
 # Delete space (with confirmation)
-dremio space delete 66c76a3e-0335-463b-8622-1720f8546537
+alt-dremio-cli space delete 66c76a3e-0335-463b-8622-1720f8546537
 
 # Delete without confirmation
-dremio space delete 66c76a3e-0335-463b-8622-1720f8546537 --yes
+alt-dremio-cli space delete 66c76a3e-0335-463b-8622-1720f8546537 --yes
 
 # Delete with specific tag
-dremio space delete 66c76a3e-0335-463b-8622-1720f8546537 --tag "version-tag-123"
+alt-dremio-cli space delete 66c76a3e-0335-463b-8622-1720f8546537 --tag "version-tag-123"
 ```
 
 ## Folder Commands
@@ -3824,7 +3824,7 @@ dremio space delete 66c76a3e-0335-463b-8622-1720f8546537 --tag "version-tag-123"
 Create a new folder.
 
 ```bash
-dremio folder create --path <PATH> [OPTIONS]
+alt-dremio-cli folder create --path <PATH> [OPTIONS]
 ```
 
 **Options:**
@@ -3835,17 +3835,17 @@ dremio folder create --path <PATH> [OPTIONS]
 
 ```bash
 # Create folder with slash-separated path
-dremio folder create --path "Analytics/Reports"
+alt-dremio-cli folder create --path "Analytics/Reports"
 
 # Create with JSON array path
-dremio folder create --path '["Analytics", "Reports", "2024"]'
+alt-dremio-cli folder create --path '["Analytics", "Reports", "2024"]'
 
 # Create with description
-dremio folder create --path "Sales/Data" --description "Sales data folder"
+alt-dremio-cli folder create --path "Sales/Data" --description "Sales data folder"
 
 # Create nested folders
-dremio folder create --path "Analytics/Reports/Monthly"
-dremio folder create --path "Analytics/Reports/Quarterly"
+alt-dremio-cli folder create --path "Analytics/Reports/Monthly"
+alt-dremio-cli folder create --path "Analytics/Reports/Quarterly"
 ```
 
 ### List Folders
@@ -3853,7 +3853,7 @@ dremio folder create --path "Analytics/Reports/Quarterly"
 List folders.
 
 ```bash
-dremio folder list [OPTIONS]
+alt-dremio-cli folder list [OPTIONS]
 ```
 
 **Options:**
@@ -3863,16 +3863,16 @@ dremio folder list [OPTIONS]
 
 ```bash
 # List all folders
-dremio folder list
+alt-dremio-cli folder list
 
 # List folders in specific parent
-dremio folder list --parent "Analytics"
+alt-dremio-cli folder list --parent "Analytics"
 
 # List by parent ID
-dremio folder list --parent abc-123-def-456
+alt-dremio-cli folder list --parent abc-123-def-456
 
 # JSON output
-dremio --output json folder list
+alt-dremio-cli --output json folder list
 ```
 
 ### Get Folder
@@ -3880,7 +3880,7 @@ dremio --output json folder list
 Retrieve folder details by ID.
 
 ```bash
-dremio folder get <FOLDER_ID>
+alt-dremio-cli folder get <FOLDER_ID>
 ```
 
 **Arguments:**
@@ -3890,10 +3890,10 @@ dremio folder get <FOLDER_ID>
 
 ```bash
 # Get folder details
-dremio folder get 116f8103-159d-4640-b64a-68469bcb21b1
+alt-dremio-cli folder get 116f8103-159d-4640-b64a-68469bcb21b1
 
 # Get in JSON format
-dremio --output json folder get 116f8103-159d-4640-b64a-68469bcb21b1
+alt-dremio-cli --output json folder get 116f8103-159d-4640-b64a-68469bcb21b1
 ```
 
 ### Get Folder by Path
@@ -3901,7 +3901,7 @@ dremio --output json folder get 116f8103-159d-4640-b64a-68469bcb21b1
 Retrieve folder details by path.
 
 ```bash
-dremio folder get-by-path <PATH>
+alt-dremio-cli folder get-by-path <PATH>
 ```
 
 **Arguments:**
@@ -3911,13 +3911,13 @@ dremio folder get-by-path <PATH>
 
 ```bash
 # Get by slash-separated path
-dremio folder get-by-path "Analytics/Reports"
+alt-dremio-cli folder get-by-path "Analytics/Reports"
 
 # Get by dot-separated path
-dremio folder get-by-path "Analytics.Reports.Monthly"
+alt-dremio-cli folder get-by-path "Analytics.Reports.Monthly"
 
 # Get by JSON array path
-dremio folder get-by-path '["Analytics", "Reports", "2024"]'
+alt-dremio-cli folder get-by-path '["Analytics", "Reports", "2024"]'
 ```
 
 ### Delete Folder
@@ -3925,7 +3925,7 @@ dremio folder get-by-path '["Analytics", "Reports", "2024"]'
 Delete a folder.
 
 ```bash
-dremio folder delete <FOLDER_ID> [OPTIONS]
+alt-dremio-cli folder delete <FOLDER_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -3938,10 +3938,10 @@ dremio folder delete <FOLDER_ID> [OPTIONS]
 
 ```bash
 # Delete folder (with confirmation)
-dremio folder delete 116f8103-159d-4640-b64a-68469bcb21b1
+alt-dremio-cli folder delete 116f8103-159d-4640-b64a-68469bcb21b1
 
 # Delete without confirmation
-dremio folder delete 116f8103-159d-4640-b64a-68469bcb21b1 --yes
+alt-dremio-cli folder delete 116f8103-159d-4640-b64a-68469bcb21b1 --yes
 ```
 
 ## Scenarios
@@ -3950,78 +3950,78 @@ dremio folder delete 116f8103-159d-4640-b64a-68469bcb21b1 --yes
 
 ```bash
 # 1. Create top-level spaces
-dremio space create --name "Raw" --description "Raw data from sources"
-dremio space create --name "Curated" --description "Cleaned and transformed data"
-dremio space create --name "Analytics" --description "Business analytics views"
+alt-dremio-cli space create --name "Raw" --description "Raw data from sources"
+alt-dremio-cli space create --name "Curated" --description "Cleaned and transformed data"
+alt-dremio-cli space create --name "Analytics" --description "Business analytics views"
 
 # 2. Create folder structure in Raw
-dremio folder create --path "Raw/Customers"
-dremio folder create --path "Raw/Orders"
-dremio folder create --path "Raw/Products"
+alt-dremio-cli folder create --path "Raw/Customers"
+alt-dremio-cli folder create --path "Raw/Orders"
+alt-dremio-cli folder create --path "Raw/Products"
 
 # 3. Create folder structure in Curated
-dremio folder create --path "Curated/Dimensions"
-dremio folder create --path "Curated/Facts"
+alt-dremio-cli folder create --path "Curated/Dimensions"
+alt-dremio-cli folder create --path "Curated/Facts"
 
 # 4. Create folder structure in Analytics
-dremio folder create --path "Analytics/Sales"
-dremio folder create --path "Analytics/Marketing"
-dremio folder create --path "Analytics/Finance"
+alt-dremio-cli folder create --path "Analytics/Sales"
+alt-dremio-cli folder create --path "Analytics/Marketing"
+alt-dremio-cli folder create --path "Analytics/Finance"
 ```
 
 ### Medallion Architecture
 
 ```bash
 # Bronze layer (raw data)
-dremio space create --name "Bronze" --description "Raw data ingestion"
-dremio folder create --path "Bronze/source_system_1"
-dremio folder create --path "Bronze/source_system_2"
+alt-dremio-cli space create --name "Bronze" --description "Raw data ingestion"
+alt-dremio-cli folder create --path "Bronze/source_system_1"
+alt-dremio-cli folder create --path "Bronze/source_system_2"
 
 # Silver layer (cleaned data)
-dremio space create --name "Silver" --description "Cleaned and validated data"
-dremio folder create --path "Silver/customers"
-dremio folder create --path "Silver/orders"
-dremio folder create --path "Silver/products"
+alt-dremio-cli space create --name "Silver" --description "Cleaned and validated data"
+alt-dremio-cli folder create --path "Silver/customers"
+alt-dremio-cli folder create --path "Silver/orders"
+alt-dremio-cli folder create --path "Silver/products"
 
 # Gold layer (business aggregates)
-dremio space create --name "Gold" --description "Business-ready datasets"
-dremio folder create --path "Gold/customer_360"
-dremio folder create --path "Gold/sales_metrics"
-dremio folder create --path "Gold/inventory_status"
+alt-dremio-cli space create --name "Gold" --description "Business-ready datasets"
+alt-dremio-cli folder create --path "Gold/customer_360"
+alt-dremio-cli folder create --path "Gold/sales_metrics"
+alt-dremio-cli folder create --path "Gold/inventory_status"
 ```
 
 ### Department-Based Organization
 
 ```bash
 # Create department spaces
-dremio space create --name "Sales" --description "Sales department data"
-dremio space create --name "Marketing" --description "Marketing department data"
-dremio space create --name "Finance" --description "Finance department data"
+alt-dremio-cli space create --name "Sales" --description "Sales department data"
+alt-dremio-cli space create --name "Marketing" --description "Marketing department data"
+alt-dremio-cli space create --name "Finance" --description "Finance department data"
 
 # Create project folders within departments
-dremio folder create --path "Sales/Q1_2024"
-dremio folder create --path "Sales/Q2_2024"
-dremio folder create --path "Marketing/Campaigns"
-dremio folder create --path "Marketing/Analytics"
-dremio folder create --path "Finance/Reports"
-dremio folder create --path "Finance/Forecasts"
+alt-dremio-cli folder create --path "Sales/Q1_2024"
+alt-dremio-cli folder create --path "Sales/Q2_2024"
+alt-dremio-cli folder create --path "Marketing/Campaigns"
+alt-dremio-cli folder create --path "Marketing/Analytics"
+alt-dremio-cli folder create --path "Finance/Reports"
+alt-dremio-cli folder create --path "Finance/Forecasts"
 ```
 
 ### Migration and Cleanup
 
 ```bash
 # List all spaces
-dremio --output json space list > spaces.json
+alt-dremio-cli --output json space list > spaces.json
 
 # List all folders
-dremio --output json folder list > folders.json
+alt-dremio-cli --output json folder list > folders.json
 
 # Find empty folders
 cat folders.json | jq '.[] | select(.datasetCount == 0)'
 
 # Delete empty folders
 for folder_id in $(cat folders.json | jq -r '.[] | select(.datasetCount == 0) | .id'); do
-  dremio folder delete $folder_id --yes
+  alt-dremio-cli folder delete $folder_id --yes
 done
 ```
 
@@ -4031,21 +4031,21 @@ done
 
 ```bash
 # Create parent space
-dremio space create --name "DataWarehouse"
+alt-dremio-cli space create --name "DataWarehouse"
 
 # Create level 1 folders
-dremio folder create --path "DataWarehouse/Staging"
-dremio folder create --path "DataWarehouse/Production"
+alt-dremio-cli folder create --path "DataWarehouse/Staging"
+alt-dremio-cli folder create --path "DataWarehouse/Production"
 
 # Create level 2 folders
-dremio folder create --path "DataWarehouse/Staging/Daily"
-dremio folder create --path "DataWarehouse/Staging/Weekly"
-dremio folder create --path "DataWarehouse/Production/Current"
-dremio folder create --path "DataWarehouse/Production/Archive"
+alt-dremio-cli folder create --path "DataWarehouse/Staging/Daily"
+alt-dremio-cli folder create --path "DataWarehouse/Staging/Weekly"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Current"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Archive"
 
 # Create level 3 folders
-dremio folder create --path "DataWarehouse/Production/Current/2024"
-dremio folder create --path "DataWarehouse/Production/Current/2023"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Current/2024"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Current/2023"
 ```
 
 ### 2. Batch Folder Creation
@@ -4061,7 +4061,7 @@ FOLDERS=(
 )
 
 for folder in "${FOLDERS[@]}"; do
-  dremio folder create --path "$folder"
+  alt-dremio-cli folder create --path "$folder"
 done
 ```
 
@@ -4069,7 +4069,7 @@ done
 
 ```bash
 # Export folder structure
-dremio --output json folder list > folder_inventory.json
+alt-dremio-cli --output json folder list > folder_inventory.json
 
 # Generate tree view
 cat folder_inventory.json | jq -r '.[] | .path | join("/")' | sort
@@ -4085,15 +4085,15 @@ cat folder_inventory.json | jq -r '.[] | .path[0]' | sort | uniq -c
 SPACE_ID=$(dremio --output json space list | jq -r '.[] | select(.path[0] == "OldSpace") | .id')
 
 # List all folders in space
-dremio --output json folder list --parent $SPACE_ID > space_folders.json
+alt-dremio-cli --output json folder list --parent $SPACE_ID > space_folders.json
 
 # Delete all folders (bottom-up)
 cat space_folders.json | jq -r '.[] | .id' | tac | while read folder_id; do
-  dremio folder delete $folder_id --yes
+  alt-dremio-cli folder delete $folder_id --yes
 done
 
 # Delete space
-dremio space delete $SPACE_ID --yes
+alt-dremio-cli space delete $SPACE_ID --yes
 ```
 
 ## Tips
@@ -4109,18 +4109,18 @@ dremio space delete $SPACE_ID --yes
 
 2. **Use consistent naming**: Follow naming conventions
    ```bash
-   dremio space create --name "analytics"  # lowercase
-   dremio folder create --path "analytics/reports"  # lowercase
+   alt-dremio-cli space create --name "analytics"  # lowercase
+   alt-dremio-cli folder create --path "analytics/reports"  # lowercase
    ```
 
 3. **Document structure**: Keep a README or diagram
    ```bash
-   dremio --output json folder list | jq -r '.[] | .path | join("/")' > structure.txt
+   alt-dremio-cli --output json folder list | jq -r '.[] | .path | join("/")' > structure.txt
    ```
 
 4. **Clean up regularly**: Remove unused folders
    ```bash
-   dremio folder list | grep "old_"
+   alt-dremio-cli folder list | grep "old_"
    ```
 
 ## Error Handling
@@ -4128,7 +4128,7 @@ dremio space delete $SPACE_ID --yes
 ### Space Already Exists
 
 ```bash
-$ dremio space create --name "Analytics"
+$ alt-dremio-cli space create --name "Analytics"
 Error: Space already exists
 ```
 
@@ -4137,27 +4137,27 @@ Error: Space already exists
 ### Parent Not Found
 
 ```bash
-$ dremio folder create --path "NonExistent/folder"
+$ alt-dremio-cli folder create --path "NonExistent/folder"
 Error: Parent path does not exist
 ```
 
 **Solution**: Create parent first:
 ```bash
-dremio space create --name "NonExistent"
-dremio folder create --path "NonExistent/folder"
+alt-dremio-cli space create --name "NonExistent"
+alt-dremio-cli folder create --path "NonExistent/folder"
 ```
 
 ### Cannot Delete Non-Empty
 
 ```bash
-$ dremio space delete abc-123
+$ alt-dremio-cli space delete abc-123
 Error: Cannot delete non-empty space
 ```
 
 **Solution**: Delete contents first:
 ```bash
 # Delete all folders in space
-dremio folder list --parent abc-123
+alt-dremio-cli folder list --parent abc-123
 # Delete each folder, then delete space
 ```
 
@@ -4201,8 +4201,8 @@ This guide covers SQL query execution, including file-based queries, context man
 Execute a SQL query and return results.
 
 ```bash
-dremio sql execute <QUERY> [OPTIONS]
-dremio sql execute --file <FILE> [OPTIONS]
+alt-dremio-cli sql execute <QUERY> [OPTIONS]
+alt-dremio-cli sql execute --file <FILE> [OPTIONS]
 ```
 
 **Arguments:**
@@ -4220,21 +4220,21 @@ dremio sql execute --file <FILE> [OPTIONS]
 
 ```bash
 # Execute simple query (Waits for results)
-dremio sql execute "SELECT * FROM customers LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 10"
 
 # Execute from file (Waits for results)
 # Can contain multiple statements separated by semicolons (;)
-dremio sql execute --file query.sql
+alt-dremio-cli sql execute --file query.sql
 
 # Execute asynchronously (Returns Job ID immediately)
 # Note: --async is ignored for multi-statement files (runs sequentially)
-dremio sql execute "SELECT * FROM large_table" --async
+alt-dremio-cli sql execute "SELECT * FROM large_table" --async
 
 # Save results to file
-dremio sql execute "SELECT * FROM table" --output-file results.json
+alt-dremio-cli sql execute "SELECT * FROM table" --output-file results.json
 
 # Combine options
-dremio sql execute --file complex_query.sql --context "Analytics" --output-file results.json
+alt-dremio-cli sql execute --file complex_query.sql --context "Analytics" --output-file results.json
 ```
 
 ### Explain Query
@@ -4242,8 +4242,8 @@ dremio sql execute --file complex_query.sql --context "Analytics" --output-file 
 Generate and display the execution plan for a query.
 
 ```bash
-dremio sql explain <QUERY> [OPTIONS]
-dremio sql explain --file <FILE> [OPTIONS]
+alt-dremio-cli sql explain <QUERY> [OPTIONS]
+alt-dremio-cli sql explain --file <FILE> [OPTIONS]
 ```
 
 **Arguments:**
@@ -4257,13 +4257,13 @@ dremio sql explain --file <FILE> [OPTIONS]
 
 ```bash
 # Explain simple query
-dremio sql explain "SELECT * FROM customers WHERE region = 'US'"
+alt-dremio-cli sql explain "SELECT * FROM customers WHERE region = 'US'"
 
 # Explain from file
-dremio sql explain --file query.sql
+alt-dremio-cli sql explain --file query.sql
 
 # Explain with context
-dremio sql explain "SELECT * FROM table" --context "MySpace"
+alt-dremio-cli sql explain "SELECT * FROM table" --context "MySpace"
 ```
 
 ### Validate Query
@@ -4271,8 +4271,8 @@ dremio sql explain "SELECT * FROM table" --context "MySpace"
 Validate SQL query syntax without executing.
 
 ```bash
-dremio sql validate <QUERY> [OPTIONS]
-dremio sql validate --file <FILE> [OPTIONS]
+alt-dremio-cli sql validate <QUERY> [OPTIONS]
+alt-dremio-cli sql validate --file <FILE> [OPTIONS]
 ```
 
 **Arguments:**
@@ -4286,13 +4286,13 @@ dremio sql validate --file <FILE> [OPTIONS]
 
 ```bash
 # Validate query syntax
-dremio sql validate "SELECT * FROM customers"
+alt-dremio-cli sql validate "SELECT * FROM customers"
 
 # Validate from file
-dremio sql validate --file query.sql
+alt-dremio-cli sql validate --file query.sql
 
 # Validate with context
-dremio sql validate "SELECT * FROM table" --context "MySpace"
+alt-dremio-cli sql validate "SELECT * FROM table" --context "MySpace"
 ```
 
 ## Scenarios
@@ -4301,16 +4301,16 @@ dremio sql validate "SELECT * FROM table" --context "MySpace"
 
 ```bash
 # 1. Start with a simple query
-dremio sql execute "SELECT * FROM customers LIMIT 5"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 5"
 
 # 2. Validate more complex query
-dremio sql validate "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
+alt-dremio-cli sql validate "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
 
 # 3. Explain to check performance
-dremio sql explain "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
+alt-dremio-cli sql explain "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
 
 # 4. Execute and save results
-dremio sql execute "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id" --output-file results.json
+alt-dremio-cli sql execute "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id" --output-file results.json
 ```
 
 ### File-Based Query Management
@@ -4329,40 +4329,40 @@ ORDER BY 1 DESC
 EOF
 
 # Validate the query
-dremio sql validate --file monthly_sales.sql
+alt-dremio-cli sql validate --file monthly_sales.sql
 
 # Execute and save results
-dremio sql execute --file monthly_sales.sql --output-file monthly_sales.json
+alt-dremio-cli sql execute --file monthly_sales.sql --output-file monthly_sales.json
 
 # Explain for optimization
-dremio sql explain --file monthly_sales.sql
+alt-dremio-cli sql explain --file monthly_sales.sql
 ```
 
 ### Async Execution for Long Queries
 
 ```bash
 # Submit long-running query
-dremio sql execute "SELECT * FROM huge_table" --async
+alt-dremio-cli sql execute "SELECT * FROM huge_table" --async
 # Output: Job ID: abc-123-def-456
 
 # Check job status
-dremio job get abc-123-def-456
+alt-dremio-cli job get abc-123-def-456
 
 # Get results when ready
-dremio job results abc-123-def-456 --output-file results.json
+alt-dremio-cli job results abc-123-def-456 --output-file results.json
 ```
 
 ### Context-Aware Queries
 
 ```bash
 # Set context to avoid fully-qualified names
-dremio sql execute "SELECT * FROM customers" --context "Sales"
+alt-dremio-cli sql execute "SELECT * FROM customers" --context "Sales"
 
 # Instead of:
-dremio sql execute "SELECT * FROM Sales.customers"
+alt-dremio-cli sql execute "SELECT * FROM Sales.customers"
 
 # Multi-level context
-dremio sql execute "SELECT * FROM table" --context "Analytics,Reports"
+alt-dremio-cli sql execute "SELECT * FROM table" --context "Analytics,Reports"
 ```
 
 ### Batch Query Execution
@@ -4371,7 +4371,7 @@ dremio sql execute "SELECT * FROM table" --context "Analytics,Reports"
 # Execute multiple queries
 for query_file in queries/*.sql; do
   echo "Executing $query_file..."
-  dremio sql execute --file "$query_file" --output-file "results/$(basename $query_file .sql).json"
+  alt-dremio-cli sql execute --file "$query_file" --output-file "results/$(basename $query_file .sql).json"
 done
 ```
 
@@ -4381,45 +4381,45 @@ done
 
 ```bash
 # Step 1: Validate syntax
-dremio sql validate "SELECT * FROM customers WHERE region = 'US'"
+alt-dremio-cli sql validate "SELECT * FROM customers WHERE region = 'US'"
 
 # Step 2: Check execution plan
-dremio sql explain "SELECT * FROM customers WHERE region = 'US'"
+alt-dremio-cli sql explain "SELECT * FROM customers WHERE region = 'US'"
 
 # Step 3: Test with small dataset
-dremio sql execute "SELECT * FROM customers WHERE region = 'US' LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers WHERE region = 'US' LIMIT 10"
 
 # Step 4: Execute full query
-dremio sql execute "SELECT * FROM customers WHERE region = 'US'" --output-file us_customers.json
+alt-dremio-cli sql execute "SELECT * FROM customers WHERE region = 'US'" --output-file us_customers.json
 ```
 
 ### 2. Performance Analysis
 
 ```bash
 # Get execution plan
-dremio sql explain "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" > plan.txt
+alt-dremio-cli sql explain "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" > plan.txt
 
 # Execute and time
-time dremio sql execute "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" --async
+time alt-dremio-cli sql execute "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" --async
 
 # Get job details for analysis
-dremio job get <job-id>
+alt-dremio-cli job get <job-id>
 
 # Download profile
-dremio job profile <job-id> --download profile.zip
+alt-dremio-cli job profile <job-id> --download profile.zip
 ```
 
 ### 3. Data Export
 
 ```bash
 # Export to JSON
-dremio sql execute "SELECT * FROM customers" --output-file customers.json
+alt-dremio-cli sql execute "SELECT * FROM customers" --output-file customers.json
 
 # Export to YAML
-dremio --output yaml sql execute "SELECT * FROM customers" --output-file customers.yaml
+alt-dremio-cli --output yaml sql execute "SELECT * FROM customers" --output-file customers.yaml
 
 # Convert to CSV using jq
-dremio --output json sql execute "SELECT * FROM customers" | jq -r '.rows[] | @csv' > customers.csv
+alt-dremio-cli --output json sql execute "SELECT * FROM customers" | jq -r '.rows[] | @csv' > customers.csv
 ```
 
 ### 4. Scheduled Queries
@@ -4429,10 +4429,10 @@ dremio --output json sql execute "SELECT * FROM customers" | jq -r '.rows[] | @c
 # daily_report.sh
 
 # Execute daily sales query
-dremio sql execute --file daily_sales.sql --output-file "reports/sales_$(date +%Y%m%d).json"
+alt-dremio-cli sql execute --file daily_sales.sql --output-file "reports/sales_$(date +%Y%m%d).json"
 
 # Execute customer metrics
-dremio sql execute --file customer_metrics.sql --output-file "reports/customers_$(date +%Y%m%d).json"
+alt-dremio-cli sql execute --file customer_metrics.sql --output-file "reports/customers_$(date +%Y%m%d).json"
 
 # Send notification
 echo "Daily reports generated" | mail -s "Dremio Reports" admin@company.com
@@ -4497,7 +4497,7 @@ ORDER BY co.total_spent DESC
 ### Table (Default)
 
 ```bash
-dremio sql execute "SELECT * FROM customers LIMIT 5"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 5"
 ```
 
 Output:
@@ -4513,7 +4513,7 @@ Output:
 ### JSON
 
 ```bash
-dremio --output json sql execute "SELECT * FROM customers LIMIT 2"
+alt-dremio-cli --output json sql execute "SELECT * FROM customers LIMIT 2"
 ```
 
 Output:
@@ -4530,7 +4530,7 @@ Output:
 ### YAML
 
 ```bash
-dremio --output yaml sql execute "SELECT * FROM customers LIMIT 2"
+alt-dremio-cli --output yaml sql execute "SELECT * FROM customers LIMIT 2"
 ```
 
 Output:
@@ -4549,27 +4549,27 @@ rowCount: 2
 
 1. **Use files for complex queries**: Store reusable queries in files
    ```bash
-   dremio sql execute --file queries/monthly_report.sql
+   alt-dremio-cli sql execute --file queries/monthly_report.sql
    ```
 
 2. **Validate before executing**: Catch syntax errors early
    ```bash
-   dremio sql validate --file query.sql && dremio sql execute --file query.sql
+   alt-dremio-cli sql validate --file query.sql && alt-dremio-cli sql execute --file query.sql
    ```
 
 3. **Use async for long queries**: Don't block on large queries
    ```bash
-   dremio sql execute "SELECT * FROM huge_table" --async
+   alt-dremio-cli sql execute "SELECT * FROM huge_table" --async
    ```
 
 4. **Set context to simplify queries**: Avoid repeating paths
    ```bash
-   dremio sql execute "SELECT * FROM table" --context "MySpace"
+   alt-dremio-cli sql execute "SELECT * FROM table" --context "MySpace"
    ```
 
 5. **Export results for analysis**: Save to files for further processing
    ```bash
-   dremio sql execute "SELECT * FROM data" --output-file data.json
+   alt-dremio-cli sql execute "SELECT * FROM data" --output-file data.json
    ```
 
 ## Error Handling
@@ -4577,38 +4577,38 @@ rowCount: 2
 ### Syntax Error
 
 ```bash
-$ dremio sql execute "SELECT * FORM table"
+$ alt-dremio-cli sql execute "SELECT * FORM table"
 Error: SQL syntax error: Encountered "FORM" at line 1, column 10
 ```
 
 **Solution**: Fix the SQL syntax:
 ```bash
-dremio sql execute "SELECT * FROM table"
+alt-dremio-cli sql execute "SELECT * FROM table"
 ```
 
 ### Table Not Found
 
 ```bash
-$ dremio sql execute "SELECT * FROM nonexistent"
+$ alt-dremio-cli sql execute "SELECT * FROM nonexistent"
 Error: Table 'nonexistent' not found
 ```
 
 **Solution**: Verify table exists:
 ```bash
-dremio catalog list | grep "nonexistent"
+alt-dremio-cli catalog list | grep "nonexistent"
 ```
 
 ### Job Still Running
 
 ```bash
-$ dremio sql execute "SELECT * FROM large_table"
+$ alt-dremio-cli sql execute "SELECT * FROM large_table"
 ⚠ Could not fetch results: Job may still be running
 ```
 
 **Solution**: Use async mode or check job status:
 ```bash
-dremio sql execute "SELECT * FROM large_table" --async
-dremio job get <job-id>
+alt-dremio-cli sql execute "SELECT * FROM large_table" --async
+alt-dremio-cli job get <job-id>
 ```
 
 ## Platform Differences
@@ -4647,20 +4647,20 @@ EOF
 # Replace parameters and execute
 REGION="US"
 DATE="2024-01-01"
-sed "s/{REGION}/$REGION/g; s/{DATE}/$DATE/g" query_template.sql | dremio sql execute --file /dev/stdin
+sed "s/{REGION}/$REGION/g; s/{DATE}/$DATE/g" query_template.sql | alt-dremio-cli sql execute --file /dev/stdin
 ```
 
 ### Query Pipeline
 
 ```bash
 # Extract
-dremio sql execute "SELECT * FROM source_table" --output-file extracted.json
+alt-dremio-cli sql execute "SELECT * FROM source_table" --output-file extracted.json
 
 # Transform (using jq)
 cat extracted.json | jq '.rows[] | {id, name, email}' > transformed.json
 
 # Load (create view with results)
-dremio view create --path "Processed.customers" --sql "SELECT * FROM transformed_data"
+alt-dremio-cli view create --path "Processed.customers" --sql "SELECT * FROM transformed_data"
 ```
 
 ### Monitoring and Alerts
@@ -4701,7 +4701,7 @@ This guide covers table operations for managing physical datasets in Dremio.
 Promote a dataset to a physical dataset (table).
 
 ```bash
-dremio table promote <DATASET_ID>
+alt-dremio-cli table promote <DATASET_ID>
 ```
 
 **Arguments:**
@@ -4711,7 +4711,7 @@ dremio table promote <DATASET_ID>
 
 ```bash
 # Promote a dataset to table
-dremio table promote abc-123-def-456
+alt-dremio-cli table promote abc-123-def-456
 ```
 
 ### Configure Format
@@ -4719,7 +4719,7 @@ dremio table promote abc-123-def-456
 Configure the file format for a physical dataset.
 
 ```bash
-dremio table format <DATASET_ID> --type <FORMAT> [--from-file <FILE>]
+alt-dremio-cli table format <DATASET_ID> --type <FORMAT> [--from-file <FILE>]
 ```
 
 **Arguments:**
@@ -4733,13 +4733,13 @@ dremio table format <DATASET_ID> --type <FORMAT> [--from-file <FILE>]
 
 ```bash
 # Set CSV format
-dremio table format abc-123 --type CSV
+alt-dremio-cli table format abc-123 --type CSV
 
 # Set format with configuration file
-dremio table format abc-123 --type CSV --from-file csv_format.json
+alt-dremio-cli table format abc-123 --type CSV --from-file csv_format.json
 
 # Set JSON format
-dremio table format abc-123 --type JSON
+alt-dremio-cli table format abc-123 --type JSON
 ```
 
 ### Update Table
@@ -4747,7 +4747,7 @@ dremio table format abc-123 --type JSON
 Update table metadata.
 
 ```bash
-dremio table update <DATASET_ID> --from-file <FILE>
+alt-dremio-cli table update <DATASET_ID> --from-file <FILE>
 ```
 
 **Arguments:**
@@ -4760,7 +4760,7 @@ dremio table update <DATASET_ID> --from-file <FILE>
 
 ```bash
 # Update table metadata
-dremio table update abc-123 --from-file updated_table.json
+alt-dremio-cli table update abc-123 --from-file updated_table.json
 ```
 
 ## Format Configuration Examples
@@ -4805,7 +4805,7 @@ dremio table update abc-123 --from-file updated_table.json
 DATASET_ID=$(dremio --output json catalog get-by-path "MySource.data.customers.csv" | jq -r '.id')
 
 # 2. Promote to table
-dremio table promote $DATASET_ID
+alt-dremio-cli table promote $DATASET_ID
 
 # 3. Configure CSV format
 cat > csv_format.json <<EOF
@@ -4817,7 +4817,7 @@ cat > csv_format.json <<EOF
 }
 EOF
 
-dremio table format $DATASET_ID --type CSV --from-file csv_format.json
+alt-dremio-cli table format $DATASET_ID --type CSV --from-file csv_format.json
 ```
 
 ### Working with JSON Files
@@ -4827,8 +4827,8 @@ dremio table format $DATASET_ID --type CSV --from-file csv_format.json
 DATASET_ID=$(dremio --output json catalog get-by-path "MySource.data.events.json" | jq -r '.id')
 
 # Promote and set format
-dremio table promote $DATASET_ID
-dremio table format $DATASET_ID --type JSON
+alt-dremio-cli table promote $DATASET_ID
+alt-dremio-cli table format $DATASET_ID --type JSON
 ```
 
 ## Common Workflows
@@ -4842,10 +4842,10 @@ dremio table format $DATASET_ID --type JSON
 SOURCE="MySource"
 
 # Find all CSV files
-dremio --output json catalog list | jq -r ".data[] | select(.path[0] == \"$SOURCE\" and (.path[-1] | endswith(\".csv\"))) | .id" | while read dataset_id; do
+alt-dremio-cli --output json catalog list | jq -r ".data[] | select(.path[0] == \"$SOURCE\" and (.path[-1] | endswith(\".csv\"))) | .id" | while read dataset_id; do
   echo "Promoting: $dataset_id"
-  dremio table promote $dataset_id
-  dremio table format $dataset_id --type CSV --from-file csv_format.json
+  alt-dremio-cli table promote $dataset_id
+  alt-dremio-cli table format $dataset_id --type CSV --from-file csv_format.json
 done
 ```
 
@@ -4888,7 +4888,7 @@ EOF
     ;;
 esac
 
-dremio table format $DATASET_ID --type ${FORMAT_TYPE^^} --from-file format.json
+alt-dremio-cli table format $DATASET_ID --type ${FORMAT_TYPE^^} --from-file format.json
 rm format.json
 ```
 
@@ -4896,18 +4896,18 @@ rm format.json
 
 1. **Promote before formatting**: Always promote datasets before configuring format
    ```bash
-   dremio table promote $ID
-   dremio table format $ID --type CSV
+   alt-dremio-cli table promote $ID
+   alt-dremio-cli table format $ID --type CSV
    ```
 
 2. **Test format settings**: Verify format with a query
    ```bash
-   dremio sql execute "SELECT * FROM dataset LIMIT 10"
+   alt-dremio-cli sql execute "SELECT * FROM dataset LIMIT 10"
    ```
 
 3. **Use format files**: Store format configurations for reuse
    ```bash
-   dremio table format $ID --type CSV --from-file standard_csv.json
+   alt-dremio-cli table format $ID --type CSV --from-file standard_csv.json
    ```
 
 ## Error Handling
@@ -4915,7 +4915,7 @@ rm format.json
 ### Dataset Already Promoted
 
 ```bash
-$ dremio table promote abc-123
+$ alt-dremio-cli table promote abc-123
 Error: Dataset is already a physical dataset
 ```
 
@@ -4924,7 +4924,7 @@ Error: Dataset is already a physical dataset
 ### Invalid Format Configuration
 
 ```bash
-$ dremio table format abc-123 --type CSV --from-file bad_format.json
+$ alt-dremio-cli table format abc-123 --type CSV --from-file bad_format.json
 Error: Invalid format configuration
 ```
 
@@ -4990,7 +4990,7 @@ This guide covers tag and wiki management for documenting and organizing catalog
 Set tags on a catalog object (views and tables only).
 
 ```bash
-dremio tag set <CATALOG_ID> --tags <TAGS>
+alt-dremio-cli tag set <CATALOG_ID> --tags <TAGS>
 ```
 
 **Arguments:**
@@ -5003,13 +5003,13 @@ dremio tag set <CATALOG_ID> --tags <TAGS>
 
 ```bash
 # Set single tag
-dremio tag set abc-123 --tags analytics
+alt-dremio-cli tag set abc-123 --tags analytics
 
 # Set multiple tags
-dremio tag set abc-123 --tags analytics,production,sensitive
+alt-dremio-cli tag set abc-123 --tags analytics,production,sensitive
 
 # Set tags with spaces
-dremio tag set abc-123 --tags "customer data,pii,gdpr compliant"
+alt-dremio-cli tag set abc-123 --tags "customer data,pii,gdpr compliant"
 ```
 
 ### Get Tags
@@ -5017,7 +5017,7 @@ dremio tag set abc-123 --tags "customer data,pii,gdpr compliant"
 Retrieve tags from a catalog object.
 
 ```bash
-dremio tag get <CATALOG_ID>
+alt-dremio-cli tag get <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -5027,10 +5027,10 @@ dremio tag get <CATALOG_ID>
 
 ```bash
 # Get tags
-dremio tag get abc-123
+alt-dremio-cli tag get abc-123
 
 # Get in JSON format
-dremio --output json tag get abc-123
+alt-dremio-cli --output json tag get abc-123
 ```
 
 ### Delete Tags
@@ -5038,7 +5038,7 @@ dremio --output json tag get abc-123
 Remove all tags from a catalog object.
 
 ```bash
-dremio tag delete <CATALOG_ID>
+alt-dremio-cli tag delete <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -5048,10 +5048,10 @@ dremio tag delete <CATALOG_ID>
 
 ```bash
 # Delete tags (with confirmation)
-dremio tag delete abc-123
+alt-dremio-cli tag delete abc-123
 
 # Delete without confirmation
-dremio tag delete abc-123 --yes
+alt-dremio-cli tag delete abc-123 --yes
 ```
 
 ## Wiki Commands
@@ -5061,8 +5061,8 @@ dremio tag delete abc-123 --yes
 Set wiki documentation on a catalog object.
 
 ```bash
-dremio wiki set <CATALOG_ID> --text <TEXT>
-dremio wiki set <CATALOG_ID> --file <FILE>
+alt-dremio-cli wiki set <CATALOG_ID> --text <TEXT>
+alt-dremio-cli wiki set <CATALOG_ID> --file <FILE>
 ```
 
 **Arguments:**
@@ -5076,10 +5076,10 @@ dremio wiki set <CATALOG_ID> --file <FILE>
 
 ```bash
 # Set wiki with inline text
-dremio wiki set abc-123 --text "# My Dataset\n\nThis dataset contains customer information."
+alt-dremio-cli wiki set abc-123 --text "# My Dataset\n\nThis dataset contains customer information."
 
 # Set wiki from file
-dremio wiki set abc-123 --file README.md
+alt-dremio-cli wiki set abc-123 --file README.md
 
 # Set comprehensive wiki
 cat > dataset_wiki.md <<EOF
@@ -5101,7 +5101,7 @@ Use this dataset for customer segmentation and analysis.
 - Data Team: data@company.com
 EOF
 
-dremio wiki set abc-123 --file dataset_wiki.md
+alt-dremio-cli wiki set abc-123 --file dataset_wiki.md
 ```
 
 ### Get Wiki
@@ -5109,7 +5109,7 @@ dremio wiki set abc-123 --file dataset_wiki.md
 Retrieve wiki documentation from a catalog object.
 
 ```bash
-dremio wiki get <CATALOG_ID> [OPTIONS]
+alt-dremio-cli wiki get <CATALOG_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -5122,13 +5122,13 @@ dremio wiki get <CATALOG_ID> [OPTIONS]
 
 ```bash
 # Get wiki
-dremio wiki get abc-123
+alt-dremio-cli wiki get abc-123
 
 # Save wiki to file
-dremio wiki get abc-123 --output-file README.md
+alt-dremio-cli wiki get abc-123 --output-file README.md
 
 # Get in JSON format
-dremio --output json wiki get abc-123
+alt-dremio-cli --output json wiki get abc-123
 ```
 
 ### Delete Wiki
@@ -5136,7 +5136,7 @@ dremio --output json wiki get abc-123
 Remove wiki documentation from a catalog object.
 
 ```bash
-dremio wiki delete <CATALOG_ID>
+alt-dremio-cli wiki delete <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -5146,10 +5146,10 @@ dremio wiki delete <CATALOG_ID>
 
 ```bash
 # Delete wiki (with confirmation)
-dremio wiki delete abc-123
+alt-dremio-cli wiki delete abc-123
 
 # Delete without confirmation
-dremio wiki delete abc-123 --yes
+alt-dremio-cli wiki delete abc-123 --yes
 ```
 
 ## Scenarios
@@ -5158,13 +5158,13 @@ dremio wiki delete abc-123 --yes
 
 ```bash
 # 1. Create a view
-dremio view create --path "Analytics.customer_summary" --sql "SELECT * FROM customers"
+alt-dremio-cli view create --path "Analytics.customer_summary" --sql "SELECT * FROM customers"
 
 # 2. Get view ID
 VIEW_ID=$(dremio --output json view get-by-path "Analytics.customer_summary" | jq -r '.id')
 
 # 3. Add tags
-dremio tag set $VIEW_ID --tags "analytics,customer-data,production"
+alt-dremio-cli tag set $VIEW_ID --tags "analytics,customer-data,production"
 
 # 4. Add wiki documentation
 cat > view_docs.md <<EOF
@@ -5195,28 +5195,28 @@ LIMIT 10
 - Analytics Team: analytics@company.com
 EOF
 
-dremio wiki set $VIEW_ID --file view_docs.md
+alt-dremio-cli wiki set $VIEW_ID --file view_docs.md
 
 # 5. Verify
-dremio tag get $VIEW_ID
-dremio wiki get $VIEW_ID
+alt-dremio-cli tag get $VIEW_ID
+alt-dremio-cli wiki get $VIEW_ID
 ```
 
 ### Organizing with Tags
 
 ```bash
 # Tag datasets by environment
-dremio tag set dev-view-id --tags development,testing
-dremio tag set staging-view-id --tags staging,pre-production
-dremio tag set prod-view-id --tags production,critical
+alt-dremio-cli tag set dev-view-id --tags development,testing
+alt-dremio-cli tag set staging-view-id --tags staging,pre-production
+alt-dremio-cli tag set prod-view-id --tags production,critical
 
 # Tag by data classification
-dremio tag set customer-view-id --tags pii,sensitive,gdpr
-dremio tag set public-view-id --tags public,non-sensitive
+alt-dremio-cli tag set customer-view-id --tags pii,sensitive,gdpr
+alt-dremio-cli tag set public-view-id --tags public,non-sensitive
 
 # Tag by team ownership
-dremio tag set sales-view-id --tags sales-team,revenue
-dremio tag set marketing-view-id --tags marketing-team,campaigns
+alt-dremio-cli tag set sales-view-id --tags sales-team,revenue
+alt-dremio-cli tag set marketing-view-id --tags marketing-team,campaigns
 ```
 
 ### Documentation Workflow
@@ -5246,11 +5246,11 @@ EOF
 sed "s/{DATASET_NAME}/Customer Data/g; s/{DESCRIPTION}/Customer information/g" template.md > customer_wiki.md
 
 # 3. Apply to datasets
-dremio wiki set <customer-view-id> --file customer_wiki.md
+alt-dremio-cli wiki set <customer-view-id> --file customer_wiki.md
 
 # 4. Export all wikis for backup
 for id in $(dremio --output json view list | jq -r '.[].id'); do
-  dremio wiki get $id --output-file "wikis/${id}.md"
+  alt-dremio-cli wiki get $id --output-file "wikis/${id}.md"
 done
 ```
 
@@ -5263,12 +5263,12 @@ done
 SENSITIVE_VIEWS=$(dremio --output json view list | jq -r '.[] | select(.path[] | contains("customer")) | .id')
 
 for view_id in $SENSITIVE_VIEWS; do
-  dremio tag set $view_id --tags "pii,sensitive,restricted"
+  alt-dremio-cli tag set $view_id --tags "pii,sensitive,restricted"
 done
 
 # Add compliance documentation
 for view_id in $SENSITIVE_VIEWS; do
-  dremio wiki set $view_id --text "# Data Classification\n\n**Classification**: Sensitive\n**Compliance**: GDPR, CCPA\n**Access**: Restricted to authorized personnel only"
+  alt-dremio-cli wiki set $view_id --text "# Data Classification\n\n**Classification**: Sensitive\n**Compliance**: GDPR, CCPA\n**Access**: Restricted to authorized personnel only"
 done
 ```
 
@@ -5276,7 +5276,7 @@ done
 
 ```bash
 # Create comprehensive catalog
-dremio --output json view list | jq -r '.[] | .id' | while read view_id; do
+alt-dremio-cli --output json view list | jq -r '.[] | .id' | while read view_id; do
   # Get view details
   VIEW=$(dremio --output json view get $view_id)
   NAME=$(echo $VIEW | jq -r '.path | join(".")')
@@ -5305,17 +5305,17 @@ done
 # Export tags and wikis before migration
 mkdir -p migration/tags migration/wikis
 
-dremio --output json view list | jq -r '.[] | .id' | while read id; do
-  dremio --output json tag get $id > "migration/tags/${id}.json"
-  dremio wiki get $id --output-file "migration/wikis/${id}.md"
+alt-dremio-cli --output json view list | jq -r '.[] | .id' | while read id; do
+  alt-dremio-cli --output json tag get $id > "migration/tags/${id}.json"
+  alt-dremio-cli wiki get $id --output-file "migration/wikis/${id}.md"
 done
 
 # After migration, restore
 for id_file in migration/tags/*.json; do
   id=$(basename $id_file .json)
   tags=$(cat $id_file | jq -r '.tags | join(",")')
-  dremio tag set $id --tags "$tags"
-  dremio wiki set $id --file "migration/wikis/${id}.md"
+  alt-dremio-cli tag set $id --tags "$tags"
+  alt-dremio-cli wiki set $id --file "migration/wikis/${id}.md"
 done
 ```
 
@@ -5324,10 +5324,10 @@ done
 1. **Use consistent tag naming**: Establish conventions
    ```bash
    # Good: lowercase, hyphenated
-   dremio tag set $id --tags "customer-data,production,pii"
+   alt-dremio-cli tag set $id --tags "customer-data,production,pii"
    
    # Avoid: mixed case, spaces
-   dremio tag set $id --tags "Customer Data,PRODUCTION,PII"
+   alt-dremio-cli tag set $id --tags "Customer Data,PRODUCTION,PII"
    ```
 
 2. **Document in Markdown**: Use proper formatting
@@ -5350,7 +5350,7 @@ done
 
 3. **Version control wikis**: Store in git
    ```bash
-   dremio wiki get $id --output-file docs/datasets/my_dataset.md
+   alt-dremio-cli wiki get $id --output-file docs/datasets/my_dataset.md
    git add docs/datasets/my_dataset.md
    git commit -m "Update dataset documentation"
    ```
@@ -5358,8 +5358,8 @@ done
 4. **Automate tagging**: Use scripts for consistency
    ```bash
    # Tag all views in Analytics space
-   dremio --output json view list --space Analytics | jq -r '.[].id' | \
-     xargs -I {} dremio tag set {} --tags "analytics,production"
+   alt-dremio-cli --output json view list --space Analytics | jq -r '.[].id' | \
+     xargs -I {} alt-dremio-cli tag set {} --tags "analytics,production"
    ```
 
 ## Important Notes
@@ -5390,7 +5390,7 @@ Error: Labels may only be set on views and tables
 ### Cannot Tag Spaces
 
 ```bash
-$ dremio tag set space-id --tags analytics
+$ alt-dremio-cli tag set space-id --tags analytics
 Error: Labels may only be set on views and tables
 ```
 
@@ -5398,19 +5398,19 @@ Error: Labels may only be set on views and tables
 ```bash
 # Get view ID instead
 VIEW_ID=$(dremio --output json view get-by-path "MySpace.MyView" | jq -r '.id')
-dremio tag set $VIEW_ID --tags analytics
+alt-dremio-cli tag set $VIEW_ID --tags analytics
 ```
 
 ### Object Not Found
 
 ```bash
-$ dremio tag get invalid-id
+$ alt-dremio-cli tag get invalid-id
 Error: Resource not found
 ```
 
 **Solution**: Verify the object ID:
 ```bash
-dremio catalog get-by-path "MySpace.MyView"
+alt-dremio-cli catalog get-by-path "MySpace.MyView"
 ```
 
 ## Platform Differences
@@ -5447,10 +5447,10 @@ dremio catalog get-by-path "MySpace.MyView"
 TAG_LIST="analytics,production,verified"
 
 # Tag all views in a space
-dremio --output json view list --space Analytics | jq -r '.[].id' | \
+alt-dremio-cli --output json view list --space Analytics | jq -r '.[].id' | \
 while read view_id; do
   echo "Tagging $view_id..."
-  dremio tag set $view_id --tags "$TAG_LIST"
+  alt-dremio-cli tag set $view_id --tags "$TAG_LIST"
 done
 ```
 
@@ -5487,14 +5487,14 @@ This view is used for analytics and reporting.
 EOF
 
 # Set wiki
-dremio wiki set $VIEW_ID --file wiki.md
+alt-dremio-cli wiki set $VIEW_ID --file wiki.md
 ```
 
 ### Tag-Based Search
 
 ```bash
 # Find all production datasets
-dremio --output json view list | jq -r '.[] | .id' | while read id; do
+alt-dremio-cli --output json view list | jq -r '.[] | .id' | while read id; do
   TAGS=$(dremio --output json tag get $id 2>/dev/null | jq -r '.tags[]' 2>/dev/null)
   if echo "$TAGS" | grep -q "production"; then
     echo "Production dataset: $id"
@@ -5523,13 +5523,13 @@ The Dremio CLI includes an interactive Terminal User Interface (TUI) for explori
 ## Usage
 
 ```bash
-dremio ui catalog
+alt-dremio-cli ui catalog
 ```
 
 Or using a specific profile:
 
 ```bash
-dremio --profile prod ui catalog
+alt-dremio-cli --profile prod ui catalog
 ```
 
 ## Features
@@ -5579,48 +5579,48 @@ This guide covers user management operations for administering user accounts in 
 ### List Users
 
 ```bash
-dremio user list
+alt-dremio-cli user list
 ```
 
 ### Get User
 
 ```bash
-dremio user get <USER_ID>
+alt-dremio-cli user get <USER_ID>
 ```
 
 ### Create User
 
 ```bash
-dremio user create --name "John Doe" --email john@company.com [--username john] [--password secret]
-dremio user create --from-file user.json
+alt-dremio-cli user create --name "John Doe" --email john@company.com [--username john] [--password secret]
+alt-dremio-cli user create --from-file user.json
 ```
 
 ### Update User
 
 ```bash
-dremio user update <USER_ID> --from-file updated_user.json
+alt-dremio-cli user update <USER_ID> --from-file updated_user.json
 ```
 
 ### Delete User
 
 ```bash
-dremio user delete <USER_ID>
+alt-dremio-cli user delete <USER_ID>
 ```
 
 ## Examples
 
 ```bash
 # List all users
-dremio user list
+alt-dremio-cli user list
 
 # Create user
-dremio user create --name "Jane Analyst" --email jane@company.com
+alt-dremio-cli user create --name "Jane Analyst" --email jane@company.com
 
 # Get user details
-dremio user get user-123
+alt-dremio-cli user get user-123
 
 # Delete user
-dremio user delete user-123
+alt-dremio-cli user delete user-123
 ```
 
 ## User File Format
@@ -5656,8 +5656,8 @@ This guide covers view management operations including creating, updating, and m
 Create a new view with a SQL query.
 
 ```bash
-dremio view create --path <PATH> --sql <SQL> [OPTIONS]
-dremio view create --from-file <FILE>
+alt-dremio-cli view create --path <PATH> --sql <SQL> [OPTIONS]
+alt-dremio-cli view create --from-file <FILE>
 ```
 
 **Options:**
@@ -5669,12 +5669,12 @@ dremio view create --from-file <FILE>
 
 ```bash
 # Create simple view
-dremio view create \
+alt-dremio-cli view create \
   --path '["MySpace", "MyView"]' \
   --sql "SELECT * FROM customers WHERE active = true"
 
 # Create with dot-separated path
-dremio view create \
+alt-dremio-cli view create \
   --path "Analytics.active_customers" \
   --sql "SELECT * FROM customers WHERE active = true"
 
@@ -5687,10 +5687,10 @@ cat > view.json <<EOF
   "sql": "SELECT DATE_TRUNC('month', order_date) as month, SUM(amount) as total FROM orders GROUP BY 1"
 }
 EOF
-dremio view create --from-file view.json
+alt-dremio-cli view create --from-file view.json
 
 # Create complex view
-dremio view create \
+alt-dremio-cli view create \
   --path "Reports.customer_summary" \
   --sql "SELECT c.id, c.name, COUNT(o.id) as order_count, SUM(o.amount) as total_spent FROM customers c LEFT JOIN orders o ON c.id = o.customer_id GROUP BY c.id, c.name"
 ```
@@ -5700,7 +5700,7 @@ dremio view create \
 Retrieve view details by ID.
 
 ```bash
-dremio view get <VIEW_ID> [OPTIONS]
+alt-dremio-cli view get <VIEW_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -5713,13 +5713,13 @@ dremio view get <VIEW_ID> [OPTIONS]
 
 ```bash
 # Get view details
-dremio view get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
+alt-dremio-cli view get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 
 # Get view with SQL
-dremio view get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include sql
+alt-dremio-cli view get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include sql
 
 # Get in JSON format
-dremio --output json view get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
+alt-dremio-cli --output json view get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 ```
 
 ### Get View by Path
@@ -5727,7 +5727,7 @@ dremio --output json view get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 Retrieve view details by path.
 
 ```bash
-dremio view get-by-path <PATH> [OPTIONS]
+alt-dremio-cli view get-by-path <PATH> [OPTIONS]
 ```
 
 **Arguments:**
@@ -5740,13 +5740,13 @@ dremio view get-by-path <PATH> [OPTIONS]
 
 ```bash
 # Get by dot-separated path
-dremio view get-by-path "Analytics.monthly_sales"
+alt-dremio-cli view get-by-path "Analytics.monthly_sales"
 
 # Get by slash-separated path
-dremio view get-by-path "Analytics/Reports/summary"
+alt-dremio-cli view get-by-path "Analytics/Reports/summary"
 
 # Get with SQL definition
-dremio view get-by-path "Analytics.monthly_sales" --include sql
+alt-dremio-cli view get-by-path "Analytics.monthly_sales" --include sql
 ```
 
 ### Update View
@@ -5754,8 +5754,8 @@ dremio view get-by-path "Analytics.monthly_sales" --include sql
 Update an existing view's SQL or definition.
 
 ```bash
-dremio view update <VIEW_ID> --sql <SQL>
-dremio view update <VIEW_ID> --from-file <FILE>
+alt-dremio-cli view update <VIEW_ID> --sql <SQL>
+alt-dremio-cli view update <VIEW_ID> --from-file <FILE>
 ```
 
 **Arguments:**
@@ -5769,7 +5769,7 @@ dremio view update <VIEW_ID> --from-file <FILE>
 
 ```bash
 # Update view SQL
-dremio view update 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 \
+alt-dremio-cli view update 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 \
   --sql "SELECT * FROM customers WHERE active = true AND created_at > '2024-01-01'"
 
 # Update from file
@@ -5782,7 +5782,7 @@ cat > updated_view.json <<EOF
   "sql": "SELECT DATE_TRUNC('month', order_date) as month, SUM(amount) as total, COUNT(*) as count FROM orders GROUP BY 1"
 }
 EOF
-dremio view update 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --from-file updated_view.json
+alt-dremio-cli view update 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --from-file updated_view.json
 ```
 
 ### Delete View
@@ -5790,7 +5790,7 @@ dremio view update 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --from-file updated_view
 Delete a view.
 
 ```bash
-dremio view delete <VIEW_ID> [OPTIONS]
+alt-dremio-cli view delete <VIEW_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -5803,13 +5803,13 @@ dremio view delete <VIEW_ID> [OPTIONS]
 
 ```bash
 # Delete view (with confirmation)
-dremio view delete 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
+alt-dremio-cli view delete 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 
 # Delete without confirmation
-dremio view delete 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --yes
+alt-dremio-cli view delete 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --yes
 
 # Delete with specific tag
-dremio view delete 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --tag "version-tag-123"
+alt-dremio-cli view delete 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --tag "version-tag-123"
 ```
 
 ### List Views
@@ -5817,7 +5817,7 @@ dremio view delete 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --tag "version-tag-123"
 List all views in the catalog.
 
 ```bash
-dremio view list [OPTIONS]
+alt-dremio-cli view list [OPTIONS]
 ```
 
 **Options:**
@@ -5827,13 +5827,13 @@ dremio view list [OPTIONS]
 
 ```bash
 # List all views
-dremio view list
+alt-dremio-cli view list
 
 # List views in specific space
-dremio view list --space Analytics
+alt-dremio-cli view list --space Analytics
 
 # List in JSON format
-dremio --output json view list
+alt-dremio-cli --output json view list
 ```
 
 ## Scenarios
@@ -5842,20 +5842,20 @@ dremio --output json view list
 
 ```bash
 # 1. Create base views
-dremio view create \
+alt-dremio-cli view create \
   --path "DataMart.dim_customers" \
   --sql "SELECT id, name, email, created_at FROM raw.customers"
 
-dremio view create \
+alt-dremio-cli view create \
   --path "DataMart.dim_products" \
   --sql "SELECT id, name, category, price FROM raw.products"
 
-dremio view create \
+alt-dremio-cli view create \
   --path "DataMart.fact_orders" \
   --sql "SELECT id, customer_id, product_id, amount, order_date FROM raw.orders"
 
 # 2. Create summary view
-dremio view create \
+alt-dremio-cli view create \
   --path "DataMart.sales_summary" \
   --sql "SELECT c.name as customer, p.name as product, SUM(o.amount) as total FROM DataMart.fact_orders o JOIN DataMart.dim_customers c ON o.customer_id = c.id JOIN DataMart.dim_products p ON o.product_id = p.id GROUP BY 1, 2"
 ```
@@ -5864,25 +5864,25 @@ dremio view create \
 
 ```bash
 # 1. Create initial view
-dremio view create \
+alt-dremio-cli view create \
   --path "Analytics.sales" \
   --sql "SELECT * FROM orders"
 
 # 2. Test the view
-dremio sql execute "SELECT * FROM Analytics.sales LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM Analytics.sales LIMIT 10"
 
 # 3. Get view ID
 VIEW_ID=$(dremio --output json view get-by-path "Analytics.sales" | jq -r '.id')
 
 # 4. Update with filters
-dremio view update $VIEW_ID \
+alt-dremio-cli view update $VIEW_ID \
   --sql "SELECT * FROM orders WHERE order_date >= '2024-01-01'"
 
 # 5. Test again
-dremio sql execute "SELECT COUNT(*) FROM Analytics.sales"
+alt-dremio-cli sql execute "SELECT COUNT(*) FROM Analytics.sales"
 
 # 6. Add aggregations
-dremio view update $VIEW_ID \
+alt-dremio-cli view update $VIEW_ID \
   --sql "SELECT DATE_TRUNC('day', order_date) as day, SUM(amount) as total FROM orders WHERE order_date >= '2024-01-01' GROUP BY 1"
 ```
 
@@ -5890,20 +5890,20 @@ dremio view update $VIEW_ID \
 
 ```bash
 # 1. Export view from source
-dremio --profile source --output json view get-by-path "Analytics.summary" > view_export.json
+alt-dremio-cli --profile source --output json view get-by-path "Analytics.summary" > view_export.json
 
 # 2. Modify for target environment
 cat view_export.json | jq '.path = ["NewAnalytics", "summary"]' > view_import.json
 
 # 3. Create in target
-dremio --profile target view create --from-file view_import.json
+alt-dremio-cli --profile target view create --from-file view_import.json
 ```
 
 ### View Documentation
 
 ```bash
 # Export all views with SQL
-dremio --output json view list | jq '.[] | {path: .path, sql: .sql}' > view_documentation.json
+alt-dremio-cli --output json view list | jq '.[] | {path: .path, sql: .sql}' > view_documentation.json
 
 # Generate markdown documentation
 cat view_documentation.json | jq -r '.[] | "## \(.path | join("."))\n\n```sql\n\(.sql)\n```\n"' > views.md
@@ -5915,55 +5915,55 @@ cat view_documentation.json | jq -r '.[] | "## \(.path | join("."))\n\n```sql\n\
 
 ```bash
 # Level 1: Raw data views
-dremio view create --path "Bronze.customers" --sql "SELECT * FROM source.customers"
-dremio view create --path "Bronze.orders" --sql "SELECT * FROM source.orders"
+alt-dremio-cli view create --path "Bronze.customers" --sql "SELECT * FROM source.customers"
+alt-dremio-cli view create --path "Bronze.orders" --sql "SELECT * FROM source.orders"
 
 # Level 2: Cleaned data views
-dremio view create --path "Silver.customers" --sql "SELECT id, TRIM(name) as name, LOWER(email) as email FROM Bronze.customers WHERE id IS NOT NULL"
+alt-dremio-cli view create --path "Silver.customers" --sql "SELECT id, TRIM(name) as name, LOWER(email) as email FROM Bronze.customers WHERE id IS NOT NULL"
 
 # Level 3: Business logic views
-dremio view create --path "Gold.customer_metrics" --sql "SELECT c.id, c.name, COUNT(o.id) as order_count, SUM(o.amount) as lifetime_value FROM Silver.customers c LEFT JOIN Bronze.orders o ON c.id = o.customer_id GROUP BY c.id, c.name"
+alt-dremio-cli view create --path "Gold.customer_metrics" --sql "SELECT c.id, c.name, COUNT(o.id) as order_count, SUM(o.amount) as lifetime_value FROM Silver.customers c LEFT JOIN Bronze.orders o ON c.id = o.customer_id GROUP BY c.id, c.name"
 ```
 
 ### 2. View Versioning
 
 ```bash
 # Create v1
-dremio view create --path "Analytics.metrics_v1" --sql "SELECT * FROM data"
+alt-dremio-cli view create --path "Analytics.metrics_v1" --sql "SELECT * FROM data"
 
 # Create v2 with improvements
-dremio view create --path "Analytics.metrics_v2" --sql "SELECT *, additional_field FROM data"
+alt-dremio-cli view create --path "Analytics.metrics_v2" --sql "SELECT *, additional_field FROM data"
 
 # Update production view to v2
 VIEW_ID=$(dremio --output json view get-by-path "Analytics.metrics" | jq -r '.id')
-dremio view update $VIEW_ID --sql "SELECT * FROM Analytics.metrics_v2"
+alt-dremio-cli view update $VIEW_ID --sql "SELECT * FROM Analytics.metrics_v2"
 ```
 
 ### 3. View Testing
 
 ```bash
 # Create test view
-dremio view create --path "Testing.new_metric" --sql "SELECT customer_id, SUM(amount) as total FROM orders GROUP BY customer_id"
+alt-dremio-cli view create --path "Testing.new_metric" --sql "SELECT customer_id, SUM(amount) as total FROM orders GROUP BY customer_id"
 
 # Test with sample data
-dremio sql execute "SELECT * FROM Testing.new_metric LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM Testing.new_metric LIMIT 10"
 
 # Validate results
-dremio sql execute "SELECT COUNT(*), SUM(total) FROM Testing.new_metric"
+alt-dremio-cli sql execute "SELECT COUNT(*), SUM(total) FROM Testing.new_metric"
 
 # Promote to production
-dremio view create --path "Production.customer_totals" --sql "SELECT customer_id, SUM(amount) as total FROM orders GROUP BY customer_id"
+alt-dremio-cli view create --path "Production.customer_totals" --sql "SELECT customer_id, SUM(amount) as total FROM orders GROUP BY customer_id"
 
 # Delete test view
 VIEW_ID=$(dremio --output json view get-by-path "Testing.new_metric" | jq -r '.id')
-dremio view delete $VIEW_ID --yes
+alt-dremio-cli view delete $VIEW_ID --yes
 ```
 
 ## Tips
 
 1. **Use meaningful names**: Make view paths descriptive
    ```bash
-   dremio view create --path "Analytics.monthly_revenue_by_region" --sql "..."
+   alt-dremio-cli view create --path "Analytics.monthly_revenue_by_region" --sql "..."
    ```
 
 2. **Document complex SQL**: Add comments in SQL
@@ -5980,12 +5980,12 @@ dremio view delete $VIEW_ID --yes
 
 3. **Test before updating**: Always test SQL before updating production views
    ```bash
-   dremio sql execute "SELECT * FROM (YOUR_NEW_SQL) LIMIT 10"
+   alt-dremio-cli sql execute "SELECT * FROM (YOUR_NEW_SQL) LIMIT 10"
    ```
 
 4. **Use version control**: Store view definitions in git
    ```bash
-   dremio --output json view get-by-path "Analytics.summary" > views/analytics_summary.json
+   alt-dremio-cli --output json view get-by-path "Analytics.summary" > views/analytics_summary.json
    git add views/analytics_summary.json
    git commit -m "Update analytics summary view"
    ```
@@ -5995,39 +5995,39 @@ dremio view delete $VIEW_ID --yes
 ### View Already Exists
 
 ```bash
-$ dremio view create --path "Analytics.summary" --sql "SELECT 1"
+$ alt-dremio-cli view create --path "Analytics.summary" --sql "SELECT 1"
 Error: View already exists
 ```
 
 **Solution**: Update instead of create:
 ```bash
 VIEW_ID=$(dremio --output json view get-by-path "Analytics.summary" | jq -r '.id')
-dremio view update $VIEW_ID --sql "SELECT 1"
+alt-dremio-cli view update $VIEW_ID --sql "SELECT 1"
 ```
 
 ### Invalid SQL
 
 ```bash
-$ dremio view create --path "Analytics.bad" --sql "SELECT * FORM table"
+$ alt-dremio-cli view create --path "Analytics.bad" --sql "SELECT * FORM table"
 Error: SQL syntax error
 ```
 
 **Solution**: Test SQL first:
 ```bash
-dremio sql execute "SELECT * FROM table LIMIT 1"
+alt-dremio-cli sql execute "SELECT * FROM table LIMIT 1"
 ```
 
 ### Path Not Found
 
 ```bash
-$ dremio view create --path "NonExistent.view" --sql "SELECT 1"
+$ alt-dremio-cli view create --path "NonExistent.view" --sql "SELECT 1"
 Error: Parent path does not exist
 ```
 
 **Solution**: Create parent space/folder first:
 ```bash
-dremio space create --name "NonExistent"
-dremio view create --path "NonExistent.view" --sql "SELECT 1"
+alt-dremio-cli space create --name "NonExistent"
+alt-dremio-cli view create --path "NonExistent.view" --sql "SELECT 1"
 ```
 
 ## Platform Differences
