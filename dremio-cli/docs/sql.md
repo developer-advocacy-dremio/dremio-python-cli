@@ -9,8 +9,8 @@ This guide covers SQL query execution, including file-based queries, context man
 Execute a SQL query and return results.
 
 ```bash
-dremio sql execute <QUERY> [OPTIONS]
-dremio sql execute --file <FILE> [OPTIONS]
+alt-dremio-cli sql execute <QUERY> [OPTIONS]
+alt-dremio-cli sql execute --file <FILE> [OPTIONS]
 ```
 
 **Arguments:**
@@ -28,21 +28,21 @@ dremio sql execute --file <FILE> [OPTIONS]
 
 ```bash
 # Execute simple query (Waits for results)
-dremio sql execute "SELECT * FROM customers LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 10"
 
 # Execute from file (Waits for results)
 # Can contain multiple statements separated by semicolons (;)
-dremio sql execute --file query.sql
+alt-dremio-cli sql execute --file query.sql
 
 # Execute asynchronously (Returns Job ID immediately)
 # Note: --async is ignored for multi-statement files (runs sequentially)
-dremio sql execute "SELECT * FROM large_table" --async
+alt-dremio-cli sql execute "SELECT * FROM large_table" --async
 
 # Save results to file
-dremio sql execute "SELECT * FROM table" --output-file results.json
+alt-dremio-cli sql execute "SELECT * FROM table" --output-file results.json
 
 # Combine options
-dremio sql execute --file complex_query.sql --context "Analytics" --output-file results.json
+alt-dremio-cli sql execute --file complex_query.sql --context "Analytics" --output-file results.json
 ```
 
 ### Explain Query
@@ -50,8 +50,8 @@ dremio sql execute --file complex_query.sql --context "Analytics" --output-file 
 Generate and display the execution plan for a query.
 
 ```bash
-dremio sql explain <QUERY> [OPTIONS]
-dremio sql explain --file <FILE> [OPTIONS]
+alt-dremio-cli sql explain <QUERY> [OPTIONS]
+alt-dremio-cli sql explain --file <FILE> [OPTIONS]
 ```
 
 **Arguments:**
@@ -65,13 +65,13 @@ dremio sql explain --file <FILE> [OPTIONS]
 
 ```bash
 # Explain simple query
-dremio sql explain "SELECT * FROM customers WHERE region = 'US'"
+alt-dremio-cli sql explain "SELECT * FROM customers WHERE region = 'US'"
 
 # Explain from file
-dremio sql explain --file query.sql
+alt-dremio-cli sql explain --file query.sql
 
 # Explain with context
-dremio sql explain "SELECT * FROM table" --context "MySpace"
+alt-dremio-cli sql explain "SELECT * FROM table" --context "MySpace"
 ```
 
 ### Validate Query
@@ -79,8 +79,8 @@ dremio sql explain "SELECT * FROM table" --context "MySpace"
 Validate SQL query syntax without executing.
 
 ```bash
-dremio sql validate <QUERY> [OPTIONS]
-dremio sql validate --file <FILE> [OPTIONS]
+alt-dremio-cli sql validate <QUERY> [OPTIONS]
+alt-dremio-cli sql validate --file <FILE> [OPTIONS]
 ```
 
 **Arguments:**
@@ -94,13 +94,13 @@ dremio sql validate --file <FILE> [OPTIONS]
 
 ```bash
 # Validate query syntax
-dremio sql validate "SELECT * FROM customers"
+alt-dremio-cli sql validate "SELECT * FROM customers"
 
 # Validate from file
-dremio sql validate --file query.sql
+alt-dremio-cli sql validate --file query.sql
 
 # Validate with context
-dremio sql validate "SELECT * FROM table" --context "MySpace"
+alt-dremio-cli sql validate "SELECT * FROM table" --context "MySpace"
 ```
 
 ## Scenarios
@@ -109,16 +109,16 @@ dremio sql validate "SELECT * FROM table" --context "MySpace"
 
 ```bash
 # 1. Start with a simple query
-dremio sql execute "SELECT * FROM customers LIMIT 5"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 5"
 
 # 2. Validate more complex query
-dremio sql validate "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
+alt-dremio-cli sql validate "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
 
 # 3. Explain to check performance
-dremio sql explain "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
+alt-dremio-cli sql explain "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id"
 
 # 4. Execute and save results
-dremio sql execute "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id" --output-file results.json
+alt-dremio-cli sql execute "SELECT c.*, o.total FROM customers c JOIN orders o ON c.id = o.customer_id" --output-file results.json
 ```
 
 ### File-Based Query Management
@@ -137,40 +137,40 @@ ORDER BY 1 DESC
 EOF
 
 # Validate the query
-dremio sql validate --file monthly_sales.sql
+alt-dremio-cli sql validate --file monthly_sales.sql
 
 # Execute and save results
-dremio sql execute --file monthly_sales.sql --output-file monthly_sales.json
+alt-dremio-cli sql execute --file monthly_sales.sql --output-file monthly_sales.json
 
 # Explain for optimization
-dremio sql explain --file monthly_sales.sql
+alt-dremio-cli sql explain --file monthly_sales.sql
 ```
 
 ### Async Execution for Long Queries
 
 ```bash
 # Submit long-running query
-dremio sql execute "SELECT * FROM huge_table" --async
+alt-dremio-cli sql execute "SELECT * FROM huge_table" --async
 # Output: Job ID: abc-123-def-456
 
 # Check job status
-dremio job get abc-123-def-456
+alt-dremio-cli job get abc-123-def-456
 
 # Get results when ready
-dremio job results abc-123-def-456 --output-file results.json
+alt-dremio-cli job results abc-123-def-456 --output-file results.json
 ```
 
 ### Context-Aware Queries
 
 ```bash
 # Set context to avoid fully-qualified names
-dremio sql execute "SELECT * FROM customers" --context "Sales"
+alt-dremio-cli sql execute "SELECT * FROM customers" --context "Sales"
 
 # Instead of:
-dremio sql execute "SELECT * FROM Sales.customers"
+alt-dremio-cli sql execute "SELECT * FROM Sales.customers"
 
 # Multi-level context
-dremio sql execute "SELECT * FROM table" --context "Analytics,Reports"
+alt-dremio-cli sql execute "SELECT * FROM table" --context "Analytics,Reports"
 ```
 
 ### Batch Query Execution
@@ -179,7 +179,7 @@ dremio sql execute "SELECT * FROM table" --context "Analytics,Reports"
 # Execute multiple queries
 for query_file in queries/*.sql; do
   echo "Executing $query_file..."
-  dremio sql execute --file "$query_file" --output-file "results/$(basename $query_file .sql).json"
+  alt-dremio-cli sql execute --file "$query_file" --output-file "results/$(basename $query_file .sql).json"
 done
 ```
 
@@ -189,45 +189,45 @@ done
 
 ```bash
 # Step 1: Validate syntax
-dremio sql validate "SELECT * FROM customers WHERE region = 'US'"
+alt-dremio-cli sql validate "SELECT * FROM customers WHERE region = 'US'"
 
 # Step 2: Check execution plan
-dremio sql explain "SELECT * FROM customers WHERE region = 'US'"
+alt-dremio-cli sql explain "SELECT * FROM customers WHERE region = 'US'"
 
 # Step 3: Test with small dataset
-dremio sql execute "SELECT * FROM customers WHERE region = 'US' LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers WHERE region = 'US' LIMIT 10"
 
 # Step 4: Execute full query
-dremio sql execute "SELECT * FROM customers WHERE region = 'US'" --output-file us_customers.json
+alt-dremio-cli sql execute "SELECT * FROM customers WHERE region = 'US'" --output-file us_customers.json
 ```
 
 ### 2. Performance Analysis
 
 ```bash
 # Get execution plan
-dremio sql explain "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" > plan.txt
+alt-dremio-cli sql explain "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" > plan.txt
 
 # Execute and time
-time dremio sql execute "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" --async
+time alt-dremio-cli sql execute "SELECT c.*, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id" --async
 
 # Get job details for analysis
-dremio job get <job-id>
+alt-dremio-cli job get <job-id>
 
 # Download profile
-dremio job profile <job-id> --download profile.zip
+alt-dremio-cli job profile <job-id> --download profile.zip
 ```
 
 ### 3. Data Export
 
 ```bash
 # Export to JSON
-dremio sql execute "SELECT * FROM customers" --output-file customers.json
+alt-dremio-cli sql execute "SELECT * FROM customers" --output-file customers.json
 
 # Export to YAML
-dremio --output yaml sql execute "SELECT * FROM customers" --output-file customers.yaml
+alt-dremio-cli --output yaml sql execute "SELECT * FROM customers" --output-file customers.yaml
 
 # Convert to CSV using jq
-dremio --output json sql execute "SELECT * FROM customers" | jq -r '.rows[] | @csv' > customers.csv
+alt-dremio-cli --output json sql execute "SELECT * FROM customers" | jq -r '.rows[] | @csv' > customers.csv
 ```
 
 ### 4. Scheduled Queries
@@ -237,10 +237,10 @@ dremio --output json sql execute "SELECT * FROM customers" | jq -r '.rows[] | @c
 # daily_report.sh
 
 # Execute daily sales query
-dremio sql execute --file daily_sales.sql --output-file "reports/sales_$(date +%Y%m%d).json"
+alt-dremio-cli sql execute --file daily_sales.sql --output-file "reports/sales_$(date +%Y%m%d).json"
 
 # Execute customer metrics
-dremio sql execute --file customer_metrics.sql --output-file "reports/customers_$(date +%Y%m%d).json"
+alt-dremio-cli sql execute --file customer_metrics.sql --output-file "reports/customers_$(date +%Y%m%d).json"
 
 # Send notification
 echo "Daily reports generated" | mail -s "Dremio Reports" admin@company.com
@@ -305,7 +305,7 @@ ORDER BY co.total_spent DESC
 ### Table (Default)
 
 ```bash
-dremio sql execute "SELECT * FROM customers LIMIT 5"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 5"
 ```
 
 Output:
@@ -321,7 +321,7 @@ Output:
 ### JSON
 
 ```bash
-dremio --output json sql execute "SELECT * FROM customers LIMIT 2"
+alt-dremio-cli --output json sql execute "SELECT * FROM customers LIMIT 2"
 ```
 
 Output:
@@ -338,7 +338,7 @@ Output:
 ### YAML
 
 ```bash
-dremio --output yaml sql execute "SELECT * FROM customers LIMIT 2"
+alt-dremio-cli --output yaml sql execute "SELECT * FROM customers LIMIT 2"
 ```
 
 Output:
@@ -357,27 +357,27 @@ rowCount: 2
 
 1. **Use files for complex queries**: Store reusable queries in files
    ```bash
-   dremio sql execute --file queries/monthly_report.sql
+   alt-dremio-cli sql execute --file queries/monthly_report.sql
    ```
 
 2. **Validate before executing**: Catch syntax errors early
    ```bash
-   dremio sql validate --file query.sql && dremio sql execute --file query.sql
+   alt-dremio-cli sql validate --file query.sql && alt-dremio-cli sql execute --file query.sql
    ```
 
 3. **Use async for long queries**: Don't block on large queries
    ```bash
-   dremio sql execute "SELECT * FROM huge_table" --async
+   alt-dremio-cli sql execute "SELECT * FROM huge_table" --async
    ```
 
 4. **Set context to simplify queries**: Avoid repeating paths
    ```bash
-   dremio sql execute "SELECT * FROM table" --context "MySpace"
+   alt-dremio-cli sql execute "SELECT * FROM table" --context "MySpace"
    ```
 
 5. **Export results for analysis**: Save to files for further processing
    ```bash
-   dremio sql execute "SELECT * FROM data" --output-file data.json
+   alt-dremio-cli sql execute "SELECT * FROM data" --output-file data.json
    ```
 
 ## Error Handling
@@ -385,38 +385,38 @@ rowCount: 2
 ### Syntax Error
 
 ```bash
-$ dremio sql execute "SELECT * FORM table"
+$ alt-dremio-cli sql execute "SELECT * FORM table"
 Error: SQL syntax error: Encountered "FORM" at line 1, column 10
 ```
 
 **Solution**: Fix the SQL syntax:
 ```bash
-dremio sql execute "SELECT * FROM table"
+alt-dremio-cli sql execute "SELECT * FROM table"
 ```
 
 ### Table Not Found
 
 ```bash
-$ dremio sql execute "SELECT * FROM nonexistent"
+$ alt-dremio-cli sql execute "SELECT * FROM nonexistent"
 Error: Table 'nonexistent' not found
 ```
 
 **Solution**: Verify table exists:
 ```bash
-dremio catalog list | grep "nonexistent"
+alt-dremio-cli catalog list | grep "nonexistent"
 ```
 
 ### Job Still Running
 
 ```bash
-$ dremio sql execute "SELECT * FROM large_table"
+$ alt-dremio-cli sql execute "SELECT * FROM large_table"
 ⚠ Could not fetch results: Job may still be running
 ```
 
 **Solution**: Use async mode or check job status:
 ```bash
-dremio sql execute "SELECT * FROM large_table" --async
-dremio job get <job-id>
+alt-dremio-cli sql execute "SELECT * FROM large_table" --async
+alt-dremio-cli job get <job-id>
 ```
 
 ## Platform Differences
@@ -455,20 +455,20 @@ EOF
 # Replace parameters and execute
 REGION="US"
 DATE="2024-01-01"
-sed "s/{REGION}/$REGION/g; s/{DATE}/$DATE/g" query_template.sql | dremio sql execute --file /dev/stdin
+sed "s/{REGION}/$REGION/g; s/{DATE}/$DATE/g" query_template.sql | alt-dremio-cli sql execute --file /dev/stdin
 ```
 
 ### Query Pipeline
 
 ```bash
 # Extract
-dremio sql execute "SELECT * FROM source_table" --output-file extracted.json
+alt-dremio-cli sql execute "SELECT * FROM source_table" --output-file extracted.json
 
 # Transform (using jq)
 cat extracted.json | jq '.rows[] | {id, name, email}' > transformed.json
 
 # Load (create view with results)
-dremio view create --path "Processed.customers" --sql "SELECT * FROM transformed_data"
+alt-dremio-cli view create --path "Processed.customers" --sql "SELECT * FROM transformed_data"
 ```
 
 ### Monitoring and Alerts

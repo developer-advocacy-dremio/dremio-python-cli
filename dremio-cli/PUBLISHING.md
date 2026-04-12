@@ -29,8 +29,8 @@ This creates:
 pip install dist/dremio_cli-1.0.0-py3-none-any.whl
 
 # Test installation
-dremio --version
-dremio --help
+alt-dremio-cli --version
+alt-dremio-cli --help
 ```
 
 ## Upload to Test PyPI (Optional)
@@ -122,14 +122,14 @@ version = "1.0.1"  # Increment version
 - [ ] Test locally: `pip install dist/*.whl`
 - [ ] Upload to PyPI: `twine upload dist/*`
 - [ ] Create GitHub release
-- [ ] Verify installation: `pip install dremio-cli`
+- [ ] Verify installation: `pip install alt-dremio-cli`
 
 ## Post-Publication
 
 After publishing, users can install with:
 
 ```bash
-pip install dremio-cli
+pip install alt-dremio-cli
 ```
 
 ## Troubleshooting

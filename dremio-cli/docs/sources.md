@@ -18,20 +18,20 @@ This guide covers source management operations for connecting to and managing ex
 List all configured sources.
 
 ```bash
-dremio source list
+alt-dremio-cli source list
 ```
 
 **Examples:**
 
 ```bash
 # List all sources
-dremio source list
+alt-dremio-cli source list
 
 # JSON output
-dremio --output json source list
+alt-dremio-cli --output json source list
 
 # YAML output
-dremio --output yaml source list
+alt-dremio-cli --output yaml source list
 ```
 
 ### Get Source
@@ -39,7 +39,7 @@ dremio --output yaml source list
 Retrieve source details by ID.
 
 ```bash
-dremio source get <SOURCE_ID>
+alt-dremio-cli source get <SOURCE_ID>
 ```
 
 **Arguments:**
@@ -49,10 +49,10 @@ dremio source get <SOURCE_ID>
 
 ```bash
 # Get source details
-dremio source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
+alt-dremio-cli source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 
 # Get in JSON format
-dremio --output json source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
+alt-dremio-cli --output json source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 ```
 
 ### Create Source
@@ -60,7 +60,7 @@ dremio --output json source get 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 Create a new data source.
 
 ```bash
-dremio source create --name <NAME> --type <TYPE> --config-file <FILE>
+alt-dremio-cli source create --name <NAME> --type <TYPE> --config-file <FILE>
 ```
 
 **Options:**
@@ -72,13 +72,13 @@ dremio source create --name <NAME> --type <TYPE> --config-file <FILE>
 
 ```bash
 # Create PostgreSQL source
-dremio source create --name MyPostgres --type POSTGRES --config-file postgres.json
+alt-dremio-cli source create --name MyPostgres --type POSTGRES --config-file postgres.json
 
 # Create S3 source
-dremio source create --name MyS3 --type S3 --config-file s3.json
+alt-dremio-cli source create --name MyS3 --type S3 --config-file s3.json
 
 # Create MongoDB source
-dremio source create --name MyMongo --type MONGO --config-file mongo.json
+alt-dremio-cli source create --name MyMongo --type MONGO --config-file mongo.json
 ```
 
 ### Update Source
@@ -86,7 +86,7 @@ dremio source create --name MyMongo --type MONGO --config-file mongo.json
 Update an existing source configuration.
 
 ```bash
-dremio source update <SOURCE_ID> --config-file <FILE>
+alt-dremio-cli source update <SOURCE_ID> --config-file <FILE>
 ```
 
 **Arguments:**
@@ -99,7 +99,7 @@ dremio source update <SOURCE_ID> --config-file <FILE>
 
 ```bash
 # Update source configuration
-dremio source update abc-123 --config-file updated_postgres.json
+alt-dremio-cli source update abc-123 --config-file updated_postgres.json
 ```
 
 ### Refresh Source
@@ -107,7 +107,7 @@ dremio source update abc-123 --config-file updated_postgres.json
 Refresh source metadata to discover new tables/files.
 
 ```bash
-dremio source refresh <SOURCE_ID>
+alt-dremio-cli source refresh <SOURCE_ID>
 ```
 
 **Arguments:**
@@ -117,7 +117,7 @@ dremio source refresh <SOURCE_ID>
 
 ```bash
 # Refresh source metadata
-dremio source refresh 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
+alt-dremio-cli source refresh 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 ```
 
 ### Delete Source
@@ -125,7 +125,7 @@ dremio source refresh 791ee75c-956e-40fe-b2cc-0922a0f9b0b4
 Delete a source.
 
 ```bash
-dremio source delete <SOURCE_ID>
+alt-dremio-cli source delete <SOURCE_ID>
 ```
 
 **Arguments:**
@@ -138,10 +138,10 @@ dremio source delete <SOURCE_ID>
 
 ```bash
 # Delete source (with confirmation)
-dremio source delete abc-123
+alt-dremio-cli source delete abc-123
 
 # Delete without confirmation
-dremio source delete abc-123 --yes
+alt-dremio-cli source delete abc-123 --yes
 ```
 
 ### Test Connection
@@ -149,7 +149,7 @@ dremio source delete abc-123 --yes
 Test a source configuration before creating.
 
 ```bash
-dremio source test-connection --config-file <FILE>
+alt-dremio-cli source test-connection --config-file <FILE>
 ```
 
 **Options:**
@@ -159,10 +159,10 @@ dremio source test-connection --config-file <FILE>
 
 ```bash
 # Test PostgreSQL connection
-dremio source test-connection --config-file postgres.json
+alt-dremio-cli source test-connection --config-file postgres.json
 
 # Test S3 connection
-dremio source test-connection --config-file s3.json
+alt-dremio-cli source test-connection --config-file s3.json
 ```
 
 ## Configuration Examples
@@ -237,45 +237,45 @@ cat > postgres.json <<EOF
 EOF
 
 # 2. Test connection
-dremio source test-connection --config-file postgres.json
+alt-dremio-cli source test-connection --config-file postgres.json
 
 # 3. Create source
-dremio source create --name Analytics_DB --type POSTGRES --config-file postgres.json
+alt-dremio-cli source create --name Analytics_DB --type POSTGRES --config-file postgres.json
 
 # 4. Get source ID
 SOURCE_ID=$(dremio --output json source list | jq -r '.[] | select(.path[0] == "Analytics_DB") | .id')
 
 # 5. Refresh metadata
-dremio source refresh $SOURCE_ID
+alt-dremio-cli source refresh $SOURCE_ID
 ```
 
 ### Updating Source Credentials
 
 ```bash
 # 1. Get current source
-dremio --output json source get abc-123 > current_config.json
+alt-dremio-cli --output json source get abc-123 > current_config.json
 
 # 2. Edit configuration
 cat current_config.json | jq '.config.password = "new_password"' > updated_config.json
 
 # 3. Update source
-dremio source update abc-123 --config-file updated_config.json
+alt-dremio-cli source update abc-123 --config-file updated_config.json
 
 # 4. Test connection
-dremio source refresh abc-123
+alt-dremio-cli source refresh abc-123
 ```
 
 ### Migrating Sources
 
 ```bash
 # 1. Export source from old environment
-dremio --profile old --output json source get abc-123 > source_export.json
+alt-dremio-cli --profile old --output json source get abc-123 > source_export.json
 
 # 2. Extract configuration
 cat source_export.json | jq '.config' > source_config.json
 
 # 3. Create in new environment
-dremio --profile new source create \
+alt-dremio-cli --profile new source create \
   --name $(cat source_export.json | jq -r '.path[0]') \
   --type $(cat source_export.json | jq -r '.type') \
   --config-file source_config.json
@@ -301,7 +301,7 @@ for name in "${!SOURCES[@]}"; do
   IFS=':' read -r type config <<< "${SOURCES[$name]}"
   
   echo "Creating source: $name"
-  dremio source create --name "$name" --type "$type" --config-file "$config"
+  alt-dremio-cli source create --name "$name" --type "$type" --config-file "$config"
 done
 ```
 
@@ -318,7 +318,7 @@ for source_id in $SOURCES; do
   echo "Checking source: $source_id"
   
   # Try to refresh
-  if dremio source refresh $source_id 2>/dev/null; then
+  if alt-dremio-cli source refresh $source_id 2>/dev/null; then
     echo "  ✓ Healthy"
   else
     echo "  ✗ Unhealthy"
@@ -333,9 +333,9 @@ done
 # refresh_all_sources.sh
 
 # Refresh all sources nightly
-dremio --output json source list | jq -r '.[].id' | while read source_id; do
+alt-dremio-cli --output json source list | jq -r '.[].id' | while read source_id; do
   echo "Refreshing source: $source_id"
-  dremio source refresh $source_id
+  alt-dremio-cli source refresh $source_id
   sleep 5  # Rate limiting
 done
 ```
@@ -344,7 +344,7 @@ done
 
 ```bash
 # Export source inventory
-dremio --output json source list | jq '[.[] | {
+alt-dremio-cli --output json source list | jq '[.[] | {
   name: .path[0],
   type: .type,
   id: .id,
@@ -359,7 +359,7 @@ cat source_inventory.json | jq -r '.[] | "\(.name) (\(.type))"'
 
 1. **Test before creating**: Always test connections first
    ```bash
-   dremio source test-connection --config-file config.json
+   alt-dremio-cli source test-connection --config-file config.json
    ```
 
 2. **Store configs securely**: Don't commit credentials to git
@@ -386,7 +386,7 @@ cat source_inventory.json | jq -r '.[] | "\(.name) (\(.type))"'
 4. **Regular refreshes**: Keep metadata up-to-date
    ```bash
    # Cron job for daily refresh
-   0 2 * * * dremio source refresh abc-123
+   0 2 * * * alt-dremio-cli source refresh abc-123
    ```
 
 ## Error Handling
@@ -394,7 +394,7 @@ cat source_inventory.json | jq -r '.[] | "\(.name) (\(.type))"'
 ### Connection Test Failed
 
 ```bash
-$ dremio source test-connection --config-file postgres.json
+$ alt-dremio-cli source test-connection --config-file postgres.json
 ✗ Connection test failed
   Error: Connection refused
 ```
@@ -411,7 +411,7 @@ psql -h postgres.company.com -U dremio_user -d analytics
 ### Source Already Exists
 
 ```bash
-$ dremio source create --name MyDB --type POSTGRES --config-file config.json
+$ alt-dremio-cli source create --name MyDB --type POSTGRES --config-file config.json
 Error: Source with name 'MyDB' already exists
 ```
 
@@ -421,13 +421,13 @@ Error: Source with name 'MyDB' already exists
 SOURCE_ID=$(dremio --output json source list | jq -r '.[] | select(.path[0] == "MyDB") | .id')
 
 # Update instead
-dremio source update $SOURCE_ID --config-file config.json
+alt-dremio-cli source update $SOURCE_ID --config-file config.json
 ```
 
 ### Invalid Configuration
 
 ```bash
-$ dremio source create --name MyS3 --type S3 --config-file s3.json
+$ alt-dremio-cli source create --name MyS3 --type S3 --config-file s3.json
 Error: Invalid configuration: missing required field 'accessKey'
 ```
 
@@ -505,7 +505,7 @@ cat > source.json <<EOF
 EOF
 
 # Create source
-dremio source create --name "$SOURCE_NAME" --type POSTGRES --config-file source.json
+alt-dremio-cli source create --name "$SOURCE_NAME" --type POSTGRES --config-file source.json
 
 # Clean up
 rm source.json
@@ -519,9 +519,9 @@ rm source.json
 
 while true; do
   # Check each source
-  dremio --output json source list | jq -r '.[].id' | while read id; do
+  alt-dremio-cli --output json source list | jq -r '.[].id' | while read id; do
     # Try to get source
-    if ! dremio source get $id >/dev/null 2>&1; then
+    if ! alt-dremio-cli source get $id >/dev/null 2>&1; then
       echo "Alert: Source $id is unavailable"
       # Send notification
     fi

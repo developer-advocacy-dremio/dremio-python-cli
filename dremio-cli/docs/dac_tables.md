@@ -41,7 +41,7 @@ reflections: ...
 2.  **Subsequent Pushes**: CLI detects existing table. Executes `update_sql`.
 
 ### Pulling Iceberg Tables
-`dremio sync pull` will generate the YAML for existing Iceberg tables.
+`alt-dremio-cli sync pull` will generate the YAML for existing Iceberg tables.
 *Limitation*: The CLI cannot reconstruct the `create_sql` or `update_sql` logic. The fields will be generated as placeholders or comments.
 
 ## 2. Physical Datasets (`type: PHYSICAL_DATASET`)

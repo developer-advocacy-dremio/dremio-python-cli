@@ -18,7 +18,7 @@ The CLI handles these differences transparently.
 Create a new space.
 
 ```bash
-dremio space create --name <NAME> [OPTIONS]
+alt-dremio-cli space create --name <NAME> [OPTIONS]
 ```
 
 **Options:**
@@ -29,16 +29,16 @@ dremio space create --name <NAME> [OPTIONS]
 
 ```bash
 # Create simple space
-dremio space create --name "Analytics"
+alt-dremio-cli space create --name "Analytics"
 
 # Create with description
-dremio space create --name "Sales" --description "Sales data and reports"
+alt-dremio-cli space create --name "Sales" --description "Sales data and reports"
 
 # Cloud: Creates top-level folder
-dremio --profile cloud space create --name "Marketing"
+alt-dremio-cli --profile cloud space create --name "Marketing"
 
 # Software: Creates traditional SPACE
-dremio --profile software space create --name "DataScience"
+alt-dremio-cli --profile software space create --name "DataScience"
 ```
 
 ### List Spaces
@@ -46,20 +46,20 @@ dremio --profile software space create --name "DataScience"
 List all spaces.
 
 ```bash
-dremio space list
+alt-dremio-cli space list
 ```
 
 **Examples:**
 
 ```bash
 # List all spaces
-dremio space list
+alt-dremio-cli space list
 
 # JSON output
-dremio --output json space list
+alt-dremio-cli --output json space list
 
 # YAML output
-dremio --output yaml space list
+alt-dremio-cli --output yaml space list
 ```
 
 ### Get Space
@@ -67,7 +67,7 @@ dremio --output yaml space list
 Retrieve space details by ID.
 
 ```bash
-dremio space get <SPACE_ID>
+alt-dremio-cli space get <SPACE_ID>
 ```
 
 **Arguments:**
@@ -77,10 +77,10 @@ dremio space get <SPACE_ID>
 
 ```bash
 # Get space details
-dremio space get 66c76a3e-0335-463b-8622-1720f8546537
+alt-dremio-cli space get 66c76a3e-0335-463b-8622-1720f8546537
 
 # Get in JSON format
-dremio --output json space get 66c76a3e-0335-463b-8622-1720f8546537
+alt-dremio-cli --output json space get 66c76a3e-0335-463b-8622-1720f8546537
 ```
 
 ### Delete Space
@@ -88,7 +88,7 @@ dremio --output json space get 66c76a3e-0335-463b-8622-1720f8546537
 Delete a space.
 
 ```bash
-dremio space delete <SPACE_ID> [OPTIONS]
+alt-dremio-cli space delete <SPACE_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -101,13 +101,13 @@ dremio space delete <SPACE_ID> [OPTIONS]
 
 ```bash
 # Delete space (with confirmation)
-dremio space delete 66c76a3e-0335-463b-8622-1720f8546537
+alt-dremio-cli space delete 66c76a3e-0335-463b-8622-1720f8546537
 
 # Delete without confirmation
-dremio space delete 66c76a3e-0335-463b-8622-1720f8546537 --yes
+alt-dremio-cli space delete 66c76a3e-0335-463b-8622-1720f8546537 --yes
 
 # Delete with specific tag
-dremio space delete 66c76a3e-0335-463b-8622-1720f8546537 --tag "version-tag-123"
+alt-dremio-cli space delete 66c76a3e-0335-463b-8622-1720f8546537 --tag "version-tag-123"
 ```
 
 ## Folder Commands
@@ -117,7 +117,7 @@ dremio space delete 66c76a3e-0335-463b-8622-1720f8546537 --tag "version-tag-123"
 Create a new folder.
 
 ```bash
-dremio folder create --path <PATH> [OPTIONS]
+alt-dremio-cli folder create --path <PATH> [OPTIONS]
 ```
 
 **Options:**
@@ -128,17 +128,17 @@ dremio folder create --path <PATH> [OPTIONS]
 
 ```bash
 # Create folder with slash-separated path
-dremio folder create --path "Analytics/Reports"
+alt-dremio-cli folder create --path "Analytics/Reports"
 
 # Create with JSON array path
-dremio folder create --path '["Analytics", "Reports", "2024"]'
+alt-dremio-cli folder create --path '["Analytics", "Reports", "2024"]'
 
 # Create with description
-dremio folder create --path "Sales/Data" --description "Sales data folder"
+alt-dremio-cli folder create --path "Sales/Data" --description "Sales data folder"
 
 # Create nested folders
-dremio folder create --path "Analytics/Reports/Monthly"
-dremio folder create --path "Analytics/Reports/Quarterly"
+alt-dremio-cli folder create --path "Analytics/Reports/Monthly"
+alt-dremio-cli folder create --path "Analytics/Reports/Quarterly"
 ```
 
 ### List Folders
@@ -146,7 +146,7 @@ dremio folder create --path "Analytics/Reports/Quarterly"
 List folders.
 
 ```bash
-dremio folder list [OPTIONS]
+alt-dremio-cli folder list [OPTIONS]
 ```
 
 **Options:**
@@ -156,16 +156,16 @@ dremio folder list [OPTIONS]
 
 ```bash
 # List all folders
-dremio folder list
+alt-dremio-cli folder list
 
 # List folders in specific parent
-dremio folder list --parent "Analytics"
+alt-dremio-cli folder list --parent "Analytics"
 
 # List by parent ID
-dremio folder list --parent abc-123-def-456
+alt-dremio-cli folder list --parent abc-123-def-456
 
 # JSON output
-dremio --output json folder list
+alt-dremio-cli --output json folder list
 ```
 
 ### Get Folder
@@ -173,7 +173,7 @@ dremio --output json folder list
 Retrieve folder details by ID.
 
 ```bash
-dremio folder get <FOLDER_ID>
+alt-dremio-cli folder get <FOLDER_ID>
 ```
 
 **Arguments:**
@@ -183,10 +183,10 @@ dremio folder get <FOLDER_ID>
 
 ```bash
 # Get folder details
-dremio folder get 116f8103-159d-4640-b64a-68469bcb21b1
+alt-dremio-cli folder get 116f8103-159d-4640-b64a-68469bcb21b1
 
 # Get in JSON format
-dremio --output json folder get 116f8103-159d-4640-b64a-68469bcb21b1
+alt-dremio-cli --output json folder get 116f8103-159d-4640-b64a-68469bcb21b1
 ```
 
 ### Get Folder by Path
@@ -194,7 +194,7 @@ dremio --output json folder get 116f8103-159d-4640-b64a-68469bcb21b1
 Retrieve folder details by path.
 
 ```bash
-dremio folder get-by-path <PATH>
+alt-dremio-cli folder get-by-path <PATH>
 ```
 
 **Arguments:**
@@ -204,13 +204,13 @@ dremio folder get-by-path <PATH>
 
 ```bash
 # Get by slash-separated path
-dremio folder get-by-path "Analytics/Reports"
+alt-dremio-cli folder get-by-path "Analytics/Reports"
 
 # Get by dot-separated path
-dremio folder get-by-path "Analytics.Reports.Monthly"
+alt-dremio-cli folder get-by-path "Analytics.Reports.Monthly"
 
 # Get by JSON array path
-dremio folder get-by-path '["Analytics", "Reports", "2024"]'
+alt-dremio-cli folder get-by-path '["Analytics", "Reports", "2024"]'
 ```
 
 ### Delete Folder
@@ -218,7 +218,7 @@ dremio folder get-by-path '["Analytics", "Reports", "2024"]'
 Delete a folder.
 
 ```bash
-dremio folder delete <FOLDER_ID> [OPTIONS]
+alt-dremio-cli folder delete <FOLDER_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -231,10 +231,10 @@ dremio folder delete <FOLDER_ID> [OPTIONS]
 
 ```bash
 # Delete folder (with confirmation)
-dremio folder delete 116f8103-159d-4640-b64a-68469bcb21b1
+alt-dremio-cli folder delete 116f8103-159d-4640-b64a-68469bcb21b1
 
 # Delete without confirmation
-dremio folder delete 116f8103-159d-4640-b64a-68469bcb21b1 --yes
+alt-dremio-cli folder delete 116f8103-159d-4640-b64a-68469bcb21b1 --yes
 ```
 
 ## Scenarios
@@ -243,78 +243,78 @@ dremio folder delete 116f8103-159d-4640-b64a-68469bcb21b1 --yes
 
 ```bash
 # 1. Create top-level spaces
-dremio space create --name "Raw" --description "Raw data from sources"
-dremio space create --name "Curated" --description "Cleaned and transformed data"
-dremio space create --name "Analytics" --description "Business analytics views"
+alt-dremio-cli space create --name "Raw" --description "Raw data from sources"
+alt-dremio-cli space create --name "Curated" --description "Cleaned and transformed data"
+alt-dremio-cli space create --name "Analytics" --description "Business analytics views"
 
 # 2. Create folder structure in Raw
-dremio folder create --path "Raw/Customers"
-dremio folder create --path "Raw/Orders"
-dremio folder create --path "Raw/Products"
+alt-dremio-cli folder create --path "Raw/Customers"
+alt-dremio-cli folder create --path "Raw/Orders"
+alt-dremio-cli folder create --path "Raw/Products"
 
 # 3. Create folder structure in Curated
-dremio folder create --path "Curated/Dimensions"
-dremio folder create --path "Curated/Facts"
+alt-dremio-cli folder create --path "Curated/Dimensions"
+alt-dremio-cli folder create --path "Curated/Facts"
 
 # 4. Create folder structure in Analytics
-dremio folder create --path "Analytics/Sales"
-dremio folder create --path "Analytics/Marketing"
-dremio folder create --path "Analytics/Finance"
+alt-dremio-cli folder create --path "Analytics/Sales"
+alt-dremio-cli folder create --path "Analytics/Marketing"
+alt-dremio-cli folder create --path "Analytics/Finance"
 ```
 
 ### Medallion Architecture
 
 ```bash
 # Bronze layer (raw data)
-dremio space create --name "Bronze" --description "Raw data ingestion"
-dremio folder create --path "Bronze/source_system_1"
-dremio folder create --path "Bronze/source_system_2"
+alt-dremio-cli space create --name "Bronze" --description "Raw data ingestion"
+alt-dremio-cli folder create --path "Bronze/source_system_1"
+alt-dremio-cli folder create --path "Bronze/source_system_2"
 
 # Silver layer (cleaned data)
-dremio space create --name "Silver" --description "Cleaned and validated data"
-dremio folder create --path "Silver/customers"
-dremio folder create --path "Silver/orders"
-dremio folder create --path "Silver/products"
+alt-dremio-cli space create --name "Silver" --description "Cleaned and validated data"
+alt-dremio-cli folder create --path "Silver/customers"
+alt-dremio-cli folder create --path "Silver/orders"
+alt-dremio-cli folder create --path "Silver/products"
 
 # Gold layer (business aggregates)
-dremio space create --name "Gold" --description "Business-ready datasets"
-dremio folder create --path "Gold/customer_360"
-dremio folder create --path "Gold/sales_metrics"
-dremio folder create --path "Gold/inventory_status"
+alt-dremio-cli space create --name "Gold" --description "Business-ready datasets"
+alt-dremio-cli folder create --path "Gold/customer_360"
+alt-dremio-cli folder create --path "Gold/sales_metrics"
+alt-dremio-cli folder create --path "Gold/inventory_status"
 ```
 
 ### Department-Based Organization
 
 ```bash
 # Create department spaces
-dremio space create --name "Sales" --description "Sales department data"
-dremio space create --name "Marketing" --description "Marketing department data"
-dremio space create --name "Finance" --description "Finance department data"
+alt-dremio-cli space create --name "Sales" --description "Sales department data"
+alt-dremio-cli space create --name "Marketing" --description "Marketing department data"
+alt-dremio-cli space create --name "Finance" --description "Finance department data"
 
 # Create project folders within departments
-dremio folder create --path "Sales/Q1_2024"
-dremio folder create --path "Sales/Q2_2024"
-dremio folder create --path "Marketing/Campaigns"
-dremio folder create --path "Marketing/Analytics"
-dremio folder create --path "Finance/Reports"
-dremio folder create --path "Finance/Forecasts"
+alt-dremio-cli folder create --path "Sales/Q1_2024"
+alt-dremio-cli folder create --path "Sales/Q2_2024"
+alt-dremio-cli folder create --path "Marketing/Campaigns"
+alt-dremio-cli folder create --path "Marketing/Analytics"
+alt-dremio-cli folder create --path "Finance/Reports"
+alt-dremio-cli folder create --path "Finance/Forecasts"
 ```
 
 ### Migration and Cleanup
 
 ```bash
 # List all spaces
-dremio --output json space list > spaces.json
+alt-dremio-cli --output json space list > spaces.json
 
 # List all folders
-dremio --output json folder list > folders.json
+alt-dremio-cli --output json folder list > folders.json
 
 # Find empty folders
 cat folders.json | jq '.[] | select(.datasetCount == 0)'
 
 # Delete empty folders
 for folder_id in $(cat folders.json | jq -r '.[] | select(.datasetCount == 0) | .id'); do
-  dremio folder delete $folder_id --yes
+  alt-dremio-cli folder delete $folder_id --yes
 done
 ```
 
@@ -324,21 +324,21 @@ done
 
 ```bash
 # Create parent space
-dremio space create --name "DataWarehouse"
+alt-dremio-cli space create --name "DataWarehouse"
 
 # Create level 1 folders
-dremio folder create --path "DataWarehouse/Staging"
-dremio folder create --path "DataWarehouse/Production"
+alt-dremio-cli folder create --path "DataWarehouse/Staging"
+alt-dremio-cli folder create --path "DataWarehouse/Production"
 
 # Create level 2 folders
-dremio folder create --path "DataWarehouse/Staging/Daily"
-dremio folder create --path "DataWarehouse/Staging/Weekly"
-dremio folder create --path "DataWarehouse/Production/Current"
-dremio folder create --path "DataWarehouse/Production/Archive"
+alt-dremio-cli folder create --path "DataWarehouse/Staging/Daily"
+alt-dremio-cli folder create --path "DataWarehouse/Staging/Weekly"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Current"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Archive"
 
 # Create level 3 folders
-dremio folder create --path "DataWarehouse/Production/Current/2024"
-dremio folder create --path "DataWarehouse/Production/Current/2023"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Current/2024"
+alt-dremio-cli folder create --path "DataWarehouse/Production/Current/2023"
 ```
 
 ### 2. Batch Folder Creation
@@ -354,7 +354,7 @@ FOLDERS=(
 )
 
 for folder in "${FOLDERS[@]}"; do
-  dremio folder create --path "$folder"
+  alt-dremio-cli folder create --path "$folder"
 done
 ```
 
@@ -362,7 +362,7 @@ done
 
 ```bash
 # Export folder structure
-dremio --output json folder list > folder_inventory.json
+alt-dremio-cli --output json folder list > folder_inventory.json
 
 # Generate tree view
 cat folder_inventory.json | jq -r '.[] | .path | join("/")' | sort
@@ -378,15 +378,15 @@ cat folder_inventory.json | jq -r '.[] | .path[0]' | sort | uniq -c
 SPACE_ID=$(dremio --output json space list | jq -r '.[] | select(.path[0] == "OldSpace") | .id')
 
 # List all folders in space
-dremio --output json folder list --parent $SPACE_ID > space_folders.json
+alt-dremio-cli --output json folder list --parent $SPACE_ID > space_folders.json
 
 # Delete all folders (bottom-up)
 cat space_folders.json | jq -r '.[] | .id' | tac | while read folder_id; do
-  dremio folder delete $folder_id --yes
+  alt-dremio-cli folder delete $folder_id --yes
 done
 
 # Delete space
-dremio space delete $SPACE_ID --yes
+alt-dremio-cli space delete $SPACE_ID --yes
 ```
 
 ## Tips
@@ -402,18 +402,18 @@ dremio space delete $SPACE_ID --yes
 
 2. **Use consistent naming**: Follow naming conventions
    ```bash
-   dremio space create --name "analytics"  # lowercase
-   dremio folder create --path "analytics/reports"  # lowercase
+   alt-dremio-cli space create --name "analytics"  # lowercase
+   alt-dremio-cli folder create --path "analytics/reports"  # lowercase
    ```
 
 3. **Document structure**: Keep a README or diagram
    ```bash
-   dremio --output json folder list | jq -r '.[] | .path | join("/")' > structure.txt
+   alt-dremio-cli --output json folder list | jq -r '.[] | .path | join("/")' > structure.txt
    ```
 
 4. **Clean up regularly**: Remove unused folders
    ```bash
-   dremio folder list | grep "old_"
+   alt-dremio-cli folder list | grep "old_"
    ```
 
 ## Error Handling
@@ -421,7 +421,7 @@ dremio space delete $SPACE_ID --yes
 ### Space Already Exists
 
 ```bash
-$ dremio space create --name "Analytics"
+$ alt-dremio-cli space create --name "Analytics"
 Error: Space already exists
 ```
 
@@ -430,27 +430,27 @@ Error: Space already exists
 ### Parent Not Found
 
 ```bash
-$ dremio folder create --path "NonExistent/folder"
+$ alt-dremio-cli folder create --path "NonExistent/folder"
 Error: Parent path does not exist
 ```
 
 **Solution**: Create parent first:
 ```bash
-dremio space create --name "NonExistent"
-dremio folder create --path "NonExistent/folder"
+alt-dremio-cli space create --name "NonExistent"
+alt-dremio-cli folder create --path "NonExistent/folder"
 ```
 
 ### Cannot Delete Non-Empty
 
 ```bash
-$ dremio space delete abc-123
+$ alt-dremio-cli space delete abc-123
 Error: Cannot delete non-empty space
 ```
 
 **Solution**: Delete contents first:
 ```bash
 # Delete all folders in space
-dremio folder list --parent abc-123
+alt-dremio-cli folder list --parent abc-123
 # Delete each folder, then delete space
 ```
 

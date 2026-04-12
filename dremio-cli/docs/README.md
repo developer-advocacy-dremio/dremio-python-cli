@@ -40,21 +40,21 @@ Complete documentation for the Dremio Command Line Interface.
 
 ```bash
 # Install
-pip install dremio-cli
+pip install alt-dremio-cli
 
 # Configure profile
-dremio profile create --name myprofile --type software \
+alt-dremio-cli profile create --name myprofile --type software \
   --base-url https://dremio.company.com \
   --username admin --password secret
 
 # List catalog
-dremio catalog list
+alt-dremio-cli catalog list
 
 # Execute SQL
-dremio sql execute "SELECT * FROM customers LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 10"
 
 # Create a view
-dremio view create --path "Analytics.customer_summary" \
+alt-dremio-cli view create --path "Analytics.customer_summary" \
   --sql "SELECT id, name, email FROM customers"
 ```
 
@@ -85,52 +85,52 @@ dremio view create --path "Analytics.customer_summary" \
 
 ### Catalog Operations
 ```bash
-dremio catalog list              # List catalog items
-dremio catalog get <id>          # Get item details
-dremio catalog get-by-path <path> # Get by path
+alt-dremio-cli catalog list              # List catalog items
+alt-dremio-cli catalog get <id>          # Get item details
+alt-dremio-cli catalog get-by-path <path> # Get by path
 ```
 
 ### SQL Operations
 ```bash
-dremio sql execute <query>       # Execute SQL
-dremio sql explain <query>       # Show execution plan
-dremio sql validate <query>      # Validate syntax
+alt-dremio-cli sql execute <query>       # Execute SQL
+alt-dremio-cli sql explain <query>       # Show execution plan
+alt-dremio-cli sql validate <query>      # Validate syntax
 ```
 
 ### Source Management
 ```bash
-dremio source list               # List sources
-dremio source create             # Create source
-dremio source refresh <id>       # Refresh metadata
+alt-dremio-cli source list               # List sources
+alt-dremio-cli source create             # Create source
+alt-dremio-cli source refresh <id>       # Refresh metadata
 ```
 
 ### View Management
 ```bash
-dremio view list                 # List views
-dremio view create               # Create view
-dremio view update <id>          # Update view
+alt-dremio-cli view list                 # List views
+alt-dremio-cli view create               # Create view
+alt-dremio-cli view update <id>          # Update view
 ```
 
 ### Job Management
 ```bash
-dremio job list                  # List jobs
-dremio job get <id>              # Get job details
-dremio job results <id>          # Get results
-dremio job cancel <id>           # Cancel job
+alt-dremio-cli job list                  # List jobs
+alt-dremio-cli job get <id>              # Get job details
+alt-dremio-cli job results <id>          # Get results
+alt-dremio-cli job cancel <id>           # Cancel job
 ```
 
 ### Space & Folder Management
 ```bash
-dremio space create --name <name>  # Create space
-dremio folder create --path <path> # Create folder
+alt-dremio-cli space create --name <name>  # Create space
+alt-dremio-cli folder create --path <path> # Create folder
 ```
 
 ### Access Control
 ```bash
-dremio grant list <id>           # List grants
-dremio grant add <id>            # Add grant
-dremio user list                 # List users
-dremio role list                 # List roles
+alt-dremio-cli grant list <id>           # List grants
+alt-dremio-cli grant add <id>            # Add grant
+alt-dremio-cli user list                 # List users
+alt-dremio-cli role list                 # List roles
 ```
 
 ## 🌐 Platform Support
@@ -162,39 +162,39 @@ dremio role list                 # List roles
 ### Data Pipeline
 ```bash
 # 1. Create source
-dremio source create --name MyDB --type POSTGRES --config-file db.json
+alt-dremio-cli source create --name MyDB --type POSTGRES --config-file db.json
 
 # 2. Create space
-dremio space create --name Analytics
+alt-dremio-cli space create --name Analytics
 
 # 3. Create view
-dremio view create --path "Analytics.sales_summary" \
+alt-dremio-cli view create --path "Analytics.sales_summary" \
   --sql "SELECT date, SUM(amount) FROM sales GROUP BY date"
 
 # 4. Grant access
-dremio grant add <view-id> --grantee-type ROLE \
+alt-dremio-cli grant add <view-id> --grantee-type ROLE \
   --grantee-id analyst --privileges SELECT
 ```
 
 ### Monitoring
 ```bash
 # List recent jobs
-dremio job list --max-results 10
+alt-dremio-cli job list --max-results 10
 
 # Get job details
-dremio job get <job-id>
+alt-dremio-cli job get <job-id>
 
 # Download profile
-dremio job profile <job-id> --download profile.zip
+alt-dremio-cli job profile <job-id> --download profile.zip
 ```
 
 ### Documentation
 ```bash
 # Add wiki
-dremio wiki set <id> --file README.md
+alt-dremio-cli wiki set <id> --file README.md
 
 # Add tags
-dremio tag set <id> --tags "production,sensitive,pii"
+alt-dremio-cli tag set <id> --tags "production,sensitive,pii"
 ```
 
 ## 🔗 Additional Resources
@@ -207,13 +207,13 @@ dremio tag set <id> --tags "production,sensitive,pii"
 
 ```bash
 # General help
-dremio --help
+alt-dremio-cli --help
 
 # Command help
-dremio <command> --help
+alt-dremio-cli <command> --help
 
 # Subcommand help
-dremio <command> <subcommand> --help
+alt-dremio-cli <command> <subcommand> --help
 ```
 
 ## 📄 License

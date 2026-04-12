@@ -9,7 +9,7 @@ This guide covers catalog operations including listing, retrieving, and navigati
 List all items in the catalog.
 
 ```bash
-dremio catalog list [OPTIONS]
+alt-dremio-cli catalog list [OPTIONS]
 ```
 
 **Options:**
@@ -19,19 +19,19 @@ dremio catalog list [OPTIONS]
 
 ```bash
 # List all catalog items
-dremio catalog list
+alt-dremio-cli catalog list
 
 # List with permissions
-dremio catalog list --include permissions
+alt-dremio-cli catalog list --include permissions
 
 # List with dataset count
-dremio catalog list --include datasetCount
+alt-dremio-cli catalog list --include datasetCount
 
 # JSON output
-dremio --output json catalog list
+alt-dremio-cli --output json catalog list
 
 # Use specific profile
-dremio --profile software catalog list
+alt-dremio-cli --profile software catalog list
 ```
 
 ### Get Catalog Item by ID
@@ -39,7 +39,7 @@ dremio --profile software catalog list
 Retrieve a specific catalog item by its ID.
 
 ```bash
-dremio catalog get <ITEM_ID> [OPTIONS]
+alt-dremio-cli catalog get <ITEM_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -52,16 +52,16 @@ dremio catalog get <ITEM_ID> [OPTIONS]
 
 ```bash
 # Get catalog item
-dremio catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
+alt-dremio-cli catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 
 # Get with SQL definition
-dremio catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include sql
+alt-dremio-cli catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include sql
 
 # Get with permissions
-dremio catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include permissions
+alt-dremio-cli catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3 --include permissions
 
 # YAML output
-dremio --output yaml catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
+alt-dremio-cli --output yaml catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 ```
 
 ### Get Catalog Item by Path
@@ -69,7 +69,7 @@ dremio --output yaml catalog get 4cc92138-34e8-4c84-ad03-abfb23b6d5f3
 Retrieve a catalog item by its path.
 
 ```bash
-dremio catalog get-by-path <PATH> [OPTIONS]
+alt-dremio-cli catalog get-by-path <PATH> [OPTIONS]
 ```
 
 **Arguments:**
@@ -82,20 +82,20 @@ dremio catalog get-by-path <PATH> [OPTIONS]
 
 ```bash
 # Get by dot-separated path
-dremio catalog get-by-path "MySpace.MyTable"
+alt-dremio-cli catalog get-by-path "MySpace.MyTable"
 
 # Get by slash-separated path
-dremio catalog get-by-path "MySpace/MyFolder/MyView"
+alt-dremio-cli catalog get-by-path "MySpace/MyFolder/MyView"
 
 # Cloud: source.namespace.object
-dremio catalog get-by-path "evangelism-2026.testing.my_table"
+alt-dremio-cli catalog get-by-path "evangelism-2026.testing.my_table"
 
 # Software: space.object or catalog.namespace.object
-dremio catalog get-by-path "Analytics.sales_data"
-dremio catalog get-by-path "dremio-catalog.alexmerced.testing"
+alt-dremio-cli catalog get-by-path "Analytics.sales_data"
+alt-dremio-cli catalog get-by-path "dremio-catalog.alexmerced.testing"
 
 # With additional fields
-dremio catalog get-by-path "MySpace.MyView" --include sql
+alt-dremio-cli catalog get-by-path "MySpace.MyView" --include sql
 ```
 
 ## Scenarios
@@ -104,47 +104,47 @@ dremio catalog get-by-path "MySpace.MyView" --include sql
 
 ```bash
 # 1. List all top-level items
-dremio catalog list
+alt-dremio-cli catalog list
 
 # 2. Find a specific space or source
-dremio catalog list | grep "MySpace"
+alt-dremio-cli catalog list | grep "MySpace"
 
 # 3. Get details about a space
-dremio catalog get-by-path "MySpace"
+alt-dremio-cli catalog get-by-path "MySpace"
 
 # 4. Explore nested items
-dremio catalog get-by-path "MySpace/Reports"
+alt-dremio-cli catalog get-by-path "MySpace/Reports"
 ```
 
 ### Finding Datasets
 
 ```bash
 # List all items with dataset counts
-dremio catalog list --include datasetCount
+alt-dremio-cli catalog list --include datasetCount
 
 # Get specific dataset
-dremio catalog get-by-path "Sales.customers"
+alt-dremio-cli catalog get-by-path "Sales.customers"
 
 # Check dataset permissions
-dremio catalog get-by-path "Sales.customers" --include permissions
+alt-dremio-cli catalog get-by-path "Sales.customers" --include permissions
 ```
 
 ### Working with Views
 
 ```bash
 # Get view definition
-dremio catalog get-by-path "Analytics.monthly_summary" --include sql
+alt-dremio-cli catalog get-by-path "Analytics.monthly_summary" --include sql
 
 # Get view metadata
-dremio --output json catalog get-by-path "Analytics.monthly_summary"
+alt-dremio-cli --output json catalog get-by-path "Analytics.monthly_summary"
 ```
 
 ### Cross-Environment Comparison
 
 ```bash
 # Compare catalog between environments
-dremio --profile dev catalog list > dev_catalog.json
-dremio --profile prod catalog list > prod_catalog.json
+alt-dremio-cli --profile dev catalog list > dev_catalog.json
+alt-dremio-cli --profile prod catalog list > prod_catalog.json
 diff dev_catalog.json prod_catalog.json
 ```
 
@@ -153,7 +153,7 @@ diff dev_catalog.json prod_catalog.json
 ### Table (Default)
 
 ```bash
-dremio catalog list
+alt-dremio-cli catalog list
 ```
 
 Output:
@@ -169,7 +169,7 @@ Output:
 ### JSON
 
 ```bash
-dremio --output json catalog list
+alt-dremio-cli --output json catalog list
 ```
 
 Output:
@@ -190,7 +190,7 @@ Output:
 ### YAML
 
 ```bash
-dremio --output yaml catalog list
+alt-dremio-cli --output yaml catalog list
 ```
 
 Output:
@@ -234,43 +234,43 @@ Examples:
 
 ```bash
 # Export full catalog inventory
-dremio --output json catalog list > catalog_inventory.json
+alt-dremio-cli --output json catalog list > catalog_inventory.json
 
 # Count items by type
-dremio --output json catalog list | jq '[.data[] | .containerType] | group_by(.) | map({type: .[0], count: length})'
+alt-dremio-cli --output json catalog list | jq '[.data[] | .containerType] | group_by(.) | map({type: .[0], count: length})'
 ```
 
 ### 2. Finding Specific Items
 
 ```bash
 # Find all spaces
-dremio --output json catalog list | jq '.data[] | select(.containerType == "SPACE")'
+alt-dremio-cli --output json catalog list | jq '.data[] | select(.containerType == "SPACE")'
 
 # Find all sources
-dremio --output json catalog list | jq '.data[] | select(.containerType == "SOURCE")'
+alt-dremio-cli --output json catalog list | jq '.data[] | select(.containerType == "SOURCE")'
 
 # Find all views
-dremio --output json catalog list | jq '.data[] | select(.type == "VIRTUAL_DATASET")'
+alt-dremio-cli --output json catalog list | jq '.data[] | select(.type == "VIRTUAL_DATASET")'
 ```
 
 ### 3. Validation
 
 ```bash
 # Verify item exists
-dremio catalog get-by-path "MySpace.MyTable" && echo "Exists" || echo "Not found"
+alt-dremio-cli catalog get-by-path "MySpace.MyTable" && echo "Exists" || echo "Not found"
 
 # Check if path is accessible
-dremio catalog get-by-path "Sales.customers" --include permissions
+alt-dremio-cli catalog get-by-path "Sales.customers" --include permissions
 ```
 
 ### 4. Migration Planning
 
 ```bash
 # List all items in source environment
-dremio --profile source catalog list --include datasetCount > source_catalog.json
+alt-dremio-cli --profile source catalog list --include datasetCount > source_catalog.json
 
 # List all items in target environment
-dremio --profile target catalog list --include datasetCount > target_catalog.json
+alt-dremio-cli --profile target catalog list --include datasetCount > target_catalog.json
 
 # Compare and plan migration
 diff source_catalog.json target_catalog.json
@@ -280,22 +280,22 @@ diff source_catalog.json target_catalog.json
 
 1. **Use JSON output for scripting**:
    ```bash
-   dremio --output json catalog list | jq '.data[] | .path'
+   alt-dremio-cli --output json catalog list | jq '.data[] | .path'
    ```
 
 2. **Filter results with grep**:
    ```bash
-   dremio catalog list | grep "Analytics"
+   alt-dremio-cli catalog list | grep "Analytics"
    ```
 
 3. **Save catalog snapshots**:
    ```bash
-   dremio --output json catalog list > catalog_$(date +%Y%m%d).json
+   alt-dremio-cli --output json catalog list > catalog_$(date +%Y%m%d).json
    ```
 
 4. **Check permissions before operations**:
    ```bash
-   dremio catalog get-by-path "MySpace.MyTable" --include permissions
+   alt-dremio-cli catalog get-by-path "MySpace.MyTable" --include permissions
    ```
 
 ## Error Handling
@@ -303,19 +303,19 @@ diff source_catalog.json target_catalog.json
 ### Item Not Found
 
 ```bash
-$ dremio catalog get-by-path "NonExistent.Table"
+$ alt-dremio-cli catalog get-by-path "NonExistent.Table"
 Error: Resource not found
 ```
 
 **Solution**: Verify the path exists:
 ```bash
-dremio catalog list | grep "NonExistent"
+alt-dremio-cli catalog list | grep "NonExistent"
 ```
 
 ### Permission Denied
 
 ```bash
-$ dremio catalog get abc-123
+$ alt-dremio-cli catalog get abc-123
 Error: Access forbidden
 ```
 
@@ -324,11 +324,11 @@ Error: Access forbidden
 ### Invalid Path Format
 
 ```bash
-$ dremio catalog get-by-path "Invalid Path With Spaces"
+$ alt-dremio-cli catalog get-by-path "Invalid Path With Spaces"
 Error: Invalid path format
 ```
 
 **Solution**: Use proper path separators:
 ```bash
-dremio catalog get-by-path "Space.Folder.Object"
+alt-dremio-cli catalog get-by-path "Space.Folder.Object"
 ```

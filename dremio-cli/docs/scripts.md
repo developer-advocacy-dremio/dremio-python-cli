@@ -9,7 +9,7 @@ Manage Dremio scripts (Cloud Only).
 List scripts.
 
 ```bash
-dremio script list [OPTIONS]
+alt-dremio-cli script list [OPTIONS]
 ```
 
 **Options:**
@@ -18,8 +18,8 @@ dremio script list [OPTIONS]
 
 **Examples:**
 ```bash
-dremio script list
-dremio script list --limit 10
+alt-dremio-cli script list
+alt-dremio-cli script list --limit 10
 ```
 
 ### Get Script
@@ -27,12 +27,12 @@ dremio script list --limit 10
 Get details and content of a specific script.
 
 ```bash
-dremio script get <SCRIPT_ID>
+alt-dremio-cli script get <SCRIPT_ID>
 ```
 
 **Examples:**
 ```bash
-dremio script get abc-123-def-456
+alt-dremio-cli script get abc-123-def-456
 ```
 
 ### Create Script
@@ -40,7 +40,7 @@ dremio script get abc-123-def-456
 Create a new script.
 
 ```bash
-dremio script create [OPTIONS]
+alt-dremio-cli script create [OPTIONS]
 ```
 
 **Options:**
@@ -50,8 +50,8 @@ dremio script create [OPTIONS]
 
 **Examples:**
 ```bash
-dremio script create --name "Monthly Report" --content "SELECT * FROM sales"
-dremio script create --name "Analysis" --content "SELECT 1" --context "Marketing"
+alt-dremio-cli script create --name "Monthly Report" --content "SELECT * FROM sales"
+alt-dremio-cli script create --name "Analysis" --content "SELECT 1" --context "Marketing"
 ```
 
 ### Update Script
@@ -59,7 +59,7 @@ dremio script create --name "Analysis" --content "SELECT 1" --context "Marketing
 Update an existing script.
 
 ```bash
-dremio script update <SCRIPT_ID> [OPTIONS]
+alt-dremio-cli script update <SCRIPT_ID> [OPTIONS]
 ```
 
 **Options:**
@@ -69,7 +69,7 @@ dremio script update <SCRIPT_ID> [OPTIONS]
 
 **Examples:**
 ```bash
-dremio script update abc-123 --name "Updated Report" --content "SELECT * FROM new_sales"
+alt-dremio-cli script update abc-123 --name "Updated Report" --content "SELECT * FROM new_sales"
 ```
 
 ### Delete Script
@@ -77,10 +77,10 @@ dremio script update abc-123 --name "Updated Report" --content "SELECT * FROM ne
 Delete a script.
 
 ```bash
-dremio script delete <SCRIPT_ID>
+alt-dremio-cli script delete <SCRIPT_ID>
 ```
 
 **Examples:**
 ```bash
-dremio script delete abc-123
+alt-dremio-cli script delete abc-123
 ```

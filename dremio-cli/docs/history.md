@@ -9,7 +9,7 @@ View and manage your local query execution history.
 List recent query history.
 
 ```bash
-dremio history list [OPTIONS]
+alt-dremio-cli history list [OPTIONS]
 ```
 
 **Options:**
@@ -17,8 +17,8 @@ dremio history list [OPTIONS]
 
 **Examples:**
 ```bash
-dremio history list
-dremio history list --limit 10
+alt-dremio-cli history list
+alt-dremio-cli history list --limit 10
 ```
 
 ### Run History
@@ -26,12 +26,12 @@ dremio history list --limit 10
 Re-run a command from history.
 
 ```bash
-dremio history run <HISTORY_ID>
+alt-dremio-cli history run <HISTORY_ID>
 ```
 
 **Examples:**
 ```bash
-dremio history run 5
+alt-dremio-cli history run 5
 ```
 
 ### Clear History
@@ -39,10 +39,10 @@ dremio history run 5
 Clear all query history.
 
 ```bash
-dremio history clear
+alt-dremio-cli history clear
 ```
 
 **Examples:**
 ```bash
-dremio history clear
+alt-dremio-cli history clear
 ```

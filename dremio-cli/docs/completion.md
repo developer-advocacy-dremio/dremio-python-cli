@@ -5,7 +5,7 @@ Generate shell completion scripts for Bash, Zsh, and Fish.
 ## Usage
 
 ```bash
-dremio completion [bash|zsh|fish]
+alt-dremio-cli completion [bash|zsh|fish]
 ```
 
 ## Installation

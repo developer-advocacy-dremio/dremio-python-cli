@@ -9,7 +9,7 @@ This guide covers job management operations including listing, monitoring, and m
 List recent jobs.
 
 ```bash
-dremio job list [OPTIONS]
+alt-dremio-cli job list [OPTIONS]
 ```
 
 **Options:**
@@ -21,19 +21,19 @@ dremio job list [OPTIONS]
 
 ```bash
 # List recent jobs
-dremio job list
+alt-dremio-cli job list
 
 # List last 50 jobs
-dremio job list --max-results 50
+alt-dremio-cli job list --max-results 50
 
 # List only completed jobs
-dremio job list --filter "state=COMPLETED"
+alt-dremio-cli job list --filter "state=COMPLETED"
 
 # List jobs sorted by submission time (newest first)
-dremio job list --sort "-submittedAt"
+alt-dremio-cli job list --sort "-submittedAt"
 
 # Combine filters and sorting
-dremio job list --max-results 20 --filter "state=RUNNING" --sort "-submittedAt"
+alt-dremio-cli job list --max-results 20 --filter "state=RUNNING" --sort "-submittedAt"
 ```
 
 ### Get Job Details
@@ -41,7 +41,7 @@ dremio job list --max-results 20 --filter "state=RUNNING" --sort "-submittedAt"
 Retrieve detailed information about a specific job.
 
 ```bash
-dremio job get <JOB_ID>
+alt-dremio-cli job get <JOB_ID>
 ```
 
 **Arguments:**
@@ -51,13 +51,13 @@ dremio job get <JOB_ID>
 
 ```bash
 # Get job details
-dremio job get 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job get 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get job details in JSON
-dremio --output json job get 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli --output json job get 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get job details with verbose output
-dremio --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
 ```
 
 ### Analyze Job
@@ -65,7 +65,7 @@ dremio --verbose job get 16b2c9cd-a920-952b-b162-2280c9059d00
 Analyze the performance of a job to identify bottlenecks.
 
 ```bash
-dremio job analyze <JOB_ID>
+alt-dremio-cli job analyze <JOB_ID>
 ```
 
 **Output:**
@@ -78,7 +78,7 @@ dremio job analyze <JOB_ID>
 Retrieve the results of a completed job.
 
 ```bash
-dremio job results <JOB_ID> [OPTIONS]
+alt-dremio-cli job results <JOB_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -92,16 +92,16 @@ dremio job results <JOB_ID> [OPTIONS]
 
 ```bash
 # Get job results
-dremio job results 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job results 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get first 100 rows
-dremio job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100
+alt-dremio-cli job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100
 
 # Get next 100 rows (pagination)
-dremio job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100 --offset 100
+alt-dremio-cli job results 16b2c9cd-a920-952b-b162-2280c9059d00 --limit 100 --offset 100
 
 # Export results to JSON
-dremio --output json job results 16b2c9cd-a920-952b-b162-2280c9059d00 > results.json
+alt-dremio-cli --output json job results 16b2c9cd-a920-952b-b162-2280c9059d00 > results.json
 ```
 
 ### Cancel Job
@@ -109,7 +109,7 @@ dremio --output json job results 16b2c9cd-a920-952b-b162-2280c9059d00 > results.
 Cancel a running job.
 
 ```bash
-dremio job cancel <JOB_ID>
+alt-dremio-cli job cancel <JOB_ID>
 ```
 
 **Arguments:**
@@ -119,10 +119,10 @@ dremio job cancel <JOB_ID>
 
 ```bash
 # Cancel a running job
-dremio job cancel 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job cancel 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Cancel without confirmation prompt
-dremio job cancel 16b2c9cd-a920-952b-b162-2280c9059d00 --yes
+alt-dremio-cli job cancel 16b2c9cd-a920-952b-b162-2280c9059d00 --yes
 ```
 
 ### Get Job Profile
@@ -130,7 +130,7 @@ dremio job cancel 16b2c9cd-a920-952b-b162-2280c9059d00 --yes
 Download job profile for performance analysis.
 
 ```bash
-dremio job profile <JOB_ID> [OPTIONS]
+alt-dremio-cli job profile <JOB_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -143,10 +143,10 @@ dremio job profile <JOB_ID> [OPTIONS]
 
 ```bash
 # View job profile
-dremio job profile 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job profile 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Download profile to file
-dremio job profile 16b2c9cd-a920-952b-b162-2280c9059d00 --download profile.zip
+alt-dremio-cli job profile 16b2c9cd-a920-952b-b162-2280c9059d00 --download profile.zip
 ```
 
 ### Get Job Reflections
@@ -154,7 +154,7 @@ dremio job profile 16b2c9cd-a920-952b-b162-2280c9059d00 --download profile.zip
 Get reflection information for a job.
 
 ```bash
-dremio job reflections <JOB_ID>
+alt-dremio-cli job reflections <JOB_ID>
 ```
 
 **Arguments:**
@@ -164,10 +164,10 @@ dremio job reflections <JOB_ID>
 
 ```bash
 # Get reflection info
-dremio job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
 
 # Get in JSON format
-dremio --output json job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
+alt-dremio-cli --output json job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
 ```
 
 ## Scenarios
@@ -176,30 +176,30 @@ dremio --output json job reflections 16b2c9cd-a920-952b-b162-2280c9059d00
 
 ```bash
 # 1. Execute a query
-dremio sql execute "SELECT * FROM large_table LIMIT 1000"
+alt-dremio-cli sql execute "SELECT * FROM large_table LIMIT 1000"
 # Output: Job ID: abc-123-def-456
 
 # 2. Check job status
-dremio job get abc-123-def-456
+alt-dremio-cli job get abc-123-def-456
 
 # 3. Wait for completion, then get results
-dremio job results abc-123-def-456
+alt-dremio-cli job results abc-123-def-456
 ```
 
 ### Debugging Slow Queries
 
 ```bash
 # 1. List recent jobs
-dremio job list --max-results 10
+alt-dremio-cli job list --max-results 10
 
 # 2. Get details of slow job
-dremio job get slow-job-id
+alt-dremio-cli job get slow-job-id
 
 # 3. Download profile for analysis
-dremio job profile slow-job-id --download slow_query_profile.zip
+alt-dremio-cli job profile slow-job-id --download slow_query_profile.zip
 
 # 4. Check if reflections were used
-dremio job reflections slow-job-id
+alt-dremio-cli job reflections slow-job-id
 ```
 
 ### Pagination Through Large Results
@@ -208,7 +208,7 @@ dremio job reflections slow-job-id
 # Get results in batches of 1000
 for i in {0..9}; do
   offset=$((i * 1000))
-  dremio job results abc-123 --limit 1000 --offset $offset > results_part_$i.json
+  alt-dremio-cli job results abc-123 --limit 1000 --offset $offset > results_part_$i.json
 done
 ```
 
@@ -216,20 +216,20 @@ done
 
 ```bash
 # List all running jobs
-dremio job list --filter "state=RUNNING"
+alt-dremio-cli job list --filter "state=RUNNING"
 
 # Check specific running job
-dremio job get running-job-id
+alt-dremio-cli job get running-job-id
 
 # Cancel if needed
-dremio job cancel running-job-id
+alt-dremio-cli job cancel running-job-id
 ```
 
 ### Job History Analysis
 
 ```bash
 # Export last 100 jobs
-dremio --output json job list --max-results 100 > job_history.json
+alt-dremio-cli --output json job list --max-results 100 > job_history.json
 
 # Analyze with jq
 cat job_history.json | jq '.jobs[] | {id: .id, state: .jobState, duration: .duration}'
@@ -266,7 +266,7 @@ while true; do
 done
 
 # Get results
-dremio job results $JOB_ID
+alt-dremio-cli job results $JOB_ID
 ```
 
 ### 2. Batch Job Management
@@ -277,7 +277,7 @@ RUNNING_JOBS=$(dremio --output json job list --filter "state=RUNNING" | jq -r '.
 
 # Cancel all running jobs
 for job_id in $RUNNING_JOBS; do
-  dremio job cancel $job_id --yes
+  alt-dremio-cli job cancel $job_id --yes
 done
 ```
 
@@ -285,7 +285,7 @@ done
 
 ```bash
 # Get job details
-dremio --output json job get $JOB_ID > job_details.json
+alt-dremio-cli --output json job get $JOB_ID > job_details.json
 
 # Extract performance metrics
 cat job_details.json | jq '{
@@ -296,19 +296,19 @@ cat job_details.json | jq '{
 }'
 
 # Download profile for deep analysis
-dremio job profile $JOB_ID --download profile_$JOB_ID.zip
+alt-dremio-cli job profile $JOB_ID --download profile_$JOB_ID.zip
 ```
 
 ### 4. Result Export
 
 ```bash
 # Export results to different formats
-dremio --output json job results $JOB_ID > results.json
-dremio --output yaml job results $JOB_ID > results.yaml
-dremio --output table job results $JOB_ID > results.txt
+alt-dremio-cli --output json job results $JOB_ID > results.json
+alt-dremio-cli --output yaml job results $JOB_ID > results.yaml
+alt-dremio-cli --output table job results $JOB_ID > results.txt
 
 # Convert JSON to CSV
-dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
+alt-dremio-cli --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 ```
 
 ## Tips
@@ -321,7 +321,7 @@ dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 
 2. **Use filters effectively**: Narrow down job lists
    ```bash
-   dremio job list --filter "state=FAILED" --max-results 10
+   alt-dremio-cli job list --filter "state=FAILED" --max-results 10
    ```
 
 3. **Automate monitoring**: Create scripts to watch jobs
@@ -331,7 +331,7 @@ dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 
 4. **Export for analysis**: Use JSON output for processing
    ```bash
-   dremio --output json job list > jobs.json
+   alt-dremio-cli --output json job list > jobs.json
    ```
 
 ## Error Handling
@@ -339,7 +339,7 @@ dremio --output json job results $JOB_ID | jq -r '.rows[] | @csv' > results.csv
 ### Job Not Found
 
 ```bash
-$ dremio job get invalid-job-id
+$ alt-dremio-cli job get invalid-job-id
 Error: Resource not found
 ```
 
@@ -348,19 +348,19 @@ Error: Resource not found
 ### Results Not Available
 
 ```bash
-$ dremio job results abc-123
+$ alt-dremio-cli job results abc-123
 Error: Cannot fetch results for job in PLANNING state
 ```
 
 **Solution**: Wait for job to complete:
 ```bash
-dremio job get abc-123  # Check state
+alt-dremio-cli job get abc-123  # Check state
 ```
 
 ### Permission Denied
 
 ```bash
-$ dremio job get abc-123
+$ alt-dremio-cli job get abc-123
 Error: Access forbidden
 ```
 

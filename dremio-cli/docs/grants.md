@@ -29,7 +29,7 @@ Common privileges include:
 List all grants for a catalog object.
 
 ```bash
-dremio grant list <CATALOG_ID>
+alt-dremio-cli grant list <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -39,10 +39,10 @@ dremio grant list <CATALOG_ID>
 
 ```bash
 # List grants for a space
-dremio grant list abc-123-def-456
+alt-dremio-cli grant list abc-123-def-456
 
 # List in JSON format
-dremio --output json grant list abc-123-def-456
+alt-dremio-cli --output json grant list abc-123-def-456
 ```
 
 ### Add Grant
@@ -50,7 +50,7 @@ dremio --output json grant list abc-123-def-456
 Add a grant to a catalog object.
 
 ```bash
-dremio grant add <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID> --privileges <PRIVS>
+alt-dremio-cli grant add <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID> --privileges <PRIVS>
 ```
 
 **Arguments:**
@@ -65,13 +65,13 @@ dremio grant add <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID> --privileg
 
 ```bash
 # Grant SELECT to a user
-dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
+alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
 
 # Grant multiple privileges to a role
-dremio grant add abc-123 --grantee-type ROLE --grantee-id role-789 --privileges SELECT,ALTER,MODIFY
+alt-dremio-cli grant add abc-123 --grantee-type ROLE --grantee-id role-789 --privileges SELECT,ALTER,MODIFY
 
 # Grant read-only access
-dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT,VIEW_REFLECTION,READ_METADATA
+alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT,VIEW_REFLECTION,READ_METADATA
 ```
 
 ### Remove Grant
@@ -79,7 +79,7 @@ dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges 
 Remove a grant from a catalog object.
 
 ```bash
-dremio grant remove <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID>
+alt-dremio-cli grant remove <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID>
 ```
 
 **Arguments:**
@@ -93,13 +93,13 @@ dremio grant remove <CATALOG_ID> --grantee-type <TYPE> --grantee-id <ID>
 
 ```bash
 # Remove grant from user
-dremio grant remove abc-123 --grantee-type USER --grantee-id user-456
+alt-dremio-cli grant remove abc-123 --grantee-type USER --grantee-id user-456
 
 # Remove grant from role (with confirmation)
-dremio grant remove abc-123 --grantee-type ROLE --grantee-id role-789
+alt-dremio-cli grant remove abc-123 --grantee-type ROLE --grantee-id role-789
 
 # Remove without confirmation
-dremio grant remove abc-123 --grantee-type USER --grantee-id user-456 --yes
+alt-dremio-cli grant remove abc-123 --grantee-type USER --grantee-id user-456 --yes
 ```
 
 ### Set Grants
@@ -107,7 +107,7 @@ dremio grant remove abc-123 --grantee-type USER --grantee-id user-456 --yes
 Set all grants for a catalog object (replaces existing).
 
 ```bash
-dremio grant set <CATALOG_ID> --from-file <FILE>
+alt-dremio-cli grant set <CATALOG_ID> --from-file <FILE>
 ```
 
 **Arguments:**
@@ -120,7 +120,7 @@ dremio grant set <CATALOG_ID> --from-file <FILE>
 
 ```bash
 # Set grants from file
-dremio grant set abc-123 --from-file grants.json
+alt-dremio-cli grant set abc-123 --from-file grants.json
 ```
 
 ## Grant File Format
@@ -158,10 +158,10 @@ dremio grant set abc-123 --from-file grants.json
 DATASET_ID=$(dremio --output json view get-by-path "Analytics.sales_data" | jq -r '.id')
 
 # 2. Grant SELECT to analyst role
-dremio grant add $DATASET_ID --grantee-type ROLE --grantee-id analyst-role --privileges SELECT,VIEW_REFLECTION
+alt-dremio-cli grant add $DATASET_ID --grantee-type ROLE --grantee-id analyst-role --privileges SELECT,VIEW_REFLECTION
 
 # 3. Verify grant
-dremio grant list $DATASET_ID
+alt-dremio-cli grant list $DATASET_ID
 ```
 
 ### Setting Up Role-Based Access
@@ -192,7 +192,7 @@ EOF
 
 # Apply grants
 SPACE_ID=$(dremio --output json space list | jq -r '.[] | select(.path[0] == "Analytics") | .id')
-dremio grant set $SPACE_ID --from-file space_grants.json
+alt-dremio-cli grant set $SPACE_ID --from-file space_grants.json
 ```
 
 ### Migrating Grants
@@ -200,11 +200,11 @@ dremio grant set $SPACE_ID --from-file space_grants.json
 ```bash
 # Export grants from source
 SOURCE_ID=$(dremio --profile source --output json view get-by-path "Analytics.summary" | jq -r '.id')
-dremio --profile source --output json grant list $SOURCE_ID > grants_export.json
+alt-dremio-cli --profile source --output json grant list $SOURCE_ID > grants_export.json
 
 # Apply to target
 TARGET_ID=$(dremio --profile target --output json view get-by-path "Analytics.summary" | jq -r '.id')
-dremio --profile target grant set $TARGET_ID --from-file grants_export.json
+alt-dremio-cli --profile target grant set $TARGET_ID --from-file grants_export.json
 ```
 
 ## Common Workflows
@@ -216,9 +216,9 @@ dremio --profile target grant set $TARGET_ID --from-file grants_export.json
 # audit_access.sh - Audit grants across catalog
 
 # Get all spaces
-dremio --output json space list | jq -r '.[].id' | while read space_id; do
+alt-dremio-cli --output json space list | jq -r '.[].id' | while read space_id; do
   echo "Space: $space_id"
-  dremio --output json grant list $space_id | jq '.grants[] | "\(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
+  alt-dremio-cli --output json grant list $space_id | jq '.grants[] | "\(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
   echo ""
 done
 ```
@@ -234,9 +234,9 @@ ROLE_ID="analyst-role"
 PRIVILEGES="SELECT,VIEW_REFLECTION"
 
 # Get all views in space
-dremio --output json view list --space $SPACE | jq -r '.[].id' | while read view_id; do
+alt-dremio-cli --output json view list --space $SPACE | jq -r '.[].id' | while read view_id; do
   echo "Granting to view: $view_id"
-  dremio grant add $view_id --grantee-type ROLE --grantee-id $ROLE_ID --privileges $PRIVILEGES
+  alt-dremio-cli grant add $view_id --grantee-type ROLE --grantee-id $ROLE_ID --privileges $PRIVILEGES
 done
 ```
 
@@ -249,11 +249,11 @@ done
 USER_ID="user-123"
 
 # Find all objects with grants
-dremio --output json catalog list | jq -r '.data[].id' | while read object_id; do
+alt-dremio-cli --output json catalog list | jq -r '.data[].id' | while read object_id; do
   # Check if user has grants
-  if dremio --output json grant list $object_id | jq -e ".grants[] | select(.granteeId == \"$USER_ID\")" > /dev/null; then
+  if alt-dremio-cli --output json grant list $object_id | jq -e ".grants[] | select(.granteeId == \"$USER_ID\")" > /dev/null; then
     echo "Removing grant from: $object_id"
-    dremio grant remove $object_id --grantee-type USER --grantee-id $USER_ID --yes
+    alt-dremio-cli grant remove $object_id --grantee-type USER --grantee-id $USER_ID --yes
   fi
 done
 ```
@@ -309,7 +309,7 @@ EOF
     ;;
 esac
 
-dremio grant set $OBJECT_ID --from-file grants.json
+alt-dremio-cli grant set $OBJECT_ID --from-file grants.json
 rm grants.json
 ```
 
@@ -317,27 +317,27 @@ rm grants.json
 
 1. **Use roles over users**: Assign grants to roles for easier management
    ```bash
-   dremio grant add $ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
+   alt-dremio-cli grant add $ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
    ```
 
 2. **Principle of least privilege**: Grant minimum necessary permissions
    ```bash
    # Good: specific privileges
-   dremio grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT
+   alt-dremio-cli grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT
    
    # Avoid: excessive privileges
-   dremio grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT,ALTER,MODIFY,DROP
+   alt-dremio-cli grant add $ID --grantee-type USER --grantee-id user-123 --privileges SELECT,ALTER,MODIFY,DROP
    ```
 
 3. **Document grant decisions**: Add wiki documentation
    ```bash
-   dremio wiki set $ID --text "# Access Control\n\nAnalyst role has read-only access"
+   alt-dremio-cli wiki set $ID --text "# Access Control\n\nAnalyst role has read-only access"
    ```
 
 4. **Regular audits**: Review grants periodically
    ```bash
    # Export current grants for review
-   dremio --output json grant list $ID > grants_$(date +%Y%m%d).json
+   alt-dremio-cli --output json grant list $ID > grants_$(date +%Y%m%d).json
    ```
 
 ## Error Handling
@@ -345,7 +345,7 @@ rm grants.json
 ### Insufficient Permissions
 
 ```bash
-$ dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
+$ alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges SELECT
 Error: Insufficient permissions to manage grants
 ```
 
@@ -354,7 +354,7 @@ Error: Insufficient permissions to manage grants
 ### Invalid Privilege
 
 ```bash
-$ dremio grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges INVALID
+$ alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id user-456 --privileges INVALID
 Error: Invalid privilege: INVALID
 ```
 
@@ -363,7 +363,7 @@ Error: Invalid privilege: INVALID
 ### Grantee Not Found
 
 ```bash
-$ dremio grant add abc-123 --grantee-type USER --grantee-id invalid-user --privileges SELECT
+$ alt-dremio-cli grant add abc-123 --grantee-type USER --grantee-id invalid-user --privileges SELECT
 Error: User not found: invalid-user
 ```
 
@@ -422,10 +422,10 @@ ENVIRONMENT=$2
 
 if [ "$ENVIRONMENT" == "production" ]; then
   # Production: read-only for most users
-  dremio grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
+  alt-dremio-cli grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT
 else
   # Development: read-write
-  dremio grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT,ALTER,MODIFY
+  alt-dremio-cli grant add $OBJECT_ID --grantee-type ROLE --grantee-id analyst --privileges SELECT,ALTER,MODIFY
 fi
 ```
 
@@ -438,11 +438,11 @@ fi
 PARENT_ID=$1
 
 # Get parent grants
-dremio --output json grant list $PARENT_ID > parent_grants.json
+alt-dremio-cli --output json grant list $PARENT_ID > parent_grants.json
 
 # Apply to all children
-dremio --output json catalog list | jq -r ".data[] | select(.path[0] == \"$PARENT_NAME\") | .id" | while read child_id; do
-  dremio grant set $child_id --from-file parent_grants.json
+alt-dremio-cli --output json catalog list | jq -r ".data[] | select(.path[0] == \"$PARENT_NAME\") | .id" | while read child_id; do
+  alt-dremio-cli grant set $child_id --from-file parent_grants.json
 done
 ```
 
@@ -455,12 +455,12 @@ done
 echo "# Grant Report - $(date)"
 echo ""
 
-dremio --output json catalog list | jq -r '.data[] | select(.containerType == "SPACE") | .id' | while read space_id; do
+alt-dremio-cli --output json catalog list | jq -r '.data[] | select(.containerType == "SPACE") | .id' | while read space_id; do
   SPACE_NAME=$(dremio --output json catalog get $space_id | jq -r '.path[0]')
   echo "## Space: $SPACE_NAME"
   echo ""
   
-  dremio --output json grant list $space_id | jq -r '.grants[] | "- \(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
+  alt-dremio-cli --output json grant list $space_id | jq -r '.grants[] | "- \(.granteeType): \(.granteeId) - \(.privileges | join(", "))"'
   echo ""
 done
 ```

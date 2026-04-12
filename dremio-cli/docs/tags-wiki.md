@@ -16,7 +16,7 @@ This guide covers tag and wiki management for documenting and organizing catalog
 Set tags on a catalog object (views and tables only).
 
 ```bash
-dremio tag set <CATALOG_ID> --tags <TAGS>
+alt-dremio-cli tag set <CATALOG_ID> --tags <TAGS>
 ```
 
 **Arguments:**
@@ -29,13 +29,13 @@ dremio tag set <CATALOG_ID> --tags <TAGS>
 
 ```bash
 # Set single tag
-dremio tag set abc-123 --tags analytics
+alt-dremio-cli tag set abc-123 --tags analytics
 
 # Set multiple tags
-dremio tag set abc-123 --tags analytics,production,sensitive
+alt-dremio-cli tag set abc-123 --tags analytics,production,sensitive
 
 # Set tags with spaces
-dremio tag set abc-123 --tags "customer data,pii,gdpr compliant"
+alt-dremio-cli tag set abc-123 --tags "customer data,pii,gdpr compliant"
 ```
 
 ### Get Tags
@@ -43,7 +43,7 @@ dremio tag set abc-123 --tags "customer data,pii,gdpr compliant"
 Retrieve tags from a catalog object.
 
 ```bash
-dremio tag get <CATALOG_ID>
+alt-dremio-cli tag get <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -53,10 +53,10 @@ dremio tag get <CATALOG_ID>
 
 ```bash
 # Get tags
-dremio tag get abc-123
+alt-dremio-cli tag get abc-123
 
 # Get in JSON format
-dremio --output json tag get abc-123
+alt-dremio-cli --output json tag get abc-123
 ```
 
 ### Delete Tags
@@ -64,7 +64,7 @@ dremio --output json tag get abc-123
 Remove all tags from a catalog object.
 
 ```bash
-dremio tag delete <CATALOG_ID>
+alt-dremio-cli tag delete <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -74,10 +74,10 @@ dremio tag delete <CATALOG_ID>
 
 ```bash
 # Delete tags (with confirmation)
-dremio tag delete abc-123
+alt-dremio-cli tag delete abc-123
 
 # Delete without confirmation
-dremio tag delete abc-123 --yes
+alt-dremio-cli tag delete abc-123 --yes
 ```
 
 ## Wiki Commands
@@ -87,8 +87,8 @@ dremio tag delete abc-123 --yes
 Set wiki documentation on a catalog object.
 
 ```bash
-dremio wiki set <CATALOG_ID> --text <TEXT>
-dremio wiki set <CATALOG_ID> --file <FILE>
+alt-dremio-cli wiki set <CATALOG_ID> --text <TEXT>
+alt-dremio-cli wiki set <CATALOG_ID> --file <FILE>
 ```
 
 **Arguments:**
@@ -102,10 +102,10 @@ dremio wiki set <CATALOG_ID> --file <FILE>
 
 ```bash
 # Set wiki with inline text
-dremio wiki set abc-123 --text "# My Dataset\n\nThis dataset contains customer information."
+alt-dremio-cli wiki set abc-123 --text "# My Dataset\n\nThis dataset contains customer information."
 
 # Set wiki from file
-dremio wiki set abc-123 --file README.md
+alt-dremio-cli wiki set abc-123 --file README.md
 
 # Set comprehensive wiki
 cat > dataset_wiki.md <<EOF
@@ -127,7 +127,7 @@ Use this dataset for customer segmentation and analysis.
 - Data Team: data@company.com
 EOF
 
-dremio wiki set abc-123 --file dataset_wiki.md
+alt-dremio-cli wiki set abc-123 --file dataset_wiki.md
 ```
 
 ### Get Wiki
@@ -135,7 +135,7 @@ dremio wiki set abc-123 --file dataset_wiki.md
 Retrieve wiki documentation from a catalog object.
 
 ```bash
-dremio wiki get <CATALOG_ID> [OPTIONS]
+alt-dremio-cli wiki get <CATALOG_ID> [OPTIONS]
 ```
 
 **Arguments:**
@@ -148,13 +148,13 @@ dremio wiki get <CATALOG_ID> [OPTIONS]
 
 ```bash
 # Get wiki
-dremio wiki get abc-123
+alt-dremio-cli wiki get abc-123
 
 # Save wiki to file
-dremio wiki get abc-123 --output-file README.md
+alt-dremio-cli wiki get abc-123 --output-file README.md
 
 # Get in JSON format
-dremio --output json wiki get abc-123
+alt-dremio-cli --output json wiki get abc-123
 ```
 
 ### Delete Wiki
@@ -162,7 +162,7 @@ dremio --output json wiki get abc-123
 Remove wiki documentation from a catalog object.
 
 ```bash
-dremio wiki delete <CATALOG_ID>
+alt-dremio-cli wiki delete <CATALOG_ID>
 ```
 
 **Arguments:**
@@ -172,10 +172,10 @@ dremio wiki delete <CATALOG_ID>
 
 ```bash
 # Delete wiki (with confirmation)
-dremio wiki delete abc-123
+alt-dremio-cli wiki delete abc-123
 
 # Delete without confirmation
-dremio wiki delete abc-123 --yes
+alt-dremio-cli wiki delete abc-123 --yes
 ```
 
 ## Scenarios
@@ -184,13 +184,13 @@ dremio wiki delete abc-123 --yes
 
 ```bash
 # 1. Create a view
-dremio view create --path "Analytics.customer_summary" --sql "SELECT * FROM customers"
+alt-dremio-cli view create --path "Analytics.customer_summary" --sql "SELECT * FROM customers"
 
 # 2. Get view ID
 VIEW_ID=$(dremio --output json view get-by-path "Analytics.customer_summary" | jq -r '.id')
 
 # 3. Add tags
-dremio tag set $VIEW_ID --tags "analytics,customer-data,production"
+alt-dremio-cli tag set $VIEW_ID --tags "analytics,customer-data,production"
 
 # 4. Add wiki documentation
 cat > view_docs.md <<EOF
@@ -221,28 +221,28 @@ LIMIT 10
 - Analytics Team: analytics@company.com
 EOF
 
-dremio wiki set $VIEW_ID --file view_docs.md
+alt-dremio-cli wiki set $VIEW_ID --file view_docs.md
 
 # 5. Verify
-dremio tag get $VIEW_ID
-dremio wiki get $VIEW_ID
+alt-dremio-cli tag get $VIEW_ID
+alt-dremio-cli wiki get $VIEW_ID
 ```
 
 ### Organizing with Tags
 
 ```bash
 # Tag datasets by environment
-dremio tag set dev-view-id --tags development,testing
-dremio tag set staging-view-id --tags staging,pre-production
-dremio tag set prod-view-id --tags production,critical
+alt-dremio-cli tag set dev-view-id --tags development,testing
+alt-dremio-cli tag set staging-view-id --tags staging,pre-production
+alt-dremio-cli tag set prod-view-id --tags production,critical
 
 # Tag by data classification
-dremio tag set customer-view-id --tags pii,sensitive,gdpr
-dremio tag set public-view-id --tags public,non-sensitive
+alt-dremio-cli tag set customer-view-id --tags pii,sensitive,gdpr
+alt-dremio-cli tag set public-view-id --tags public,non-sensitive
 
 # Tag by team ownership
-dremio tag set sales-view-id --tags sales-team,revenue
-dremio tag set marketing-view-id --tags marketing-team,campaigns
+alt-dremio-cli tag set sales-view-id --tags sales-team,revenue
+alt-dremio-cli tag set marketing-view-id --tags marketing-team,campaigns
 ```
 
 ### Documentation Workflow
@@ -272,11 +272,11 @@ EOF
 sed "s/{DATASET_NAME}/Customer Data/g; s/{DESCRIPTION}/Customer information/g" template.md > customer_wiki.md
 
 # 3. Apply to datasets
-dremio wiki set <customer-view-id> --file customer_wiki.md
+alt-dremio-cli wiki set <customer-view-id> --file customer_wiki.md
 
 # 4. Export all wikis for backup
 for id in $(dremio --output json view list | jq -r '.[].id'); do
-  dremio wiki get $id --output-file "wikis/${id}.md"
+  alt-dremio-cli wiki get $id --output-file "wikis/${id}.md"
 done
 ```
 
@@ -289,12 +289,12 @@ done
 SENSITIVE_VIEWS=$(dremio --output json view list | jq -r '.[] | select(.path[] | contains("customer")) | .id')
 
 for view_id in $SENSITIVE_VIEWS; do
-  dremio tag set $view_id --tags "pii,sensitive,restricted"
+  alt-dremio-cli tag set $view_id --tags "pii,sensitive,restricted"
 done
 
 # Add compliance documentation
 for view_id in $SENSITIVE_VIEWS; do
-  dremio wiki set $view_id --text "# Data Classification\n\n**Classification**: Sensitive\n**Compliance**: GDPR, CCPA\n**Access**: Restricted to authorized personnel only"
+  alt-dremio-cli wiki set $view_id --text "# Data Classification\n\n**Classification**: Sensitive\n**Compliance**: GDPR, CCPA\n**Access**: Restricted to authorized personnel only"
 done
 ```
 
@@ -302,7 +302,7 @@ done
 
 ```bash
 # Create comprehensive catalog
-dremio --output json view list | jq -r '.[] | .id' | while read view_id; do
+alt-dremio-cli --output json view list | jq -r '.[] | .id' | while read view_id; do
   # Get view details
   VIEW=$(dremio --output json view get $view_id)
   NAME=$(echo $VIEW | jq -r '.path | join(".")')
@@ -331,17 +331,17 @@ done
 # Export tags and wikis before migration
 mkdir -p migration/tags migration/wikis
 
-dremio --output json view list | jq -r '.[] | .id' | while read id; do
-  dremio --output json tag get $id > "migration/tags/${id}.json"
-  dremio wiki get $id --output-file "migration/wikis/${id}.md"
+alt-dremio-cli --output json view list | jq -r '.[] | .id' | while read id; do
+  alt-dremio-cli --output json tag get $id > "migration/tags/${id}.json"
+  alt-dremio-cli wiki get $id --output-file "migration/wikis/${id}.md"
 done
 
 # After migration, restore
 for id_file in migration/tags/*.json; do
   id=$(basename $id_file .json)
   tags=$(cat $id_file | jq -r '.tags | join(",")')
-  dremio tag set $id --tags "$tags"
-  dremio wiki set $id --file "migration/wikis/${id}.md"
+  alt-dremio-cli tag set $id --tags "$tags"
+  alt-dremio-cli wiki set $id --file "migration/wikis/${id}.md"
 done
 ```
 
@@ -350,10 +350,10 @@ done
 1. **Use consistent tag naming**: Establish conventions
    ```bash
    # Good: lowercase, hyphenated
-   dremio tag set $id --tags "customer-data,production,pii"
+   alt-dremio-cli tag set $id --tags "customer-data,production,pii"
    
    # Avoid: mixed case, spaces
-   dremio tag set $id --tags "Customer Data,PRODUCTION,PII"
+   alt-dremio-cli tag set $id --tags "Customer Data,PRODUCTION,PII"
    ```
 
 2. **Document in Markdown**: Use proper formatting
@@ -376,7 +376,7 @@ done
 
 3. **Version control wikis**: Store in git
    ```bash
-   dremio wiki get $id --output-file docs/datasets/my_dataset.md
+   alt-dremio-cli wiki get $id --output-file docs/datasets/my_dataset.md
    git add docs/datasets/my_dataset.md
    git commit -m "Update dataset documentation"
    ```
@@ -384,8 +384,8 @@ done
 4. **Automate tagging**: Use scripts for consistency
    ```bash
    # Tag all views in Analytics space
-   dremio --output json view list --space Analytics | jq -r '.[].id' | \
-     xargs -I {} dremio tag set {} --tags "analytics,production"
+   alt-dremio-cli --output json view list --space Analytics | jq -r '.[].id' | \
+     xargs -I {} alt-dremio-cli tag set {} --tags "analytics,production"
    ```
 
 ## Important Notes
@@ -416,7 +416,7 @@ Error: Labels may only be set on views and tables
 ### Cannot Tag Spaces
 
 ```bash
-$ dremio tag set space-id --tags analytics
+$ alt-dremio-cli tag set space-id --tags analytics
 Error: Labels may only be set on views and tables
 ```
 
@@ -424,19 +424,19 @@ Error: Labels may only be set on views and tables
 ```bash
 # Get view ID instead
 VIEW_ID=$(dremio --output json view get-by-path "MySpace.MyView" | jq -r '.id')
-dremio tag set $VIEW_ID --tags analytics
+alt-dremio-cli tag set $VIEW_ID --tags analytics
 ```
 
 ### Object Not Found
 
 ```bash
-$ dremio tag get invalid-id
+$ alt-dremio-cli tag get invalid-id
 Error: Resource not found
 ```
 
 **Solution**: Verify the object ID:
 ```bash
-dremio catalog get-by-path "MySpace.MyView"
+alt-dremio-cli catalog get-by-path "MySpace.MyView"
 ```
 
 ## Platform Differences
@@ -473,10 +473,10 @@ dremio catalog get-by-path "MySpace.MyView"
 TAG_LIST="analytics,production,verified"
 
 # Tag all views in a space
-dremio --output json view list --space Analytics | jq -r '.[].id' | \
+alt-dremio-cli --output json view list --space Analytics | jq -r '.[].id' | \
 while read view_id; do
   echo "Tagging $view_id..."
-  dremio tag set $view_id --tags "$TAG_LIST"
+  alt-dremio-cli tag set $view_id --tags "$TAG_LIST"
 done
 ```
 
@@ -513,14 +513,14 @@ This view is used for analytics and reporting.
 EOF
 
 # Set wiki
-dremio wiki set $VIEW_ID --file wiki.md
+alt-dremio-cli wiki set $VIEW_ID --file wiki.md
 ```
 
 ### Tag-Based Search
 
 ```bash
 # Find all production datasets
-dremio --output json view list | jq -r '.[] | .id' | while read id; do
+alt-dremio-cli --output json view list | jq -r '.[] | .id' | while read id; do
   TAGS=$(dremio --output json tag get $id 2>/dev/null | jq -r '.tags[]' 2>/dev/null)
   if echo "$TAGS" | grep -q "production"; then
     echo "Production dataset: $id"

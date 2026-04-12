@@ -5,7 +5,7 @@
 ### For Dremio Cloud
 
 ```bash
-dremio profile create production \
+alt-dremio-cli profile create production \
   --type cloud \
   --base-url https://api.dremio.cloud/v0 \
   --project-id your-project-id \
@@ -16,11 +16,11 @@ dremio profile create production \
 ### For Dremio Software
 
 ```bash
-dremio profile create local \
+alt-dremio-cli profile create local \
   --type software \
   --base-url http://localhost:9047/api/v3 \
   --auth-type username_password \
-  --username dremio \
+  --username alt-dremio-cli \
   --password dremio123
 ```
 
@@ -28,10 +28,10 @@ dremio profile create local \
 
 ```bash
 # List all profiles
-dremio profile list
+alt-dremio-cli profile list
 
 # Show current profile
-dremio profile current
+alt-dremio-cli profile current
 ```
 
 ## 3. Run Your First Commands
@@ -39,25 +39,25 @@ dremio profile current
 ### List Catalog
 
 ```bash
-dremio catalog list
+alt-dremio-cli catalog list
 ```
 
 ### Execute SQL
 
 ```bash
-dremio sql execute "SELECT * FROM MySource.MyTable LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM MySource.MyTable LIMIT 10"
 ```
 
 ### List Sources
 
 ```bash
-dremio source list
+alt-dremio-cli source list
 ```
 
 ## 4. Try Interactive Mode
 
 ```bash
-dremio repl
+alt-dremio-cli repl
 ```
 
 In REPL mode, you can run commands without the `dremio` prefix:
@@ -72,13 +72,13 @@ dremio> exit
 
 ```bash
 # Get help for any command
-dremio --help
-dremio catalog --help
-dremio source --help
+alt-dremio-cli --help
+alt-dremio-cli catalog --help
+alt-dremio-cli source --help
 
 # Use different output formats
-dremio catalog list --output json
-dremio catalog list --output yaml
+alt-dremio-cli catalog list --output json
+alt-dremio-cli catalog list --output yaml
 ```
 
 ## Next Steps

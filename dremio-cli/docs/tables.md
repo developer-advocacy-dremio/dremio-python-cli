@@ -13,7 +13,7 @@ This guide covers table operations for managing physical datasets in Dremio.
 Promote a dataset to a physical dataset (table).
 
 ```bash
-dremio table promote <DATASET_ID>
+alt-dremio-cli table promote <DATASET_ID>
 ```
 
 **Arguments:**
@@ -23,7 +23,7 @@ dremio table promote <DATASET_ID>
 
 ```bash
 # Promote a dataset to table
-dremio table promote abc-123-def-456
+alt-dremio-cli table promote abc-123-def-456
 ```
 
 ### Configure Format
@@ -31,7 +31,7 @@ dremio table promote abc-123-def-456
 Configure the file format for a physical dataset.
 
 ```bash
-dremio table format <DATASET_ID> --type <FORMAT> [--from-file <FILE>]
+alt-dremio-cli table format <DATASET_ID> --type <FORMAT> [--from-file <FILE>]
 ```
 
 **Arguments:**
@@ -45,13 +45,13 @@ dremio table format <DATASET_ID> --type <FORMAT> [--from-file <FILE>]
 
 ```bash
 # Set CSV format
-dremio table format abc-123 --type CSV
+alt-dremio-cli table format abc-123 --type CSV
 
 # Set format with configuration file
-dremio table format abc-123 --type CSV --from-file csv_format.json
+alt-dremio-cli table format abc-123 --type CSV --from-file csv_format.json
 
 # Set JSON format
-dremio table format abc-123 --type JSON
+alt-dremio-cli table format abc-123 --type JSON
 ```
 
 ### Update Table
@@ -59,7 +59,7 @@ dremio table format abc-123 --type JSON
 Update table metadata.
 
 ```bash
-dremio table update <DATASET_ID> --from-file <FILE>
+alt-dremio-cli table update <DATASET_ID> --from-file <FILE>
 ```
 
 **Arguments:**
@@ -72,7 +72,7 @@ dremio table update <DATASET_ID> --from-file <FILE>
 
 ```bash
 # Update table metadata
-dremio table update abc-123 --from-file updated_table.json
+alt-dremio-cli table update abc-123 --from-file updated_table.json
 ```
 
 ## Format Configuration Examples
@@ -117,7 +117,7 @@ dremio table update abc-123 --from-file updated_table.json
 DATASET_ID=$(dremio --output json catalog get-by-path "MySource.data.customers.csv" | jq -r '.id')
 
 # 2. Promote to table
-dremio table promote $DATASET_ID
+alt-dremio-cli table promote $DATASET_ID
 
 # 3. Configure CSV format
 cat > csv_format.json <<EOF
@@ -129,7 +129,7 @@ cat > csv_format.json <<EOF
 }
 EOF
 
-dremio table format $DATASET_ID --type CSV --from-file csv_format.json
+alt-dremio-cli table format $DATASET_ID --type CSV --from-file csv_format.json
 ```
 
 ### Working with JSON Files
@@ -139,8 +139,8 @@ dremio table format $DATASET_ID --type CSV --from-file csv_format.json
 DATASET_ID=$(dremio --output json catalog get-by-path "MySource.data.events.json" | jq -r '.id')
 
 # Promote and set format
-dremio table promote $DATASET_ID
-dremio table format $DATASET_ID --type JSON
+alt-dremio-cli table promote $DATASET_ID
+alt-dremio-cli table format $DATASET_ID --type JSON
 ```
 
 ## Common Workflows
@@ -154,10 +154,10 @@ dremio table format $DATASET_ID --type JSON
 SOURCE="MySource"
 
 # Find all CSV files
-dremio --output json catalog list | jq -r ".data[] | select(.path[0] == \"$SOURCE\" and (.path[-1] | endswith(\".csv\"))) | .id" | while read dataset_id; do
+alt-dremio-cli --output json catalog list | jq -r ".data[] | select(.path[0] == \"$SOURCE\" and (.path[-1] | endswith(\".csv\"))) | .id" | while read dataset_id; do
   echo "Promoting: $dataset_id"
-  dremio table promote $dataset_id
-  dremio table format $dataset_id --type CSV --from-file csv_format.json
+  alt-dremio-cli table promote $dataset_id
+  alt-dremio-cli table format $dataset_id --type CSV --from-file csv_format.json
 done
 ```
 
@@ -200,7 +200,7 @@ EOF
     ;;
 esac
 
-dremio table format $DATASET_ID --type ${FORMAT_TYPE^^} --from-file format.json
+alt-dremio-cli table format $DATASET_ID --type ${FORMAT_TYPE^^} --from-file format.json
 rm format.json
 ```
 
@@ -208,18 +208,18 @@ rm format.json
 
 1. **Promote before formatting**: Always promote datasets before configuring format
    ```bash
-   dremio table promote $ID
-   dremio table format $ID --type CSV
+   alt-dremio-cli table promote $ID
+   alt-dremio-cli table format $ID --type CSV
    ```
 
 2. **Test format settings**: Verify format with a query
    ```bash
-   dremio sql execute "SELECT * FROM dataset LIMIT 10"
+   alt-dremio-cli sql execute "SELECT * FROM dataset LIMIT 10"
    ```
 
 3. **Use format files**: Store format configurations for reuse
    ```bash
-   dremio table format $ID --type CSV --from-file standard_csv.json
+   alt-dremio-cli table format $ID --type CSV --from-file standard_csv.json
    ```
 
 ## Error Handling
@@ -227,7 +227,7 @@ rm format.json
 ### Dataset Already Promoted
 
 ```bash
-$ dremio table promote abc-123
+$ alt-dremio-cli table promote abc-123
 Error: Dataset is already a physical dataset
 ```
 
@@ -236,7 +236,7 @@ Error: Dataset is already a physical dataset
 ### Invalid Format Configuration
 
 ```bash
-$ dremio table format abc-123 --type CSV --from-file bad_format.json
+$ alt-dremio-cli table format abc-123 --type CSV --from-file bad_format.json
 Error: Invalid format configuration
 ```
 

@@ -41,7 +41,7 @@ The system will distinguish between:
 
 ### 4. Commands
 
-#### `dremio sync pull`
+#### `alt-dremio-cli sync pull`
 - **Goal**: Update local files AND state snapshot from Dremio.
 - **Logic**:
     1.  Read `scope` from `dremio.yaml`.
@@ -49,7 +49,7 @@ The system will distinguish between:
     3.  Write/Update local YAML/SQL files.
     4.  Update `.dremio_state.json`.
 
-#### `dremio sync push`
+#### `alt-dremio-cli sync push`
 - **Goal**: Apply local changes to Dremio.
 - **Logic**:
     1.  Read local files & `dremio.yaml`.
@@ -96,7 +96,7 @@ config:
 - Handle dependencies (create Spaces before Views).
 
 #### Phase 3: CLI Integration
-- Add `dremio sync` command group.
+- Add `alt-dremio-cli sync` command group.
 
 ## Challenges & Open Questions
 1.  **Start/End State**: Do we track state in a `.dremio_state` file to know what changed? Or always diff against live API? (Diff against live is safer but slower).

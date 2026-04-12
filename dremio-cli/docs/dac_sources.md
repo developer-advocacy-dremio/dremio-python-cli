@@ -6,7 +6,7 @@ DAC allows you to define and manage Dremio Sources (e.g., S3, Postgres, Nessie, 
 ## Overview
 
 - **Secure**: Use Environment Variable substitution (`${ENV_VAR}`) to keep credentials out of code.
-- **Declarative**: Define the source configuration, and `dremio sync push` handles creation or updates.
+- **Declarative**: Define the source configuration, and `alt-dremio-cli sync push` handles creation or updates.
 - **Top-Level**: Sources are usually defined in the root of your DAC directory or a dedicated `sources/` folder.
 
 ## YAML Schema
@@ -69,12 +69,12 @@ config:
 
 ## Environment Variables
 
-Prior to running `dremio sync push`, ensure the referenced environment variables are set in your shell or `.env` file.
+Prior to running `alt-dremio-cli sync push`, ensure the referenced environment variables are set in your shell or `.env` file.
 
 ```bash
 export AWS_ACCESS_KEY="AKI..."
 export AWS_SECRET_KEY="secret..."
-dremio sync push
+alt-dremio-cli sync push
 ```
 
 If a variable is missing, the CLI will warn you and keep the literal string (which leads to auth failure), protecting you from accidental commits of unexpanded secrets.

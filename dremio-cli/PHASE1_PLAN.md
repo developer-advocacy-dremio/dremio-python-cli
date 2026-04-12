@@ -39,9 +39,9 @@ This will verify your profiles load correctly from `.env`.
 **File**: `dremio_cli/commands/catalog.py`
 
 Commands to implement:
-- `dremio catalog list [--profile cloud|software]`
-- `dremio catalog get <id>`
-- `dremio catalog get-by-path <path>`
+- `alt-dremio-cli catalog list [--profile cloud|software]`
+- `alt-dremio-cli catalog get <id>`
+- `alt-dremio-cli catalog get-by-path <path>`
 
 **Why First**: Most fundamental operation, needed for everything else.
 
@@ -49,8 +49,8 @@ Commands to implement:
 **File**: `dremio_cli/commands/sql.py`
 
 Commands to implement:
-- `dremio sql execute "SELECT ..."`
-- `dremio sql execute --file query.sql`
+- `alt-dremio-cli sql execute "SELECT ..."`
+- `alt-dremio-cli sql execute --file query.sql`
 - Support for `--output json|yaml|table`
 
 **Why Second**: Critical for testing and validation.
@@ -59,9 +59,9 @@ Commands to implement:
 **File**: `dremio_cli/commands/source.py`
 
 Commands to implement:
-- `dremio source list`
-- `dremio source get <id>`
-- `dremio source get-by-path <name>`
+- `alt-dremio-cli source list`
+- `alt-dremio-cli source get <id>`
+- `alt-dremio-cli source get-by-path <name>`
 
 **Why Third**: Needed to explore your data sources.
 
@@ -69,9 +69,9 @@ Commands to implement:
 **File**: `dremio_cli/commands/table.py`
 
 Commands to implement:
-- `dremio table get <id>`
-- `dremio table get-by-path <path>`
-- `dremio table create --from-file config.json`
+- `alt-dremio-cli table get <id>`
+- `alt-dremio-cli table get-by-path <path>`
+- `alt-dremio-cli table create --from-file config.json`
 
 **Why Fourth**: For working with tables in your testing folders.
 
@@ -146,21 +146,21 @@ def list_catalog(ctx) -> None:
 
 1. **Test with Cloud Profile**:
 ```bash
-dremio --profile cloud catalog list
-dremio --profile cloud sql execute "SELECT * FROM testing LIMIT 5"
+alt-dremio-cli --profile cloud catalog list
+alt-dremio-cli --profile cloud sql execute "SELECT * FROM testing LIMIT 5"
 ```
 
 2. **Test with Software Profile**:
 ```bash
-dremio --profile software catalog list
-dremio --profile software sql execute "SELECT * FROM \"dremio-catalog\".alexmerced.testing LIMIT 5"
+alt-dremio-cli --profile software catalog list
+alt-dremio-cli --profile software sql execute "SELECT * FROM \"dremio-catalog\".alexmerced.testing LIMIT 5"
 ```
 
 3. **Test Different Output Formats**:
 ```bash
-dremio --profile cloud catalog list --output json
-dremio --profile cloud catalog list --output yaml
-dremio --profile cloud catalog list --output table
+alt-dremio-cli --profile cloud catalog list --output json
+alt-dremio-cli --profile cloud catalog list --output yaml
+alt-dremio-cli --profile cloud catalog list --output table
 ```
 
 ## 📊 Success Criteria for Phase 1

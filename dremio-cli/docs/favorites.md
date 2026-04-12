@@ -9,7 +9,7 @@ Manage and re-run your favorite SQL queries.
 Save a query as a favorite.
 
 ```bash
-dremio favorite add <NAME> [OPTIONS]
+alt-dremio-cli favorite add <NAME> [OPTIONS]
 ```
 
 **Options:**
@@ -18,8 +18,8 @@ dremio favorite add <NAME> [OPTIONS]
 
 **Examples:**
 ```bash
-dremio favorite add daily_sales --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
-dremio favorite add top_users --sql "SELECT * FROM users ORDER BY score DESC LIMIT 10" --description "Top 10 users by score"
+alt-dremio-cli favorite add daily_sales --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
+alt-dremio-cli favorite add top_users --sql "SELECT * FROM users ORDER BY score DESC LIMIT 10" --description "Top 10 users by score"
 ```
 
 ### List Favorites
@@ -27,13 +27,13 @@ dremio favorite add top_users --sql "SELECT * FROM users ORDER BY score DESC LIM
 List all saved favorite queries.
 
 ```bash
-dremio favorite list [OPTIONS]
+alt-dremio-cli favorite list [OPTIONS]
 ```
 
 **Examples:**
 ```bash
-dremio favorite list
-dremio --output json favorite list
+alt-dremio-cli favorite list
+alt-dremio-cli --output json favorite list
 ```
 
 ### Run Favorite
@@ -41,12 +41,12 @@ dremio --output json favorite list
 Execute a saved favorite query.
 
 ```bash
-dremio favorite run <NAME>
+alt-dremio-cli favorite run <NAME>
 ```
 
 **Examples:**
 ```bash
-dremio favorite run daily_sales
+alt-dremio-cli favorite run daily_sales
 ```
 
 ### Delete Favorite
@@ -54,10 +54,10 @@ dremio favorite run daily_sales
 Remove a query from favorites.
 
 ```bash
-dremio favorite delete <NAME>
+alt-dremio-cli favorite delete <NAME>
 ```
 
 **Examples:**
 ```bash
-dremio favorite delete daily_sales
+alt-dremio-cli favorite delete daily_sales
 ```

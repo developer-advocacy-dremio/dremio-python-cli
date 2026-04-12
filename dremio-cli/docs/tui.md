@@ -5,13 +5,13 @@ The Dremio CLI includes an interactive Terminal User Interface (TUI) for explori
 ## Usage
 
 ```bash
-dremio ui catalog
+alt-dremio-cli ui catalog
 ```
 
 Or using a specific profile:
 
 ```bash
-dremio --profile prod ui catalog
+alt-dremio-cli --profile prod ui catalog
 ```
 
 ## Features

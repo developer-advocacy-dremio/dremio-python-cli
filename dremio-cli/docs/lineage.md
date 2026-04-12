@@ -9,7 +9,7 @@ Visualize the dependencies between datasets.
 Show the upstream parents of a dataset.
 
 ```bash
-dremio lineage show <CATALOG_ID> [OPTIONS]
+alt-dremio-cli lineage show <CATALOG_ID> [OPTIONS]
 ```
 
 **Options:**
@@ -18,8 +18,8 @@ dremio lineage show <CATALOG_ID> [OPTIONS]
 **Examples:**
 ```bash
 # Tree view (Terminal)
-dremio lineage show dremio-catalog.space.view
+alt-dremio-cli lineage show dremio-catalog.space.view
 
 # Mermaid Graph (for markdown)
-dremio lineage show dremio-catalog.space.view --format mermaid
+alt-dremio-cli lineage show dremio-catalog.space.view --format mermaid
 ```

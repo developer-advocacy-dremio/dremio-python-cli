@@ -20,7 +20,7 @@ ignore:
 Capture the current state of your Dremio space into local files.
 
 ```bash
-dremio sync pull
+alt-dremio-cli sync pull
 ```
 
 Returns a directory structure mirroring Dremio:
@@ -83,12 +83,12 @@ reflections:
 
 ### Workflow
 
-1.  **Push**: `dremio sync push`
+1.  **Push**: `alt-dremio-cli sync push`
     -    recurses, sorts dependencies, applies SQL, updates Tags/Wiki.
     -   **Applies Grants**: Resolves Role/User names to IDs and enforces access control.
     -   **Applies Policies**: Executes SQL commands to attach Row Access and Masking policies.
 
-2.  **Pull**: `dremio sync pull`
+2.  **Pull**: `alt-dremio-cli sync pull`
     -   Fetches state, rebuilds folders, views, wikis.
     -   **Important Limitation**: Governance policies (RBAC, Row Access, Masking) and **Reflections** are **NOT** automatically retrieved from Dremio during a pull.
         -   To manage them via DAC, you must manually define `access_control`, `governance`, and `reflections` blocks in your YAML files.
@@ -111,7 +111,7 @@ context: []
 Apply your local changes back to Dremio.
 
 ```bash
-dremio sync push
+alt-dremio-cli sync push
 ```
 
 ## Feature Guides

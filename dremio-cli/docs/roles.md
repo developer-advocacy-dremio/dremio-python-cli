@@ -11,63 +11,63 @@ This guide covers role management operations for administering roles and role me
 ### List Roles
 
 ```bash
-dremio role list
+alt-dremio-cli role list
 ```
 
 ### Get Role
 
 ```bash
-dremio role get <ROLE_ID>
+alt-dremio-cli role get <ROLE_ID>
 ```
 
 ### Create Role
 
 ```bash
-dremio role create --name "Analyst"
-dremio role create --from-file role.json
+alt-dremio-cli role create --name "Analyst"
+alt-dremio-cli role create --from-file role.json
 ```
 
 ### Update Role
 
 ```bash
-dremio role update <ROLE_ID> --from-file updated_role.json
+alt-dremio-cli role update <ROLE_ID> --from-file updated_role.json
 ```
 
 ### Delete Role
 
 ```bash
-dremio role delete <ROLE_ID>
+alt-dremio-cli role delete <ROLE_ID>
 ```
 
 ### Add Member
 
 ```bash
-dremio role add-member <ROLE_ID> --user <USER_ID>
+alt-dremio-cli role add-member <ROLE_ID> --user <USER_ID>
 ```
 
 ### Remove Member
 
 ```bash
-dremio role remove-member <ROLE_ID> --user <USER_ID>
+alt-dremio-cli role remove-member <ROLE_ID> --user <USER_ID>
 ```
 
 ## Examples
 
 ```bash
 # List all roles
-dremio role list
+alt-dremio-cli role list
 
 # Create role
-dremio role create --name "Data Analyst"
+alt-dremio-cli role create --name "Data Analyst"
 
 # Add user to role
-dremio role add-member role-123 --user user-456
+alt-dremio-cli role add-member role-123 --user user-456
 
 # Remove user from role
-dremio role remove-member role-123 --user user-456
+alt-dremio-cli role remove-member role-123 --user user-456
 
 # Delete role
-dremio role delete role-123
+alt-dremio-cli role delete role-123
 ```
 
 ## Role File Format
@@ -85,16 +85,16 @@ dremio role delete role-123
 
 ```bash
 # 1. Create roles
-dremio role create --name "Analyst"
-dremio role create --name "Engineer"
+alt-dremio-cli role create --name "Analyst"
+alt-dremio-cli role create --name "Engineer"
 
 # 2. Add users to roles
-dremio role add-member analyst-role-id --user user-1
-dremio role add-member engineer-role-id --user user-2
+alt-dremio-cli role add-member analyst-role-id --user user-1
+alt-dremio-cli role add-member engineer-role-id --user user-2
 
 # 3. Grant permissions to roles
-dremio grant add dataset-id --grantee-type ROLE --grantee-id analyst-role-id --privileges SELECT
-dremio grant add dataset-id --grantee-type ROLE --grantee-id engineer-role-id --privileges SELECT,ALTER,MODIFY
+alt-dremio-cli grant add dataset-id --grantee-type ROLE --grantee-id analyst-role-id --privileges SELECT
+alt-dremio-cli grant add dataset-id --grantee-type ROLE --grantee-id engineer-role-id --privileges SELECT,ALTER,MODIFY
 ```
 
 ## Notes

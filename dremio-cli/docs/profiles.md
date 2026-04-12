@@ -4,14 +4,14 @@ This guide covers how to create and manage Dremio CLI profiles using CLI command
 
 ## 1. Quick Start: CLI Commands
 
-The fastest way to set up profiles is using the `dremio profile create` command. Below are examples for every supported configuration.
+The fastest way to set up profiles is using the `alt-dremio-cli profile create` command. Below are examples for every supported configuration.
 
 ### 1. Dremio Cloud (PAT)
 *Requires Project ID from your URL (e.g., `app.dremio.cloud/projectId/<PROJECT_ID>/...`).*
 *For Dremio Cloud, the CLI automatically attempts to exchange this PAT for a short-lived OAuth token for enhanced security.*
 
 ```bash
-dremio profile create cloud-prod \
+alt-dremio-cli profile create cloud-prod \
   --type cloud \
   --base-url https://api.dremio.cloud/v0 \
   --project-id 788baab4-3c3b-42da-9f1d-5cc6dc03147d \
@@ -24,7 +24,7 @@ dremio profile create cloud-prod \
 For service accounts using Client ID and Secret (OAuth Client Credentials flow).
 
 ```bash
-dremio profile create cloud-service \
+alt-dremio-cli profile create cloud-service \
   --type cloud \
   --base-url https://api.dremio.cloud \
   --project-id <PROJECT_ID> \
@@ -37,7 +37,7 @@ dremio profile create cloud-service \
 *Recommended for production scripts and service accounts.*
 
 ```bash
-dremio profile create software-prod \
+alt-dremio-cli profile create software-prod \
   --type software \
   --base-url https://dremio.company.com \
   --auth-type pat \
@@ -49,7 +49,7 @@ dremio profile create software-prod \
 Legacy authentication for Dremio Software.
 
 ```bash
-dremio profile create soft-auth \
+alt-dremio-cli profile create soft-auth \
   --type software \
   --base-url http://localhost:9047 \
   --auth-type username_password \

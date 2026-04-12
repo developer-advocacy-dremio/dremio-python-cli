@@ -10,7 +10,7 @@
 ### Using pip (Recommended for users)
 
 ```bash
-pip install dremio-cli
+pip install alt-dremio-cli
 ```
 
 ### Using pipx (Isolated environment)
@@ -38,7 +38,7 @@ pip install -e ".[dev]"
 ## Verify Installation
 
 ```bash
-dremio --version
+alt-dremio-cli --version
 ```
 
 ## Next Steps

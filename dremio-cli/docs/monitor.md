@@ -5,7 +5,7 @@ A terminal-based user interface (TUI) for monitoring Dremio jobs and system stat
 ## Usage
 
 ```bash
-dremio monitor
+alt-dremio-cli monitor
 ```
 
 ## Features

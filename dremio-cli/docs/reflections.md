@@ -9,7 +9,7 @@ Manage Dremio reflections (Software and Cloud).
 List all reflections.
 
 ```bash
-dremio reflection list [OPTIONS]
+alt-dremio-cli reflection list [OPTIONS]
 ```
 
 **Options:**
@@ -17,8 +17,8 @@ dremio reflection list [OPTIONS]
 
 **Examples:**
 ```bash
-dremio reflection list
-dremio --output json reflection list
+alt-dremio-cli reflection list
+alt-dremio-cli --output json reflection list
 ```
 
 ### Get Reflection
@@ -26,13 +26,13 @@ dremio --output json reflection list
 Get details of a specific reflection.
 
 ```bash
-dremio reflection get <REFLECTION_ID>
+alt-dremio-cli reflection get <REFLECTION_ID>
 ```
 
 **Examples:**
 ```bash
-dremio reflection get abc-123-def-456
-dremio reflection get abc-123-def-456 --output yaml
+alt-dremio-cli reflection get abc-123-def-456
+alt-dremio-cli reflection get abc-123-def-456 --output yaml
 ```
 
 ### Create Reflection
@@ -40,7 +40,7 @@ dremio reflection get abc-123-def-456 --output yaml
 Create a reflection using a JSON definition.
 
 ```bash
-dremio reflection create [OPTIONS]
+alt-dremio-cli reflection create [OPTIONS]
 ```
 
 **Options:**
@@ -50,10 +50,10 @@ dremio reflection create [OPTIONS]
 **Examples:**
 ```bash
 # From file
-dremio reflection create --file reflection_def.json
+alt-dremio-cli reflection create --file reflection_def.json
 
 # From JSON string
-dremio reflection create --json '{"name": "my_reflection", "datasetId": "...", "type": "RAW", ...}'
+alt-dremio-cli reflection create --json '{"name": "my_reflection", "datasetId": "...", "type": "RAW", ...}'
 ```
 
 **Reflection Definition Format:**
@@ -64,7 +64,7 @@ Refer to Dremio API documentation for the full reflection object structure.
 Update an existing reflection.
 
 ```bash
-dremio reflection update <REFLECTION_ID> [OPTIONS]
+alt-dremio-cli reflection update <REFLECTION_ID> [OPTIONS]
 ```
 
 **Options:**
@@ -73,7 +73,7 @@ dremio reflection update <REFLECTION_ID> [OPTIONS]
 
 **Examples:**
 ```bash
-dremio reflection update abc-123 --file update.json
+alt-dremio-cli reflection update abc-123 --file update.json
 ```
 
 ### Delete Reflection
@@ -81,10 +81,10 @@ dremio reflection update abc-123 --file update.json
 Delete a reflection.
 
 ```bash
-dremio reflection delete <REFLECTION_ID>
+alt-dremio-cli reflection delete <REFLECTION_ID>
 ```
 
 **Examples:**
 ```bash
-dremio reflection delete abc-123
+alt-dremio-cli reflection delete abc-123
 ```

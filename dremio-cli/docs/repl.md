@@ -12,7 +12,7 @@ An enhanced interactive shell for executing SQL queries against Dremio.
 ## Usage
 
 ```bash
-dremio repl
+alt-dremio-cli repl
 ```
 
 To exit, type `exit` or `quit`. To clear the screen, type `clear`.

@@ -5,7 +5,7 @@ Quickly set up your Dremio CLI configuration using an interactive wizard.
 ## Usage
 
 ```bash
-dremio init
+alt-dremio-cli init
 ```
 
 The wizard will guide you through:

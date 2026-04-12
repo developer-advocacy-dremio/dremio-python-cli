@@ -9,24 +9,24 @@ The CLI automatically tracks your query execution history in a local SQLite data
 ### List History
 
 ```bash
-dremio history list
-dremio history list --limit 10
+alt-dremio-cli history list
+alt-dremio-cli history list --limit 10
 ```
 
 ### Re-run from History
 
 ```bash
 # List history to find ID
-dremio history list
+alt-dremio-cli history list
 
 # Re-run command
-dremio history run 5
+alt-dremio-cli history run 5
 ```
 
 ### Clear History
 
 ```bash
-dremio history clear
+alt-dremio-cli history clear
 ```
 
 **Storage Location:** `~/.dremio/history.db`
@@ -38,28 +38,28 @@ Save frequently used queries as favorites for quick access.
 ### Add Favorite
 
 ```bash
-dremio favorite add daily_report --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
+alt-dremio-cli favorite add daily_report --sql "SELECT * FROM sales WHERE date = CURRENT_DATE"
 
-dremio favorite add customer_count --sql "SELECT COUNT(*) FROM customers" \
+alt-dremio-cli favorite add customer_count --sql "SELECT COUNT(*) FROM customers" \
   --description "Total customer count"
 ```
 
 ### List Favorites
 
 ```bash
-dremio favorite list
+alt-dremio-cli favorite list
 ```
 
 ### Run Favorite
 
 ```bash
-dremio favorite run daily_report
+alt-dremio-cli favorite run daily_report
 ```
 
 ### Delete Favorite
 
 ```bash
-dremio favorite delete daily_report
+alt-dremio-cli favorite delete daily_report
 ```
 
 ## Interactive Mode
@@ -67,7 +67,7 @@ dremio favorite delete daily_report
 Launch an interactive REPL for executing multiple commands.
 
 ```bash
-dremio repl
+alt-dremio-cli repl
 ```
 
 **Features:**
@@ -84,7 +84,7 @@ dremio repl
 **Example Session:**
 
 ```
-$ dremio repl
+$ alt-dremio-cli repl
 Dremio CLI - Interactive Mode
 Type 'help' for available commands, 'exit' or 'quit' to exit.
 
@@ -114,7 +114,7 @@ Examples:
   help sql
 
 dremio> help sql
-Usage: dremio sql [OPTIONS] COMMAND [ARGS]...
+Usage: alt-dremio-cli sql [OPTIONS] COMMAND [ARGS]...
 
   SQL operations.
 
@@ -167,15 +167,15 @@ echo 'source /path/to/dremio-cli/completions/dremio-completion.zsh' >> ~/.zshrc
 
 ```bash
 # Tab completion for commands
-dremio <TAB>
+alt-dremio-cli <TAB>
 catalog  profile  source  space  ...
 
 # Tab completion for subcommands
-dremio catalog <TAB>
+alt-dremio-cli catalog <TAB>
 list  get  get-by-path
 
 # Tab completion for options
-dremio --<TAB>
+alt-dremio-cli --<TAB>
 --profile  --output  --verbose  --help
 ```
 
@@ -185,7 +185,7 @@ dremio --<TAB>
 
 ```bash
 # 1. Save daily report as favorite
-dremio favorite add daily_sales --sql "
+alt-dremio-cli favorite add daily_sales --sql "
 SELECT 
   date,
   SUM(amount) as total_sales,
@@ -196,17 +196,17 @@ GROUP BY date
 "
 
 # 2. Run daily
-dremio favorite run daily_sales
+alt-dremio-cli favorite run daily_sales
 
 # 3. Check history
-dremio history list --limit 5
+alt-dremio-cli history list --limit 5
 ```
 
 ### Interactive Exploration
 
 ```bash
 # Launch REPL
-dremio repl
+alt-dremio-cli repl
 
 # Explore catalog
 dremio> catalog list
@@ -223,32 +223,32 @@ dremio> favorite add sales_summary --sql "SELECT region, SUM(amount) FROM Analyt
 
 ```bash
 # Execute multiple queries
-dremio sql execute "SELECT COUNT(*) FROM table1"
-dremio sql execute "SELECT COUNT(*) FROM table2"
-dremio sql execute "SELECT COUNT(*) FROM table3"
+alt-dremio-cli sql execute "SELECT COUNT(*) FROM table1"
+alt-dremio-cli sql execute "SELECT COUNT(*) FROM table2"
+alt-dremio-cli sql execute "SELECT COUNT(*) FROM table3"
 
 # Review history
-dremio history list
+alt-dremio-cli history list
 
 # Re-run if needed
-dremio history run 2
+alt-dremio-cli history run 2
 ```
 
 ## Tips
 
 1. **Use favorites for complex queries** - Save time on frequently used queries
    ```bash
-   dremio favorite add monthly_report --sql "$(cat report.sql)"
+   alt-dremio-cli favorite add monthly_report --sql "$(cat report.sql)"
    ```
 
 2. **History for debugging** - Review past commands when troubleshooting
    ```bash
-   dremio history list --limit 20
+   alt-dremio-cli history list --limit 20
    ```
 
 3. **REPL for exploration** - Use interactive mode when learning the API
    ```bash
-   dremio repl
+   alt-dremio-cli repl
    ```
 
 4. **Completion for speed** - Enable shell completion to type faster
@@ -258,7 +258,7 @@ dremio history run 2
 
 5. **Combine with pipes** - Use standard Unix tools
    ```bash
-   dremio history list --output json | jq '.[] | select(.success == 1)'
+   alt-dremio-cli history list --output json | jq '.[] | select(.success == 1)'
    ```
 
 ## Configuration
@@ -279,7 +279,7 @@ History is stored indefinitely. Clear periodically:
 
 ```bash
 # Clear all history
-dremio history clear
+alt-dremio-cli history clear
 
 # Or manually delete database
 rm ~/.dremio/history.db

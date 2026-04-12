@@ -13,25 +13,25 @@ A comprehensive command-line interface for Dremio Cloud and Dremio Software.
 ## 📦 Installation
 
 ```bash
-pip install dremio-cli
+pip install alt-dremio-cli
 ```
 
 ## ⚡ Quick Start
 
 ```bash
 # Configure a profile
-dremio profile create --name myprofile --type software \
+alt-dremio-cli profile create --name myprofile --type software \
   --base-url https://dremio.company.com \
   --username admin --password secret
 
 # List catalog
-dremio catalog list
+alt-dremio-cli catalog list
 
 # Execute SQL
-dremio sql execute "SELECT * FROM customers LIMIT 10"
+alt-dremio-cli sql execute "SELECT * FROM customers LIMIT 10"
 
 # Create a view
-dremio view create --path "Analytics.summary" \
+alt-dremio-cli view create --path "Analytics.summary" \
   --sql "SELECT * FROM customers WHERE region = 'US'"
 ```
 
@@ -92,57 +92,57 @@ dremio view create --path "Analytics.summary" \
 Browse and navigate your Dremio catalog with ease.
 
 ```bash
-dremio catalog list
-dremio catalog get <id>
-dremio catalog get-by-path "MySpace.MyFolder.MyView"
+alt-dremio-cli catalog list
+alt-dremio-cli catalog get <id>
+alt-dremio-cli catalog get-by-path "MySpace.MyFolder.MyView"
 ```
 
 ### SQL Execution
 Execute queries, explain plans, and validate syntax.
 
 ```bash
-dremio sql execute "SELECT * FROM table"
-dremio sql execute --file query.sql --async
-dremio sql explain "SELECT * FROM table"
-dremio sql validate "SELECT * FROM table"
+alt-dremio-cli sql execute "SELECT * FROM table"
+alt-dremio-cli sql execute --file query.sql --async
+alt-dremio-cli sql explain "SELECT * FROM table"
+alt-dremio-cli sql validate "SELECT * FROM table"
 ```
 
 ### Source Management
 Connect to and manage data sources.
 
 ```bash
-dremio source list
-dremio source create --name MyDB --type POSTGRES --config-file db.json
-dremio source refresh <id>
+alt-dremio-cli source list
+alt-dremio-cli source create --name MyDB --type POSTGRES --config-file db.json
+alt-dremio-cli source refresh <id>
 ```
 
 ### View Management
 Create and manage virtual datasets.
 
 ```bash
-dremio view create --path "Analytics.summary" --sql "SELECT * FROM data"
-dremio view update <id> --sql "SELECT * FROM updated_data"
-dremio view list --space Analytics
+alt-dremio-cli view create --path "Analytics.summary" --sql "SELECT * FROM data"
+alt-dremio-cli view update <id> --sql "SELECT * FROM updated_data"
+alt-dremio-cli view list --space Analytics
 ```
 
 ### Job Management
 Monitor and manage query jobs.
 
 ```bash
-dremio job list
-dremio job get <id>
-dremio job results <id> --output-file results.json
-dremio job profile <id> --download profile.zip
+alt-dremio-cli job list
+alt-dremio-cli job get <id>
+alt-dremio-cli job results <id> --output-file results.json
+alt-dremio-cli job profile <id> --download profile.zip
 ```
 
 ### Access Control
 Manage permissions and grants.
 
 ```bash
-dremio grant list <catalog-id>
-dremio grant add <id> --grantee-type ROLE --grantee-id analyst --privileges SELECT
-dremio user list
-dremio role list
+alt-dremio-cli grant list <catalog-id>
+alt-dremio-cli grant add <id> --grantee-type ROLE --grantee-id analyst --privileges SELECT
+alt-dremio-cli user list
+alt-dremio-cli role list
 ```
 
 ## 🔧 Configuration
@@ -151,16 +151,16 @@ dremio role list
 
 ```bash
 # Create profile
-dremio profile create --name prod --type cloud \
+alt-dremio-cli profile create --name prod --type cloud \
   --base-url https://api.dremio.cloud \
   --project-id <project-id> \
   --token <pat-token>
 
 # Use profile
-dremio --profile prod catalog list
+alt-dremio-cli --profile prod catalog list
 
 # Set default profile
-dremio profile set-default prod
+alt-dremio-cli profile set-default prod
 ```
 
 ### Environment Variables
@@ -176,13 +176,13 @@ DREMIO_PASSWORD=secret
 
 ```bash
 # Table format (default)
-dremio catalog list
+alt-dremio-cli catalog list
 
 # JSON format
-dremio --output json catalog list
+alt-dremio-cli --output json catalog list
 
 # YAML format
-dremio --output yaml catalog list
+alt-dremio-cli --output yaml catalog list
 ```
 
 ## 🌐 Platform Support
